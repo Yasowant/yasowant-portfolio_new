@@ -1,33 +1,73 @@
-import { motion, useInView } from 'framer-motion';
-import { useRef, useState } from 'react';
-import { Mail, Github, Linkedin, MapPin, Send } from 'lucide-react';
-import { useToast } from '@/hooks/use-toast';
+import { motion, useInView } from "framer-motion";
+import { useRef, useState } from "react";
+import { Mail, Github, Linkedin, MapPin, Send } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
+import emailjs from "@emailjs/browser";
 
 const contactInfo = [
-  { icon: Mail, label: 'Email', value: 'yasowant1998@gmail.com', href: 'mailto:yasowant1998@gmail.com' },
-  { icon: Github, label: 'GitHub', value: 'github.com/yasowant', href: 'https://github.com/yasowant' },
-  { icon: Linkedin, label: 'LinkedIn', value: 'linkedin.com/in/yasowant', href: 'https://linkedin.com/in/yasowant' },
-  { icon: MapPin, label: 'Location', value: 'Bengaluru, India', href: null },
+  {
+    icon: Mail,
+    label: "Email",
+    value: "yasowant1998@gmail.com",
+    href: "mailto:yasowant1998@gmail.com",
+  },
+  {
+    icon: Github,
+    label: "GitHub",
+    value: "github.com/yasowant",
+    href: "https://github.com/yasowant",
+  },
+  {
+    icon: Linkedin,
+    label: "LinkedIn",
+    value: "linkedin.com/in/yasowant",
+    href: "https://linkedin.com/in/yasowant",
+  },
+  { icon: MapPin, label: "Location", value: "Bengaluru, India", href: null },
 ];
 
 const ContactSection = () => {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: '-100px' });
+  const isInView = useInView(ref, { once: true, margin: "-100px" });
   const { toast } = useToast();
-  
+  const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    message: '',
+    name: "",
+    email: "",
+    message: "",
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    toast({
-      title: "Message sent!",
-      description: "Thank you for reaching out. I'll get back to you soon!",
-    });
-    setFormData({ name: '', email: '', message: '' });
+    setLoading(true);
+
+    try {
+      await emailjs.send(
+        import.meta.env.VITE_EMAILJS_SERVICE_ID,
+        import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
+        {
+          name: formData.name,
+          email: formData.email,
+          message: formData.message,
+        },
+        import.meta.env.VITE_EMAILJS_PUBLIC_KEY
+      );
+
+      toast({
+        title: "Message sent!",
+        description: "Thanks! I’ll get back to you soon.",
+      });
+
+      setFormData({ name: "", email: "", message: "" });
+    } catch (error) {
+      toast({
+        title: "Failed to send message",
+        description: "Please try again later.",
+        variant: "destructive",
+      });
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -44,7 +84,8 @@ const ContactSection = () => {
           </h2>
           <div className="w-20 h-1 bg-gradient-to-r from-primary to-accent mx-auto mb-4 rounded-full" />
           <p className="text-muted-foreground text-center max-w-xl mx-auto mb-12">
-            I'm always open to discussing new projects, opportunities, or just having a chat about technology.
+            I'm always open to discussing new projects, opportunities, or just
+            having a chat about technology.
           </p>
 
           <div className="grid lg:grid-cols-2 gap-12 max-w-5xl mx-auto">
@@ -58,7 +99,7 @@ const ContactSection = () => {
               <h3 className="text-2xl font-bold text-foreground mb-6">
                 Let's Connect
               </h3>
-              
+
               {contactInfo.map((info, index) => (
                 <motion.div
                   key={info.label}
@@ -71,7 +112,9 @@ const ContactSection = () => {
                     <info.icon className="w-5 h-5 text-primary" />
                   </div>
                   <div>
-                    <p className="text-sm text-muted-foreground">{info.label}</p>
+                    <p className="text-sm text-muted-foreground">
+                      {info.label}
+                    </p>
                     {info.href ? (
                       <a
                         href={info.href}
@@ -82,7 +125,9 @@ const ContactSection = () => {
                         {info.value}
                       </a>
                     ) : (
-                      <p className="text-foreground font-medium">{info.value}</p>
+                      <p className="text-foreground font-medium">
+                        {info.value}
+                      </p>
                     )}
                   </div>
                 </motion.div>
@@ -98,7 +143,10 @@ const ContactSection = () => {
               className="space-y-6 p-8 rounded-xl bg-card border border-border"
             >
               <div>
-                <label htmlFor="name" className="block text-sm font-medium text-foreground mb-2">
+                <label
+                  htmlFor="name"
+                  className="block text-sm font-medium text-foreground mb-2"
+                >
                   Name
                 </label>
                 <input
@@ -106,14 +154,19 @@ const ContactSection = () => {
                   id="name"
                   required
                   value={formData.name}
-                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, name: e.target.value })
+                  }
                   className="w-full px-4 py-3 rounded-lg bg-background border border-border focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all text-foreground"
                   placeholder="Your name"
                 />
               </div>
-              
+
               <div>
-                <label htmlFor="email" className="block text-sm font-medium text-foreground mb-2">
+                <label
+                  htmlFor="email"
+                  className="block text-sm font-medium text-foreground mb-2"
+                >
                   Email
                 </label>
                 <input
@@ -121,14 +174,19 @@ const ContactSection = () => {
                   id="email"
                   required
                   value={formData.email}
-                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, email: e.target.value })
+                  }
                   className="w-full px-4 py-3 rounded-lg bg-background border border-border focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all text-foreground"
                   placeholder="your@email.com"
                 />
               </div>
-              
+
               <div>
-                <label htmlFor="message" className="block text-sm font-medium text-foreground mb-2">
+                <label
+                  htmlFor="message"
+                  className="block text-sm font-medium text-foreground mb-2"
+                >
                   Message
                 </label>
                 <textarea
@@ -136,7 +194,9 @@ const ContactSection = () => {
                   required
                   rows={5}
                   value={formData.message}
-                  onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, message: e.target.value })
+                  }
                   className="w-full px-4 py-3 rounded-lg bg-background border border-border focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all text-foreground resize-none"
                   placeholder="Your message..."
                 />
