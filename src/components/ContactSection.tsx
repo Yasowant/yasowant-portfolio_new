@@ -4,7 +4,7 @@ import { Mail, Github, Linkedin, MapPin, Send } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 
 const contactInfo = [
-  { icon: Mail, label: 'Email', value: 'yasowant@email.com', href: 'mailto:yasowant@email.com' },
+  { icon: Mail, label: 'Email', value: 'yasowant1998@gmail.com', href: 'mailto:yasowant1998@gmail.com' },
   { icon: Github, label: 'GitHub', value: 'github.com/yasowant', href: 'https://github.com/yasowant' },
   { icon: Linkedin, label: 'LinkedIn', value: 'linkedin.com/in/yasowant', href: 'https://linkedin.com/in/yasowant' },
   { icon: MapPin, label: 'Location', value: 'Bengaluru, India', href: null },
