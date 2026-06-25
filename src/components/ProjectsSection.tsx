@@ -93,6 +93,8 @@ const ProjectCard = ({
   isInView: boolean;
 }) => {
   const [isHovered, setIsHovered] = useState(false);
+  const [revealed, setRevealed] = useState(false);
+  const show = isHovered || revealed;
 
   return (
     <motion.div
@@ -107,7 +109,8 @@ const ProjectCard = ({
       whileHover={{ y: -10, scale: 1.02 }}
       onHoverStart={() => setIsHovered(true)}
       onHoverEnd={() => setIsHovered(false)}
-      className="group relative rounded-2xl overflow-hidden glass-card"
+      onClick={() => setRevealed((v) => !v)}
+      className="group relative rounded-2xl overflow-hidden glass-card cursor-pointer"
     >
       {/* Animated border glow */}
       <motion.div
@@ -126,7 +129,9 @@ const ProjectCard = ({
       <div className="relative h-48 overflow-hidden">
         <motion.img
           src={project.image}
-          alt={project.title}
+          alt={`${project.title} preview`}
+          loading="lazy"
+          decoding="async"
           className="w-full h-full object-cover"
           animate={isHovered ? { scale: 1.1 } : { scale: 1 }}
           transition={{ duration: 0.5 }}
@@ -211,7 +216,7 @@ const ProjectCard = ({
           transition={{ delay: 0.3 + index * 0.1 }}
         >
           <Star className="w-3.5 h-3.5" />
-          Hover to see key features
+          Hover or tap to see key features
         </motion.p>
 
         {/* Tech stack with staggered animation */}
@@ -242,10 +247,10 @@ const ProjectCard = ({
       {/* Hover feature reveal overlay */}
       <motion.div
         initial={false}
-        animate={{ opacity: isHovered ? 1 : 0 }}
+        animate={{ opacity: show ? 1 : 0 }}
         transition={{ duration: 0.35 }}
         className={`absolute inset-0 z-20 flex flex-col p-6 bg-card/80 backdrop-blur-xl ${
-          isHovered ? "pointer-events-auto" : "pointer-events-none"
+          show ? "pointer-events-auto" : "pointer-events-none"
         }`}
       >
         <div className="flex items-center gap-2 mb-4">
@@ -266,8 +271,8 @@ const ProjectCard = ({
             <motion.li
               key={feature}
               initial={{ opacity: 0, x: -12 }}
-              animate={isHovered ? { opacity: 1, x: 0 } : { opacity: 0, x: -12 }}
-              transition={{ delay: isHovered ? 0.08 + fIndex * 0.06 : 0 }}
+              animate={show ? { opacity: 1, x: 0 } : { opacity: 0, x: -12 }}
+              transition={{ delay: show ? 0.08 + fIndex * 0.06 : 0 }}
               className="flex items-start gap-2 text-sm text-foreground/85"
             >
               <Check className="w-4 h-4 mt-0.5 text-primary shrink-0" />
@@ -281,6 +286,7 @@ const ProjectCard = ({
             href={project.demo}
             target="_blank"
             rel="noopener noreferrer"
+            onClick={(e) => e.stopPropagation()}
             className="flex-1 inline-flex items-center justify-center gap-1.5 px-4 py-2 rounded-full bg-primary text-primary-foreground text-sm font-semibold hover:opacity-90 transition-opacity"
           >
             Live Demo <ArrowUpRight className="w-4 h-4" />
@@ -289,6 +295,7 @@ const ProjectCard = ({
             href={project.github}
             target="_blank"
             rel="noopener noreferrer"
+            onClick={(e) => e.stopPropagation()}
             className="inline-flex items-center justify-center gap-1.5 px-4 py-2 rounded-full border border-border bg-background/60 text-foreground text-sm font-semibold hover:border-primary/60 transition-colors"
           >
             <Github className="w-4 h-4" /> Code
@@ -300,7 +307,7 @@ const ProjectCard = ({
       <motion.div
         className="absolute bottom-0 left-0 h-1 bg-gradient-to-r from-primary via-accent to-primary z-30"
         initial={{ width: "0%" }}
-        animate={isHovered ? { width: "100%" } : { width: "0%" }}
+        animate={show ? { width: "100%" } : { width: "0%" }}
         transition={{ duration: 0.5 }}
       />
     </motion.div>

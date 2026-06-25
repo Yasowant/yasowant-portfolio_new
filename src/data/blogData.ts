@@ -36,7 +36,7 @@ The article walks through Authentication, Authorization, RBAC, Fine-Grained Acce
     readTime: "4 min read",
     category: "System Design",
     image:
-      "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=800&h=400&fit=crop",
+      "https://cdn-images-1.medium.com/max/1024/1*Mw_mNuRMlleXqMvBdH73pA.png",
     author: "Yasowant Nayak",
     tags: ["RBAC", "ABAC", "Security", "Authorization", "Node.js"],
     externalUrl:
@@ -62,7 +62,7 @@ This article breaks down Kafka as a distributed event-streaming platform: produc
     readTime: "7 min read",
     category: "Backend",
     image:
-      "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=800&h=400&fit=crop",
+      "https://cdn-images-1.medium.com/max/1024/0*UA7QrRRXSyvx7Y7Z.png",
     author: "Yasowant Nayak",
     tags: ["Apache Kafka", "Backend", "Node.js", "Event Streaming"],
     externalUrl:
@@ -88,7 +88,7 @@ This guide covers frontend vs backend pagination, managing page state in React, 
     readTime: "6 min read",
     category: "Frontend",
     image:
-      "https://images.unsplash.com/photo-1633356122544-f134324a6cee?w=800&h=400&fit=crop",
+      "https://cdn-images-1.medium.com/max/1024/1*adDz_MxCpvO8rCoLq7Ab5Q.png",
     author: "Yasowant Nayak",
     tags: ["React", "Pagination", "Frontend", "Web Development"],
     externalUrl:

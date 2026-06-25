@@ -25,7 +25,7 @@ const HeroSection = () => {
         <motion.div
           animate={{ x: [0, -200, 200, 0], y: [0, 100, -100, 0] }}
           transition={{ duration: 18, repeat: Infinity }}
-          className="absolute w-[500px] h-[500px] bg-purple-500/20 blur-3xl rounded-full bottom-0 right-0"
+          className="absolute w-[500px] h-[500px] bg-blue-500/20 blur-3xl rounded-full bottom-0 right-0"
         />
       </div>
 
@@ -56,7 +56,8 @@ const HeroSection = () => {
               {/* Photo */}
               <img
                 src={profilePhoto}
-                alt="Yasowant Nayak"
+                alt="Yasowant Nayak — Full Stack Software Engineer"
+                fetchPriority="high"
                 className="absolute inset-3 w-[calc(100%-24px)] h-[calc(100%-24px)] rounded-full object-cover shadow-2xl shadow-primary/20 transition-all duration-300"
               />
 
@@ -109,7 +110,7 @@ const HeroSection = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3 }}
-              className="text-lg md:text-xl text-muted-foreground font-mono mb-5"
+              className="text-lg md:text-xl text-muted-foreground font-medium mb-5"
             >
               Full Stack Software Engineer
             </motion.h2>
