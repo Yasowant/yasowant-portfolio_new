@@ -4,10 +4,10 @@ import { useRef } from 'react';
 import { Code2, Database, Server, Sparkles, Download } from 'lucide-react';
 
 const highlights = [
-  { icon: Code2, text: 'Clean Code Advocate' },
-  { icon: Server, text: 'API Development' },
-  { icon: Database, text: 'Database Design' },
-  { icon: Sparkles, text: 'Performance Optimization' },
+  { icon: Code2, text: 'System Design & Scalability' },
+  { icon: Server, text: 'REST / SOAP / GraphQL APIs' },
+  { icon: Database, text: 'Multi-Tenant Architecture' },
+  { icon: Sparkles, text: 'CI/CD & Performance' },
 ];
 
 const AboutSection = () => {
@@ -27,31 +27,24 @@ const AboutSection = () => {
           <h2 className="text-3xl md:text-4xl font-bold text-center mb-4">
             <span className="gradient-text">About Me</span>
           </h2>
-          <div className="w-20 h-1 bg-gradient-to-r from-primary to-accent mx-auto mb-12 rounded-full" />
+          <div className="w-20 h-1 bg-gradient-to-r from-primary to-accent mx-auto mb-8 rounded-full" />
 
-          <div className="grid md:grid-cols-2 gap-12 items-center">
+          <div className="grid md:grid-cols-2 gap-8 items-center">
             <motion.div
               initial={{ opacity: 0, x: -30 }}
               animate={isInView ? { opacity: 1, x: 0 } : {}}
               transition={{ duration: 0.6, delay: 0.2 }}
             >
-              <p className="text-muted-foreground text-lg leading-relaxed mb-6">
-                I'm a passionate <span className="text-primary font-semibold">Full Stack Developer</span> with 
-                strong experience in building production-ready web applications. I specialize in creating 
-                scalable backend systems, RESTful APIs, and intuitive user interfaces.
-              </p>
-              <p className="text-muted-foreground text-lg leading-relaxed mb-6">
-                My approach combines <span className="text-primary font-semibold">clean code principles</span> with 
-                modern development practices to deliver high-performance solutions. I thrive on solving complex 
-                problems and turning ideas into reality.
-              </p>
-              <p className="text-muted-foreground text-lg leading-relaxed mb-6">
-                When I'm not coding, you'll find me exploring new technologies, contributing to open-source 
-                projects, and continuously expanding my skill set.
+              <p className="text-muted-foreground text-lg leading-relaxed mb-8">
+                I'm a <span className="text-primary font-semibold">Full Stack Software Engineer</span> with
+                3+ years building production SaaS on React and Node.js. I love turning complex problems into
+                clean, scalable systems — and I've scaled a multi-tenant platform to{" "}
+                <span className="text-primary font-semibold">8+ enterprise organizations</span> while cutting
+                page loads 40% and release time 50%.
               </p>
               <a
                 href="/resume.pdf"
-                download="Yasowant_Nayak_Resume.pdf"
+                download="Yasowant_Nayak_Full_Stack_Engineer_Resume.pdf"
                 className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-primary text-primary-foreground font-semibold hover:opacity-90 transition-all"
               >
                 <Download className="w-4 h-4" />

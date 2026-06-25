@@ -11,12 +11,12 @@ const Footer = () => {
             <span>Built with</span>
             <Heart className="w-4 h-4 text-red-500 fill-red-500" />
             <span>by</span>
-            <span className="text-primary font-semibold">Yasowant</span>
+            <span className="text-primary font-semibold">Yasowant Nayak</span>
           </div>
 
           <div className="flex items-center gap-4">
             <a
-              href="https://github.com/yasowant"
+              href="https://github.com/Yasowant"
               target="_blank"
               rel="noopener noreferrer"
               className="text-muted-foreground hover:text-primary transition-colors"
@@ -25,7 +25,7 @@ const Footer = () => {
               <Github className="w-5 h-5" />
             </a>
             <a
-              href="https://linkedin.com/in/yasowant"
+              href="https://linkedin.com/in/yasowant-nayak"
               target="_blank"
               rel="noopener noreferrer"
               className="text-muted-foreground hover:text-primary transition-colors"
@@ -34,7 +34,7 @@ const Footer = () => {
               <Linkedin className="w-5 h-5" />
             </a>
             <a
-              href="mailto:yasowant@email.com"
+              href="mailto:yasowant1998@gmail.com"
               className="text-muted-foreground hover:text-primary transition-colors"
               aria-label="Email"
             >
@@ -43,7 +43,7 @@ const Footer = () => {
           </div>
 
           <p className="text-muted-foreground text-sm">
-            © {currentYear} Yasowant. All rights reserved.
+            © {currentYear} Yasowant Nayak. All rights reserved.
           </p>
         </div>
       </div>

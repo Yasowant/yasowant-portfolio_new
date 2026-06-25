@@ -12,50 +12,50 @@ const ExperienceSection = () => {
   const experiences = [
     {
       type: "work",
-      title: "Full Stack Developer",
-      company: "Dealdox",
-      period: "2022 - Present",
-      location: "India",
+      title: "Software Developer",
+      company: "DealDox Software Pvt Ltd",
+      period: "Aug 2023 - Present",
+      location: "Bangalore, India",
       description:
-        "Building scalable web applications and managing cloud infrastructure. Developing end-to-end solutions using modern technologies.",
+        "Owning delivery end-to-end on a multi-tenant SaaS platform serving 8+ enterprise organizations, with a focus on scalability, high availability, and secure data isolation.",
       highlights: [
-        "Full stack development with React, Node.js, and databases",
-        "AWS & Hostinger cloud deployment and management",
-        "API development and third-party integrations",
-        "Performance optimization and code reviews",
+        "Cut feature dev time 35% with a reusable React component library",
+        "Reduced page loads 40% via code splitting, lazy loading & memoization",
+        "Accelerated releases 50% with GitHub Actions + Docker CI/CD on AWS",
+        "Designed 15+ REST, SOAP & GraphQL endpoints; JWT + RBAC for 5+ roles",
       ],
       icon: Briefcase,
       color: "from-primary to-primary/70",
     },
     {
       type: "work",
-      title: "Cloud & DevOps",
-      company: "AWS & Hostinger",
-      period: "2022 - Present",
-      location: "Remote",
+      title: "Full Stack Developer",
+      company: "JSpiders – Training & Development Institute",
+      period: "Sep 2022 - Jul 2023",
+      location: "Bangalore, India",
       description:
-        "Managing cloud infrastructure, deployments, and server configurations for various client projects.",
+        "Built mobile-first, cross-browser React.js interfaces and scalable backend logic in Java, applying object-oriented design and RESTful API patterns.",
       highlights: [
-        "AWS EC2, S3, Lambda, and RDS management",
-        "Hostinger VPS and shared hosting setup",
-        "CI/CD pipeline implementation",
-        "SSL certificates and domain management",
+        "Raised user engagement 20% with responsive, cross-browser UIs",
+        "Increased online sales 30% with a full-stack e-commerce app",
+        "Designed RESTful APIs and CRUD operations with authentication",
+        "Applied OOP design to keep backend modules maintainable",
       ],
       icon: Server,
       color: "from-orange-500 to-yellow-500",
     },
     {
       type: "education",
-      title: "3 Years Lateral Entry Electrical Engineering",
+      title: "B.Tech, Electrical Engineering",
       company: "Galgotias College of Engineering & Technology",
       period: "2016 - 2019",
       location: "Greater Noida, India",
       description:
-        "Strong foundation in electrical engineering principles and practical problem-solving skills that translate well into software development.",
+        "Strong foundation in engineering principles and analytical problem-solving that translates directly into software system design.",
       highlights: [
-        "Electrical Systems & Circuits",
-        "Industrial Automation",
-        "Technical Problem Solving",
+        "System & Circuit Design",
+        "Analytical Problem Solving",
+        "Mathematics & Logic",
         "Project Management",
       ],
       icon: GraduationCap,
@@ -63,17 +63,17 @@ const ExperienceSection = () => {
     },
     {
       type: "education",
-      title: "Diploma in Electrical Engineering",
+      title: "Diploma, Electrical Engineering",
       company: "Utkalmani Gopabandhu Institute of Engineering",
       period: "2013 - 2016",
       location: "Rourkela, India",
       description:
-        "Strong foundation in electrical engineering principles and practical problem-solving skills that translate well into software development.",
+        "Built core technical fundamentals and a hands-on, practical approach to solving real-world engineering problems.",
       highlights: [
         "Electrical Systems & Circuits",
         "Industrial Automation",
         "Technical Problem Solving",
-        "Project Management",
+        "Teamwork & Collaboration",
       ],
       icon: Award,
       color: "from-blue-500 to-cyan-500",
@@ -103,7 +103,7 @@ const ExperienceSection = () => {
   };
 
   return (
-    <section id="experience" className="py-20 px-4 relative overflow-hidden">
+    <section id="experience" className="py-12 md:py-16 lg:py-20 px-4 relative overflow-hidden">
       {/* Background decoration */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-1/4 -left-32 w-64 h-64 bg-primary/5 rounded-full blur-3xl" />
@@ -119,11 +119,12 @@ const ExperienceSection = () => {
           className="text-center mb-16"
         >
           <h2 className="text-3xl md:text-4xl font-bold mb-4">
-            My <span className="text-primary">Journey</span>
+            My <span className="gradient-text">Journey</span>
           </h2>
+          <div className="w-20 h-1 bg-gradient-to-r from-primary to-accent mx-auto mb-6 rounded-full" />
           <p className="text-muted-foreground max-w-2xl mx-auto">
             3+ years of experience in full stack development, from electrical
-            engineering roots to building modern web applications
+            engineering roots to building modern, scalable web applications
           </p>
         </motion.div>
 
@@ -152,10 +153,13 @@ const ExperienceSection = () => {
                 {/* Timeline dot */}
                 <div className="absolute left-8 md:left-1/2 transform -translate-x-1/2 z-10">
                   <motion.div
-                    whileHover={{ scale: 1.2 }}
-                    className={`w-12 h-12 rounded-full bg-gradient-to-br ${exp.color} flex items-center justify-center shadow-lg`}
+                    whileHover={{ scale: 1.15, rotate: 6 }}
+                    className={`w-12 h-12 rounded-full bg-gradient-to-br ${exp.color} flex items-center justify-center shadow-lg shadow-primary/30 ring-4 ring-background`}
                   >
                     <Icon className="w-6 h-6 text-white" />
+                    {index === 0 && (
+                      <span className="absolute inset-0 rounded-full ring-2 ring-primary/50 animate-ping" />
+                    )}
                   </motion.div>
                 </div>
 
@@ -166,15 +170,18 @@ const ExperienceSection = () => {
                     isLeft ? "md:mr-auto md:pr-8" : "md:ml-auto md:pl-8"
                   }`}
                 >
-                  <div className="bg-card/50 backdrop-blur-sm border border-border/50 rounded-xl p-6 hover:shadow-xl hover:shadow-primary/5 transition-all duration-300">
+                  <div className="glass-card rounded-2xl p-6 hover:shadow-2xl hover:shadow-primary/10 transition-all duration-300">
                     {/* Header */}
                     <div className="mb-4">
-                      <div className="flex items-center gap-2 text-muted-foreground text-sm mb-2">
-                        <Calendar className="w-4 h-4" />
-                        <span>{exp.period}</span>
-                        <span className="mx-2">•</span>
-                        <MapPin className="w-4 h-4" />
-                        <span>{exp.location}</span>
+                      <div className="flex flex-wrap items-center gap-2 mb-3">
+                        <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs font-medium">
+                          <Calendar className="w-3.5 h-3.5" />
+                          {exp.period}
+                        </span>
+                        <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-secondary/60 text-muted-foreground text-xs font-medium">
+                          <MapPin className="w-3.5 h-3.5" />
+                          {exp.location}
+                        </span>
                       </div>
                       <h3 className="text-xl font-bold text-foreground">
                         {exp.title}
@@ -234,10 +241,10 @@ const ExperienceSection = () => {
           ].map((stat, index) => (
             <motion.div
               key={index}
-              whileHover={{ scale: 1.05 }}
-              className="text-center p-4 bg-card/30 rounded-xl border border-border/30"
+              whileHover={{ scale: 1.05, y: -4 }}
+              className="text-center p-5 glass-card rounded-2xl"
             >
-              <div className="text-3xl font-bold text-primary mb-1">
+              <div className="text-3xl font-bold gradient-text mb-1">
                 {stat.value}
               </div>
               <div className="text-sm text-muted-foreground">{stat.label}</div>

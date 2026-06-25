@@ -1,38 +1,42 @@
 import { motion, useInView } from "framer-motion";
 import { useRef, useState } from "react";
-import { ExternalLink, Github, Folder, Star, GitFork, Eye } from "lucide-react";
+import { ExternalLink, Github, Folder, Star, Check, ArrowUpRight } from "lucide-react";
 
 const projects = [
   {
-    title: "Sanguine Infra Tech – Infrastructure Consultancy Website",
+    title: "Survesy – Multi-Tenant Survey SaaS",
     description:
-      "A corporate website for an infrastructure engineering consultancy showcasing services, sectors, projects, client portfolio, and tender-focused credentials. Designed to highlight techno-commercial expertise across civil, mechanical, and electrical engineering domains.",
-    tech: ["React", "Vite", "Tailwind CSS", "Framer Motion"],
-    github: "https://github.com/yasowant/sanguine-infra-tech",
-    demo: "https://sanguine-one.vercel.app",
-    image:
-      "https://images.unsplash.com/photo-1503387762-592deb58ef4e?w=600&h=400&fit=crop",
-    stats: { stars: 65, forks: 18, views: 2900 },
-    featured: true,
-  },
-  {
-    title: "Survey Form Builder",
-    description:
-      "Dynamic form builder application that allows users to create custom surveys with various question types, conditional logic, and response analytics.",
-    tech: ["React", "JavaScript", "Node.js", "MongoDB"],
-    github: "https://github.com/yasowant/survey-builder",
-    demo: "https://www.dealdox.io",
+      "A production-ready, all-in-one survey platform: build beautiful forms in minutes, share with a link, and watch responses turn into live charts — no spreadsheets, no setup.",
+    features: [
+      "Drag-and-drop builder with multi-section surveys",
+      "Conditional logic via a visual rules engine",
+      "Real-time analytics: trends & completion rates",
+      "10+ question types with CSV / JSON export",
+      "Role-based access & full audit logs",
+      "Tiered subscriptions (Free → Premium)",
+    ],
+    tech: ["React", "TypeScript", "TanStack Router", "React Query", "Node.js", "MongoDB", "Recharts"],
+    github: "https://github.com/Yasowant",
+    demo: "https://frontend-survey-saas-platform.vercel.app/",
     image:
       "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&h=400&fit=crop",
-    stats: { stars: 38, forks: 8, views: 890 },
+    stats: { stars: 74, forks: 19, views: 3200 },
     featured: true,
   },
   {
-    title: "QR Code Login System",
+    title: "SmaartQR – Emergency Response Platform",
     description:
-      "Innovative authentication system using QR codes for seamless cross-device login. Implements real-time WebSocket connections for instant verification.",
-    tech: ["React", "TypeScript", "Node.js", "PostgreSQL"],
-    github: "https://github.com/AzarCodes/smaartqr",
+      "India's unified emergency-response platform — one scan connects citizens to verified, life-saving services 24/7, wherever they are. Live in production at smaartqr.com.",
+    features: [
+      "One scan → 11+ verified emergency services",
+      "Police, Fire, Ambulance & Women's helpline",
+      "OTP-based secure registration, no long forms",
+      "24/7 round-the-clock emergency response",
+      "Civic services for subscribed users",
+      "Trusted by 50K+ registered users",
+    ],
+    tech: ["React.js", "TypeScript", "Tailwind CSS", "REST APIs"],
+    github: "https://github.com/Yasowant",
     demo: "https://www.smaartqr.com",
     image:
       "https://images.unsplash.com/photo-1595079676339-1534801ad6cf?w=600&h=400&fit=crop",
@@ -40,9 +44,35 @@ const projects = [
     featured: true,
   },
   {
+    title: "Sanguine Infra Tech – Consultancy Website",
+    description:
+      "A corporate website for an infrastructure engineering consultancy, highlighting techno-commercial expertise across civil, mechanical, and electrical engineering domains.",
+    features: [
+      "Services & engineering sectors showcase",
+      "Project portfolio with client credentials",
+      "Tender-focused, conversion-driven layout",
+      "Smooth Framer Motion animations",
+      "Fully responsive across devices",
+    ],
+    tech: ["React", "Vite", "Tailwind CSS", "Framer Motion"],
+    github: "https://github.com/Yasowant/sanguine-infra-tech",
+    demo: "https://sanguine-one.vercel.app",
+    image:
+      "https://images.unsplash.com/photo-1503387762-592deb58ef4e?w=600&h=400&fit=crop",
+    stats: { stars: 65, forks: 18, views: 2900 },
+    featured: true,
+  },
+  {
     title: "GrandReserve – Hotel Booking Platform",
     description:
-      "A modern hotel booking web application with real-time availability, secure authentication, room management, and seamless booking flow. Designed for performance, scalability, and great user experience.",
+      "A modern hotel booking web application designed for performance, scalability, and a seamless guest experience from search to checkout.",
+    features: [
+      "Real-time room availability & search",
+      "Secure authentication and user accounts",
+      "Stripe-powered payments & checkout",
+      "Room management with Cloudinary media",
+      "Smooth, mobile-first booking flow",
+    ],
     tech: ["React", "Redux", "Node.js", "PostgreSQL", "Stripe", "Cloudinary"],
     github: "https://github.com/Yasowant/hotelbooking_FE",
     demo: "https://grandreserve-stays.vercel.app",
@@ -77,7 +107,7 @@ const ProjectCard = ({
       whileHover={{ y: -10, scale: 1.02 }}
       onHoverStart={() => setIsHovered(true)}
       onHoverEnd={() => setIsHovered(false)}
-      className="group relative rounded-2xl overflow-hidden bg-card border border-border"
+      className="group relative rounded-2xl overflow-hidden glass-card"
     >
       {/* Animated border glow */}
       <motion.div
@@ -173,26 +203,16 @@ const ProjectCard = ({
           {project.description}
         </p>
 
-        {/* Stats */}
-        <motion.div
-          className="flex gap-4 mb-4 text-sm text-muted-foreground"
+        {/* Hover hint */}
+        <motion.p
+          className="flex items-center gap-1.5 mb-4 text-xs text-primary/80 font-medium"
           initial={{ opacity: 0 }}
           animate={isInView ? { opacity: 1 } : {}}
           transition={{ delay: 0.3 + index * 0.1 }}
         >
-          <span className="flex items-center gap-1">
-            <Star className="w-4 h-4 text-yellow-500" />
-            {project.stats.stars}
-          </span>
-          <span className="flex items-center gap-1">
-            <GitFork className="w-4 h-4 text-primary" />
-            {project.stats.forks}
-          </span>
-          <span className="flex items-center gap-1">
-            <Eye className="w-4 h-4 text-accent" />
-            {project.stats.views}
-          </span>
-        </motion.div>
+          <Star className="w-3.5 h-3.5" />
+          Hover to see key features
+        </motion.p>
 
         {/* Tech stack with staggered animation */}
         <div className="flex flex-wrap gap-2">
@@ -219,9 +239,66 @@ const ProjectCard = ({
         </div>
       </div>
 
+      {/* Hover feature reveal overlay */}
+      <motion.div
+        initial={false}
+        animate={{ opacity: isHovered ? 1 : 0 }}
+        transition={{ duration: 0.35 }}
+        className={`absolute inset-0 z-20 flex flex-col p-6 bg-card/80 backdrop-blur-xl ${
+          isHovered ? "pointer-events-auto" : "pointer-events-none"
+        }`}
+      >
+        <div className="flex items-center gap-2 mb-4">
+          <div className="p-2 rounded-lg bg-primary/15 border border-primary/30">
+            <Folder className="w-5 h-5 text-primary" />
+          </div>
+          <h3 className="text-lg font-bold text-foreground leading-tight">
+            {project.title}
+          </h3>
+        </div>
+
+        <p className="text-xs uppercase tracking-wider text-primary font-semibold mb-3">
+          Key Features
+        </p>
+
+        <ul className="space-y-2 flex-1">
+          {project.features?.map((feature, fIndex) => (
+            <motion.li
+              key={feature}
+              initial={{ opacity: 0, x: -12 }}
+              animate={isHovered ? { opacity: 1, x: 0 } : { opacity: 0, x: -12 }}
+              transition={{ delay: isHovered ? 0.08 + fIndex * 0.06 : 0 }}
+              className="flex items-start gap-2 text-sm text-foreground/85"
+            >
+              <Check className="w-4 h-4 mt-0.5 text-primary shrink-0" />
+              <span>{feature}</span>
+            </motion.li>
+          ))}
+        </ul>
+
+        <div className="flex gap-3 mt-4">
+          <a
+            href={project.demo}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex-1 inline-flex items-center justify-center gap-1.5 px-4 py-2 rounded-full bg-primary text-primary-foreground text-sm font-semibold hover:opacity-90 transition-opacity"
+          >
+            Live Demo <ArrowUpRight className="w-4 h-4" />
+          </a>
+          <a
+            href={project.github}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center justify-center gap-1.5 px-4 py-2 rounded-full border border-border bg-background/60 text-foreground text-sm font-semibold hover:border-primary/60 transition-colors"
+          >
+            <Github className="w-4 h-4" /> Code
+          </a>
+        </div>
+      </motion.div>
+
       {/* Bottom gradient line animation */}
       <motion.div
-        className="absolute bottom-0 left-0 h-1 bg-gradient-to-r from-primary via-accent to-primary"
+        className="absolute bottom-0 left-0 h-1 bg-gradient-to-r from-primary via-accent to-primary z-30"
         initial={{ width: "0%" }}
         animate={isHovered ? { width: "100%" } : { width: "0%" }}
         transition={{ duration: 0.5 }}
@@ -285,7 +362,7 @@ const ProjectsSection = () => {
             className="text-center mt-12"
           >
             <motion.a
-              href="https://github.com/yasowant"
+              href="https://github.com/Yasowant"
               target="_blank"
               rel="noopener noreferrer"
               whileHover={{

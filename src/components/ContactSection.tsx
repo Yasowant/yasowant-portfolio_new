@@ -14,16 +14,16 @@ const contactInfo = [
   {
     icon: Github,
     label: "GitHub",
-    value: "github.com/yasowant",
-    href: "https://github.com/yasowant",
+    value: "github.com/Yasowant",
+    href: "https://github.com/Yasowant",
   },
   {
     icon: Linkedin,
     label: "LinkedIn",
-    value: "linkedin.com/in/yasowant",
-    href: "https://linkedin.com/in/yasowant",
+    value: "linkedin.com/in/yasowant-nayak",
+    href: "https://linkedin.com/in/yasowant-nayak",
   },
-  { icon: MapPin, label: "Location", value: "Bengaluru, India", href: null },
+  { icon: MapPin, label: "Location", value: "Bangalore, India", href: null },
 ];
 
 const ContactSection = () => {

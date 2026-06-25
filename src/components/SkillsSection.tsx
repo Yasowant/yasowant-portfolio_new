@@ -7,11 +7,12 @@ const skillCategories = [
     icon: '🎨',
     color: 'from-blue-500 to-cyan-400',
     skills: [
-      { name: 'HTML5', icon: '🌐', level: 95 },
-      { name: 'CSS3', icon: '🎨', level: 90 },
-      { name: 'JavaScript', icon: '⚡', level: 90 },
-      { name: 'React', icon: '⚛️', level: 85 },
-      { name: 'TypeScript', icon: '📘', level: 80 },
+      { name: 'React.js', icon: '⚛️', level: 92 },
+      { name: 'Next.js', icon: '▲', level: 85 },
+      { name: 'TypeScript', icon: '📘', level: 88 },
+      { name: 'JavaScript', icon: '⚡', level: 92 },
+      { name: 'Redux', icon: '🔄', level: 85 },
+      { name: 'Tailwind CSS', icon: '🎨', level: 90 },
     ],
   },
   {
@@ -21,9 +22,10 @@ const skillCategories = [
     skills: [
       { name: 'Node.js', icon: '🟢', level: 90 },
       { name: 'Express.js', icon: '🚀', level: 88 },
-      { name: 'Python', icon: '🐍', level: 80 },
-      { name: 'REST APIs', icon: '🔗', level: 92 },
-      { name: 'JWT Auth', icon: '🔐', level: 85 },
+      { name: 'REST / SOAP', icon: '🔗', level: 92 },
+      { name: 'GraphQL', icon: '◈', level: 82 },
+      { name: 'Socket.IO', icon: '🔌', level: 80 },
+      { name: 'JWT + RBAC', icon: '🔐', level: 88 },
     ],
   },
   {
@@ -31,21 +33,23 @@ const skillCategories = [
     icon: '🗃️',
     color: 'from-purple-500 to-pink-400',
     skills: [
+      { name: 'PostgreSQL', icon: '🐘', level: 85 },
       { name: 'MongoDB', icon: '🍃', level: 88 },
-      { name: 'PostgreSQL', icon: '🐘', level: 82 },
-      { name: 'MySQL', icon: '🐬', level: 80 },
-      { name: 'Redis', icon: '🔴', level: 70 },
+      { name: 'MySQL', icon: '🐬', level: 84 },
+      { name: 'Redis', icon: '🔴', level: 78 },
     ],
   },
   {
-    title: 'Tools & DevOps',
+    title: 'DevOps & System Design',
     icon: '🛠️',
     color: 'from-orange-500 to-yellow-400',
     skills: [
-      { name: 'Git & GitHub', icon: '🐙', level: 92 },
-      { name: 'Docker', icon: '🐳', level: 75 },
-      { name: 'VS Code', icon: '💻', level: 95 },
-      { name: 'Postman', icon: '📮', level: 90 },
+      { name: 'AWS', icon: '☁️', level: 82 },
+      { name: 'Docker', icon: '🐳', level: 82 },
+      { name: 'GitHub Actions', icon: '⚙️', level: 85 },
+      { name: 'CI/CD', icon: '🔁', level: 86 },
+      { name: 'System Design', icon: '🏗️', level: 85 },
+      { name: 'Microservices', icon: '🧩', level: 80 },
     ],
   },
 ];
@@ -70,7 +74,7 @@ const SkillCard = ({ skill, index, isInView }: { skill: { name: string; icon: st
       }}
       onHoverStart={() => setIsHovered(true)}
       onHoverEnd={() => setIsHovered(false)}
-      className="relative group cursor-pointer"
+      className="relative group cursor-pointer w-[150px] sm:w-[160px]"
     >
       <div className="relative p-4 rounded-2xl bg-card border border-border hover:border-primary/50 transition-all duration-300 overflow-hidden">
         {/* Animated background gradient */}
@@ -216,7 +220,7 @@ const SkillsSection = () => {
             transition={{ duration: 0.5 }}
             className="perspective-1000"
           >
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 md:gap-6">
+            <div className="flex flex-wrap justify-center gap-4 md:gap-6">
               {skillCategories[activeCategory].skills.map((skill, index) => (
                 <SkillCard key={skill.name} skill={skill} index={index} isInView={isInView} />
               ))}

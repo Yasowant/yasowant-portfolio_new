@@ -1,23 +1,25 @@
 import { motion } from "framer-motion";
 import { Github, Linkedin, Mail, Download } from "lucide-react";
 import profilePhoto from "@/assets/profile-photo.jpg";
-import { TypeAnimation } from "react-type-animation";
 import { useTilt } from "@/hooks/useTilt";
 
 const HeroSection = () => {
   const { ref, handleMouseMove, handleMouseLeave } = useTilt();
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+    <section className="relative flex items-center justify-center overflow-hidden">
       <div className="absolute inset-0 -z-10 overflow-hidden">
-        {/* Grid */}
-        <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.05)_1px,transparent_1px)] bg-[size:40px_40px]" />
+        {/* Animated aurora */}
+        <div className="aurora" />
 
-        {/* Glow animations */}
+        {/* Grid with radial fade */}
+        <div className="grid-fade absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.045)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.045)_1px,transparent_1px)] bg-[size:44px_44px]" />
+
+        {/* Drifting glow orbs */}
         <motion.div
           animate={{ x: [0, 200, -200, 0], y: [0, -100, 100, 0] }}
           transition={{ duration: 15, repeat: Infinity }}
-          className="absolute w-[500px] h-[500px] bg-blue-500/20 blur-3xl rounded-full top-0 left-0"
+          className="absolute w-[500px] h-[500px] bg-primary/20 blur-3xl rounded-full top-0 left-0"
         />
 
         <motion.div
@@ -27,8 +29,8 @@ const HeroSection = () => {
         />
       </div>
 
-      <div className="container mx-auto px-4 md:px-6 relative z-10">
-        <div className="flex flex-col lg:flex-row items-center justify-center gap-12 lg:gap-20">
+      <div className="container mx-auto px-4 md:px-6 relative z-10 pt-32 pb-16 lg:pt-36 lg:pb-20">
+        <div className="flex flex-col lg:flex-row items-center justify-center gap-8 lg:gap-14">
           {/* 🧠 3D Tilt Profile */}
           <motion.div
             ref={ref}
@@ -40,124 +42,106 @@ const HeroSection = () => {
             className="relative transition-transform duration-200 ease-out"
           >
             <div className="relative w-64 h-64 md:w-80 md:h-80">
-              <div className="absolute inset-0 rounded-full bg-gradient-to-r from-primary via-accent to-primary animate-spin-slow opacity-75 p-1">
+              {/* Soft glowing halo */}
+              <div className="absolute -inset-6 rounded-full bg-primary/20 blur-3xl animate-glow-pulse" />
+
+              {/* Rotating conic gradient ring */}
+              <div className="conic-ring absolute inset-0 rounded-full opacity-80 p-[3px]">
                 <div className="w-full h-full rounded-full bg-background" />
               </div>
 
+              {/* Thin inner accent ring */}
+              <div className="absolute inset-1.5 rounded-full border border-primary/20" />
+
+              {/* Photo */}
               <img
                 src={profilePhoto}
                 alt="Yasowant Nayak"
-                className="absolute inset-2 w-[calc(100%-16px)] h-[calc(100%-16px)] rounded-full object-cover hover:shadow-[0_0_40px_rgba(99,102,241,0.6)] transition-all duration-300"
+                className="absolute inset-3 w-[calc(100%-24px)] h-[calc(100%-24px)] rounded-full object-cover shadow-2xl shadow-primary/20 transition-all duration-300"
               />
+
+              {/* Orbiting tech badges */}
+              {[
+                { label: "React", icon: "⚛️", pos: "-top-3 -left-4", delay: "" },
+                { label: "TypeScript", icon: "📘", pos: "-top-2 -right-5", delay: "animate-float-delayed" },
+                { label: "Node.js", icon: "🟢", pos: "-bottom-3 -left-5", delay: "animate-float-delayed" },
+                { label: "MongoDB", icon: "🍃", pos: "-bottom-2 -right-4", delay: "" },
+              ].map((b) => (
+                <div
+                  key={b.label}
+                  className={`absolute ${b.pos} ${b.delay || "animate-float"} glass-card rounded-full px-3 py-1.5 flex items-center gap-1.5 text-sm font-semibold shadow-lg`}
+                >
+                  <span>{b.icon}</span>
+                  <span>{b.label}</span>
+                </div>
+              ))}
             </div>
           </motion.div>
 
           {/* Content */}
-          <div className="text-center lg:text-left max-w-xl">
-            {/* 👋 Waving */}
-            <motion.p
+          <div className="text-center lg:text-left max-w-lg">
+            {/* Availability badge */}
+            <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2 }}
-              className="text-primary font-mono text-lg mb-4 flex items-center gap-2 justify-center lg:justify-start"
+              transition={{ delay: 0.1 }}
+              className="inline-flex items-center gap-2 px-4 py-1.5 mb-6 rounded-full glass-card text-sm font-medium"
             >
-              Hi I'm
-              <motion.span
-                animate={{ rotate: [0, 20, -10, 20, 0] }}
-                transition={{ repeat: Infinity, duration: 1.5 }}
-                className="inline-block origin-bottom-right"
-              >
-                👋
-              </motion.span>
-            </motion.p>
+              <span className="relative flex h-2.5 w-2.5">
+                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-primary opacity-75" />
+                <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-primary" />
+              </span>
+              Available for work
+            </motion.div>
 
-            {/* ✨ Name */}
+            {/* Name */}
             <motion.h1
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.3 }}
-              className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4"
+              transition={{ delay: 0.2 }}
+              className="text-4xl md:text-5xl lg:text-6xl font-bold mb-3"
             >
-              <motion.span
-                className="gradient-text inline-block"
-                animate={{ y: [0, -5, 0] }}
-                transition={{ duration: 2, repeat: Infinity }}
-              >
-                Yasowant Nayak
-              </motion.span>
+              <span className="gradient-text text-glow">Yasowant Nayak</span>
             </motion.h1>
 
+            {/* Role */}
             <motion.h2
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.4 }}
-              className="text-xl md:text-2xl text-muted-foreground font-mono mb-6"
+              transition={{ delay: 0.3 }}
+              className="text-lg md:text-xl text-muted-foreground font-mono mb-5"
             >
-              Software Developer | Full Stack Engineer
+              Full Stack Software Engineer
             </motion.h2>
 
+            {/* One-line tagline */}
             <motion.p
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.5 }}
-              className="text-muted-foreground text-lg mb-6 leading-relaxed"
+              transition={{ delay: 0.4 }}
+              className="text-muted-foreground text-base md:text-lg mb-8 leading-relaxed"
             >
-              Passionate about building scalable web applications and clean
-              backend systems. I transform complex problems into elegant,
-              performant solutions.
+              I build fast, scalable web apps with React &amp; Node.js.
             </motion.p>
-
-            {/* ⌨️ Typing */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.7 }}
-              className="text-lg font-mono text-primary mb-8"
-            >
-              {"> "} I work with{" "}
-              <span className="text-accent font-semibold">
-                <TypeAnimation
-                  sequence={[
-                    "React ⚛️",
-                    1500,
-                    "Node.js 🚀",
-                    1500,
-                    "MongoDB 🍃",
-                    1500,
-                    "Three.js 🔥",
-                    1500,
-                  ]}
-                  speed={50}
-                  repeat={Infinity}
-                />
-              </span>
-            </motion.div>
 
             {/* Buttons */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.8 }}
+              transition={{ delay: 0.5 }}
               className="flex flex-wrap justify-center lg:justify-start gap-4 mb-8"
             >
               <a
                 href="#projects"
-                className="px-8 py-3 rounded-full bg-primary text-primary-foreground font-semibold hover:opacity-90 transition-all"
+                className="px-7 py-3 rounded-full bg-primary text-primary-foreground font-semibold hover:opacity-90 transition-all"
               >
                 View Projects
               </a>
 
               <a
-                href="#contact"
-                className="px-8 py-3 rounded-full border-2 border-primary text-primary font-semibold hover:bg-primary hover:text-primary-foreground transition-all"
-              >
-                Contact Me
-              </a>
-
-              <a
                 href="/resume.pdf"
-                download="Yasowant_Nayak_Resume.pdf"
-                className="px-8 py-3 rounded-full bg-accent text-accent-foreground font-semibold flex items-center gap-2"
+                download="Yasowant_Nayak_Full_Stack_Engineer_Resume.pdf"
+                className="px-7 py-3 rounded-full border-2 border-primary text-primary font-semibold hover:bg-primary hover:text-primary-foreground transition-all flex items-center gap-2"
               >
                 <Download className="w-4 h-4" />
                 Download CV
@@ -168,13 +152,13 @@ const HeroSection = () => {
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.9 }}
+              transition={{ delay: 0.6 }}
               className="flex justify-center lg:justify-start gap-4"
             >
               {[
-                { icon: Github, href: "https://github.com/yasowant" },
-                { icon: Linkedin, href: "https://linkedin.com/in/yasowant" },
-                { icon: Mail, href: "mailto:yasowant@email.com" },
+                { icon: Github, href: "https://github.com/Yasowant" },
+                { icon: Linkedin, href: "https://linkedin.com/in/yasowant-nayak" },
+                { icon: Mail, href: "mailto:yasowant1998@gmail.com" },
               ].map(({ icon: Icon, href }, i) => (
                 <a
                   key={i}
