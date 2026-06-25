@@ -7,6 +7,8 @@
   </defs>
   <rect x="2" y="2" width="60" height="60" rx="16" fill="#0d1117"/>
   <rect x="2" y="2" width="60" height="60" rx="16" fill="none" stroke="url(#g)" stroke-width="2.5"/>
-  <text x="32" y="43" font-family="'Segoe UI', Arial, sans-serif" font-size="30" font-weight="700"
+  <path d="M19 24 L13 32 L19 40" fill="none" stroke="url(#g)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="32" y="41" font-family="'Inter','Segoe UI',Arial,sans-serif" font-size="22" font-weight="800"
         text-anchor="middle" fill="url(#g)">YN</text>
+  <path d="M45 24 L51 32 L45 40" fill="none" stroke="url(#g)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>

@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X } from 'lucide-react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import ThemeToggle from './ThemeToggle';
+import Logo from './Logo';
 
 const navLinks = [
   { name: 'About', href: '#about' },
@@ -81,15 +82,16 @@ const Navbar = () => {
       }`}
     >
       <nav className="container mx-auto px-4 md:px-6 py-4 flex items-center justify-between">
-        <a 
-          href="/" 
+        <a
+          href="/"
           onClick={(e) => {
             e.preventDefault();
             navigate('/');
           }}
-          className="font-mono text-xl font-bold gradient-text"
+          aria-label="Yasowant Nayak — home"
+          className="transition-transform hover:scale-105"
         >
-          {'<YN />'}
+          <Logo height={30} />
         </a>
 
         {/* Desktop Navigation */}
