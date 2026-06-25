@@ -343,7 +343,7 @@ const ProjectsSection = () => {
           />
 
           <motion.p
-            className="text-muted-foreground text-center max-w-2xl mx-auto mb-12"
+            className="text-muted-foreground text-center max-w-2xl mx-auto mb-8"
             initial={{ opacity: 0 }}
             animate={isInView ? { opacity: 1 } : {}}
             transition={{ delay: 0.3 }}

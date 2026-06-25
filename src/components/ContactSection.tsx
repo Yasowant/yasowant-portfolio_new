@@ -83,12 +83,12 @@ const ContactSection = () => {
             <span className="gradient-text">Get In Touch</span>
           </h2>
           <div className="w-20 h-1 bg-gradient-to-r from-primary to-accent mx-auto mb-4 rounded-full" />
-          <p className="text-muted-foreground text-center max-w-xl mx-auto mb-12">
+          <p className="text-muted-foreground text-center max-w-xl mx-auto mb-8">
             I'm always open to discussing new projects, opportunities, or just
             having a chat about technology.
           </p>
 
-          <div className="grid lg:grid-cols-2 gap-12 max-w-5xl mx-auto">
+          <div className="grid lg:grid-cols-2 gap-8 max-w-5xl mx-auto">
             {/* Contact Info */}
             <motion.div
               initial={{ opacity: 0, x: -30 }}

@@ -179,12 +179,12 @@ const SkillsSection = () => {
             <span className="gradient-text">Skills & Technologies</span>
           </h2>
           <div className="w-20 h-1 bg-gradient-to-r from-primary to-accent mx-auto mb-6 rounded-full" />
-          <p className="text-muted-foreground text-center max-w-2xl mx-auto mb-12">
+          <p className="text-muted-foreground text-center max-w-2xl mx-auto mb-8">
             Technologies I've mastered to build powerful, scalable applications
           </p>
 
           {/* Category tabs with floating animation */}
-          <div className="flex flex-wrap justify-center gap-4 mb-12">
+          <div className="flex flex-wrap justify-center gap-4 mb-8">
             {skillCategories.map((category, index) => (
               <motion.button
                 key={category.title}
@@ -223,41 +223,6 @@ const SkillsSection = () => {
             <div className="flex flex-wrap justify-center gap-4 md:gap-6">
               {skillCategories[activeCategory].skills.map((skill, index) => (
                 <SkillCard key={skill.name} skill={skill} index={index} isInView={isInView} />
-              ))}
-            </div>
-          </motion.div>
-
-          {/* All skills floating showcase */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={isInView ? { opacity: 1 } : {}}
-            transition={{ delay: 0.8 }}
-            className="mt-16 relative"
-          >
-            <h3 className="text-xl font-bold text-center mb-8 text-muted-foreground">
-              Full Technology Stack
-            </h3>
-            <div className="flex flex-wrap justify-center gap-3">
-              {skillCategories.flatMap(cat => cat.skills).map((skill, index) => (
-                <motion.div
-                  key={`all-${skill.name}`}
-                  initial={{ opacity: 0, scale: 0 }}
-                  animate={isInView ? { opacity: 1, scale: 1 } : {}}
-                  transition={{ 
-                    delay: 1 + index * 0.05,
-                    type: 'spring',
-                    stiffness: 200
-                  }}
-                  whileHover={{ 
-                    scale: 1.2, 
-                    rotate: [0, -5, 5, 0],
-                    transition: { duration: 0.3 }
-                  }}
-                  className="px-4 py-2 rounded-full bg-card border border-border hover:border-primary hover:bg-primary/10 transition-all cursor-pointer flex items-center gap-2"
-                >
-                  <span>{skill.icon}</span>
-                  <span className="font-medium text-sm">{skill.name}</span>
-                </motion.div>
               ))}
             </div>
           </motion.div>

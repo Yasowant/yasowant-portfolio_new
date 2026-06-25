@@ -96,7 +96,7 @@ const ExperienceSection = () => {
   return (
     <section
       id="experience"
-      className="py-12 md:py-16 lg:py-20 px-4 relative overflow-hidden"
+      className="py-9 md:py-12 lg:py-14 px-4 relative overflow-hidden"
     >
       {/* Background decoration */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
@@ -110,7 +110,7 @@ const ExperienceSection = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="text-center mb-14"
+          className="text-center mb-10"
         >
           <h2 className="text-3xl md:text-4xl font-bold mb-4">
             My <span className="gradient-text">Journey</span>
@@ -245,7 +245,7 @@ const ExperienceSection = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.2 }}
-          className="mt-14 grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6"
+          className="mt-10 grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6"
         >
           {[
             { value: "3+", label: "Years Experience" },

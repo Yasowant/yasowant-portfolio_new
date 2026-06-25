@@ -1,22 +1,6 @@
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
-import {
-  Users,
-  Clock,
-  CheckCircle,
-  Star,
-  Zap,
-  Globe,
-  MessageSquare,
-  Award,
-} from "lucide-react";
-
-const stats = [
-  { icon: Users, value: "25+", label: "Happy Clients" },
-  { icon: CheckCircle, value: "40+", label: "Projects Completed" },
-  { icon: Clock, value: "2.5+", label: "Years Experience" },
-  { icon: Star, value: "5.0", label: "Average Rating" },
-];
+import { Zap, Globe, MessageSquare, Award } from "lucide-react";
 
 const services = [
   {
@@ -78,44 +62,10 @@ const FreelancerSection = () => {
             Available for freelance projects and collaborations. Let's build
             something amazing together!
           </p>
-          <div className="w-20 h-1 bg-gradient-to-r from-primary to-accent mx-auto mb-12 rounded-full" />
-
-          {/* Stats Grid */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-16">
-            {stats.map((stat, index) => (
-              <motion.div
-                key={stat.label}
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={isInView ? { opacity: 1, scale: 1 } : {}}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                whileHover={{ scale: 1.05, y: -5 }}
-                className="relative group"
-              >
-                <div className="absolute inset-0 bg-gradient-to-r from-primary/20 to-accent/20 rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                <div className="relative p-6 rounded-2xl bg-card border border-border group-hover:border-primary/50 transition-all text-center">
-                  <motion.div
-                    className="w-14 h-14 mx-auto mb-4 rounded-xl bg-primary/10 flex items-center justify-center"
-                    whileHover={{ rotate: 360 }}
-                    transition={{ duration: 0.6 }}
-                  >
-                    <stat.icon className="w-7 h-7 text-primary" />
-                  </motion.div>
-                  <motion.h3
-                    className="text-3xl md:text-4xl font-bold gradient-text mb-2"
-                    initial={{ opacity: 0 }}
-                    animate={isInView ? { opacity: 1 } : {}}
-                    transition={{ duration: 0.5, delay: 0.3 + index * 0.1 }}
-                  >
-                    {stat.value}
-                  </motion.h3>
-                  <p className="text-muted-foreground text-sm">{stat.label}</p>
-                </div>
-              </motion.div>
-            ))}
-          </div>
+          <div className="w-20 h-1 bg-gradient-to-r from-primary to-accent mx-auto mb-10 rounded-full" />
 
           {/* Services Grid */}
-          <div className="grid md:grid-cols-2 gap-6 mb-12">
+          <div className="grid md:grid-cols-2 gap-6 mb-8">
             {services.map((service, index) => (
               <motion.div
                 key={service.title}

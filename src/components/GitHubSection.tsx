@@ -133,13 +133,13 @@ const GitHubSection = () => {
             <span className="gradient-text">GitHub Activity</span>
           </h2>
           <div className="w-20 h-1 bg-gradient-to-r from-primary to-accent mx-auto mb-6 rounded-full" />
-          <p className="text-muted-foreground text-center max-w-2xl mx-auto mb-12">
+          <p className="text-muted-foreground text-center max-w-2xl mx-auto mb-8">
             Live, real-time data pulled straight from my GitHub profile — open
             source work, repositories, and contributions.
           </p>
 
           {/* Live stats */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto mb-12">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto mb-8">
             <StatPill
               icon={BookMarked}
               value={loading ? "—" : user?.public_repos ?? "—"}

@@ -21,7 +21,7 @@ const BlogSection = () => {
             <span className="gradient-text">Latest Blog Posts</span>
           </h2>
           <div className="w-20 h-1 bg-gradient-to-r from-primary to-accent mx-auto mb-6 rounded-full" />
-          <p className="text-muted-foreground text-center max-w-2xl mx-auto mb-12">
+          <p className="text-muted-foreground text-center max-w-2xl mx-auto mb-8">
             I write about backend architecture, system design, and full-stack
             development on Medium. Here are my latest published articles.
           </p>
