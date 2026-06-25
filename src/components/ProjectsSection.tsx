@@ -1,8 +1,51 @@
 import { motion, useInView } from "framer-motion";
-import { useRef, useState } from "react";
-import { ExternalLink, Github, Folder, Star, Check, ArrowUpRight } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { ExternalLink, Github, Folder, Star, Check, ArrowUpRight, GitFork } from "lucide-react";
 
-const projects = [
+interface Project {
+  title: string;
+  description: string;
+  features: string[];
+  tech: string[];
+  github: string;
+  demo: string;
+  image: string;
+  featured: boolean;
+}
+
+// Parse "owner/repo" from a GitHub URL. Returns null for profile-only links.
+const parseRepo = (url: string): string | null => {
+  const m = url.match(/github\.com\/([^/]+)\/([^/?#]+)/);
+  return m ? `${m[1]}/${m[2]}` : null;
+};
+
+// Fetch live stars/forks for a repo (no-op when there's no repo path).
+const useRepoStats = (githubUrl: string) => {
+  const [stats, setStats] = useState<{ stars: number; forks: number } | null>(
+    null
+  );
+  useEffect(() => {
+    const repo = parseRepo(githubUrl);
+    if (!repo) return;
+    let active = true;
+    fetch(`https://api.github.com/repos/${repo}`)
+      .then((r) => (r.ok ? r.json() : Promise.reject()))
+      .then((d) => {
+        if (active)
+          setStats({
+            stars: d.stargazers_count ?? 0,
+            forks: d.forks_count ?? 0,
+          });
+      })
+      .catch(() => {});
+    return () => {
+      active = false;
+    };
+  }, [githubUrl]);
+  return stats;
+};
+
+const projects: Project[] = [
   {
     title: "Survesy – Multi-Tenant Survey SaaS",
     description:
@@ -18,9 +61,7 @@ const projects = [
     tech: ["React", "TypeScript", "TanStack Router", "React Query", "Node.js", "MongoDB", "Recharts"],
     github: "https://github.com/Yasowant",
     demo: "https://frontend-survey-saas-platform.vercel.app/",
-    image:
-      "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&h=400&fit=crop",
-    stats: { stars: 74, forks: 19, views: 3200 },
+    image: "/projects/survesy-dashboard.png",
     featured: true,
   },
   {
@@ -40,7 +81,6 @@ const projects = [
     demo: "https://www.smaartqr.com",
     image:
       "https://images.unsplash.com/photo-1595079676339-1534801ad6cf?w=600&h=400&fit=crop",
-    stats: { stars: 56, forks: 15, views: 1500 },
     featured: true,
   },
   {
@@ -59,7 +99,6 @@ const projects = [
     demo: "https://sanguine-one.vercel.app",
     image:
       "https://images.unsplash.com/photo-1503387762-592deb58ef4e?w=600&h=400&fit=crop",
-    stats: { stars: 65, forks: 18, views: 2900 },
     featured: true,
   },
   {
@@ -78,7 +117,6 @@ const projects = [
     demo: "https://grandreserve-stays.vercel.app",
     image:
       "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=600&h=400&fit=crop",
-    stats: { stars: 120, forks: 34, views: 4100 },
     featured: true,
   },
 ];
@@ -95,6 +133,7 @@ const ProjectCard = ({
   const [isHovered, setIsHovered] = useState(false);
   const [revealed, setRevealed] = useState(false);
   const show = isHovered || revealed;
+  const repoStats = useRepoStats(project.github);
 
   return (
     <motion.div
@@ -132,6 +171,14 @@ const ProjectCard = ({
           alt={`${project.title} preview`}
           loading="lazy"
           decoding="async"
+          onError={(e) => {
+            const img = e.currentTarget;
+            if (!img.dataset.fallback) {
+              img.dataset.fallback = "1";
+              img.src =
+                "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&h=400&fit=crop";
+            }
+          }}
           className="w-full h-full object-cover"
           animate={isHovered ? { scale: 1.1 } : { scale: 1 }}
           transition={{ duration: 0.5 }}
@@ -208,6 +255,20 @@ const ProjectCard = ({
           {project.description}
         </p>
 
+        {/* Live GitHub stats (only for projects with a public repo) */}
+        {repoStats && (
+          <div className="flex items-center gap-4 mb-4 text-sm text-muted-foreground">
+            <span className="flex items-center gap-1.5" title="GitHub stars">
+              <Star className="w-4 h-4 text-primary" />
+              {repoStats.stars}
+            </span>
+            <span className="flex items-center gap-1.5" title="GitHub forks">
+              <GitFork className="w-4 h-4 text-primary" />
+              {repoStats.forks}
+            </span>
+          </div>
+        )}
+
         {/* Hover hint */}
         <motion.p
           className="flex items-center gap-1.5 mb-4 text-xs text-primary/80 font-medium"
@@ -249,7 +310,7 @@ const ProjectCard = ({
         initial={false}
         animate={{ opacity: show ? 1 : 0 }}
         transition={{ duration: 0.35 }}
-        className={`absolute inset-0 z-20 flex flex-col p-6 bg-card/80 backdrop-blur-xl ${
+        className={`absolute inset-0 z-20 flex flex-col p-6 bg-card/90 backdrop-blur-xl overflow-y-auto ${
           show ? "pointer-events-auto" : "pointer-events-none"
         }`}
       >
@@ -281,7 +342,7 @@ const ProjectCard = ({
           ))}
         </ul>
 
-        <div className="flex gap-3 mt-4">
+        <div className="flex gap-3 mt-3">
           <a
             href={project.demo}
             target="_blank"

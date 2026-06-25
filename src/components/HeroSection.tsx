@@ -1,10 +1,11 @@
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import { Github, Linkedin, Mail, Download } from "lucide-react";
 import profilePhoto from "@/assets/profile-photo.jpg";
 import { useTilt } from "@/hooks/useTilt";
 
 const HeroSection = () => {
   const { ref, handleMouseMove, handleMouseLeave } = useTilt();
+  const reduceMotion = useReducedMotion();
 
   return (
     <section className="relative flex items-center justify-center overflow-hidden">
@@ -17,13 +18,13 @@ const HeroSection = () => {
 
         {/* Drifting glow orbs */}
         <motion.div
-          animate={{ x: [0, 200, -200, 0], y: [0, -100, 100, 0] }}
+          animate={reduceMotion ? undefined : { x: [0, 200, -200, 0], y: [0, -100, 100, 0] }}
           transition={{ duration: 15, repeat: Infinity }}
           className="absolute w-[500px] h-[500px] bg-primary/20 blur-3xl rounded-full top-0 left-0"
         />
 
         <motion.div
-          animate={{ x: [0, -200, 200, 0], y: [0, 100, -100, 0] }}
+          animate={reduceMotion ? undefined : { x: [0, -200, 200, 0], y: [0, 100, -100, 0] }}
           transition={{ duration: 18, repeat: Infinity }}
           className="absolute w-[500px] h-[500px] bg-green-500/20 blur-3xl rounded-full bottom-0 right-0"
         />
@@ -122,7 +123,9 @@ const HeroSection = () => {
               transition={{ delay: 0.4 }}
               className="text-muted-foreground text-base md:text-lg mb-8 leading-relaxed"
             >
-              I build fast, scalable web apps with React &amp; Node.js.
+              I build fast, scalable SaaS with React &amp; Node.js — scaled a
+              multi-tenant platform to 8+ organizations, cutting page loads 40%
+              and release time 50%.
             </motion.p>
 
             {/* Buttons */}
