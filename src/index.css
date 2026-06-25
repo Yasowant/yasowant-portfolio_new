@@ -6,79 +6,79 @@
 
 @layer base {
   :root {
-    --background: 195 40% 99%;
-    --foreground: 200 45% 11%;
+    --background: 210 17% 98%;
+    --foreground: 213 23% 14%;
 
     --card: 0 0% 100%;
-    --card-foreground: 200 45% 11%;
+    --card-foreground: 213 23% 14%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 200 45% 11%;
+    --popover-foreground: 213 23% 14%;
 
-    --primary: 191 91% 37%;
+    --primary: 212 92% 45%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 200 32% 95%;
-    --secondary-foreground: 200 45% 11%;
+    --secondary: 210 17% 95%;
+    --secondary-foreground: 213 23% 14%;
 
-    --muted: 200 32% 95%;
-    --muted-foreground: 200 16% 42%;
+    --muted: 210 17% 95%;
+    --muted-foreground: 213 10% 40%;
 
-    --accent: 217 91% 52%;
+    --accent: 137 66% 30%;
     --accent-foreground: 0 0% 100%;
 
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 200 30% 90%;
-    --input: 200 30% 90%;
-    --ring: 191 91% 37%;
+    --border: 210 18% 87%;
+    --input: 210 18% 87%;
+    --ring: 212 92% 45%;
 
     --radius: 0.85rem;
 
     /* Custom tokens */
-    --gradient-start: 191 91% 40%;
-    --gradient-end: 217 91% 52%;
-    --glow: 191 91% 42%;
-    --surface: 195 40% 99%;
+    --gradient-start: 212 92% 45%;
+    --gradient-end: 137 66% 33%;
+    --glow: 212 92% 45%;
+    --surface: 210 17% 98%;
     --surface-elevated: 0 0% 100%;
   }
 
   .dark {
-    --background: 198 55% 6%;
-    --foreground: 195 25% 95%;
+    --background: 216 28% 7%;
+    --foreground: 213 30% 91%;
 
-    --card: 198 45% 9%;
-    --card-foreground: 195 25% 95%;
+    --card: 215 21% 11%;
+    --card-foreground: 213 30% 91%;
 
-    --popover: 198 45% 9%;
-    --popover-foreground: 195 25% 95%;
+    --popover: 215 21% 11%;
+    --popover-foreground: 213 30% 91%;
 
-    --primary: 189 85% 52%;
-    --primary-foreground: 200 60% 8%;
+    --primary: 215 92% 60%;
+    --primary-foreground: 0 0% 100%;
 
-    --secondary: 200 30% 16%;
-    --secondary-foreground: 195 25% 95%;
+    --secondary: 213 16% 17%;
+    --secondary-foreground: 213 30% 91%;
 
-    --muted: 200 30% 16%;
-    --muted-foreground: 200 16% 66%;
+    --muted: 213 16% 17%;
+    --muted-foreground: 213 12% 60%;
 
-    --accent: 217 91% 64%;
+    --accent: 137 55% 47%;
     --accent-foreground: 0 0% 100%;
 
     --destructive: 0 63% 45%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 200 28% 17%;
-    --input: 200 28% 17%;
-    --ring: 189 85% 52%;
+    --border: 213 13% 21%;
+    --input: 213 13% 21%;
+    --ring: 215 92% 60%;
 
     /* Custom tokens dark */
-    --gradient-start: 189 85% 52%;
-    --gradient-end: 217 91% 64%;
-    --glow: 189 85% 52%;
-    --surface: 198 45% 9%;
-    --surface-elevated: 198 42% 12%;
+    --gradient-start: 215 92% 62%;
+    --gradient-end: 137 60% 50%;
+    --glow: 215 92% 62%;
+    --surface: 215 21% 11%;
+    --surface-elevated: 215 19% 14%;
   }
 }
 
@@ -207,8 +207,8 @@
     background:
       radial-gradient(38% 38% at 20% 25%, hsl(var(--gradient-start) / 0.55) 0%, transparent 60%),
       radial-gradient(40% 40% at 80% 20%, hsl(var(--gradient-end) / 0.55) 0%, transparent 60%),
-      radial-gradient(45% 45% at 65% 80%, hsl(189 85% 52% / 0.45) 0%, transparent 60%),
-      radial-gradient(40% 40% at 25% 85%, hsl(217 88% 60% / 0.4) 0%, transparent 60%);
+      radial-gradient(45% 45% at 65% 80%, hsl(215 92% 62% / 0.45) 0%, transparent 60%),
+      radial-gradient(40% 40% at 25% 85%, hsl(137 60% 50% / 0.4) 0%, transparent 60%);
     background-size: 200% 200%;
     animation: aurora-pan 18s ease-in-out infinite;
   }
