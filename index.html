@@ -55,6 +55,18 @@
 
     <!-- Theme -->
     <meta name="theme-color" content="#0d1117" />
+    <script>
+      (function () {
+        try {
+          var t = localStorage.getItem("theme");
+          var root = document.documentElement;
+          root.classList.remove("dark", "eye-protection");
+          if (t === "dark") root.classList.add("dark");
+          else if (t === "eye-protection") root.classList.add("eye-protection");
+          else if (t !== "light") root.classList.add("dark"); // default to dark
+        } catch (e) {}
+      })();
+    </script>
 
     <!-- Structured Data -->
     <script type="application/ld+json">

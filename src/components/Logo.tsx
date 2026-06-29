@@ -50,7 +50,7 @@ const Logo = ({ height = 30, className = "", showName = false }: LogoProps) => {
           x="66"
           y="33"
           textAnchor="middle"
-          fontFamily="'Inter', 'Segoe UI', Arial, sans-serif"
+          fontFamily="'Nunito', 'Segoe UI', Arial, sans-serif"
           fontSize="27"
           fontWeight="800"
           letterSpacing="0.5"
