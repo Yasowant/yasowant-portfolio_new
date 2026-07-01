@@ -9,21 +9,20 @@ interface LogoProps {
 }
 
 /**
- * <YN/> developer wordmark.
- * The angle brackets are stroked paths (font-independent), the "YN" is bold
- * text, all filled with the site's blue→green brand gradient.
+ * Hexagon monogram logo for Yasowant Nayak.
+ * A thin geometric hexagon frames a stroked "Y" mark, all painted with
+ * the site's blue→green brand gradient.
  */
 const Logo = ({ height = 30, className = "", showName = false }: LogoProps) => {
   const id = useId();
   const gradId = `logo-grad-${id}`;
-  const width = (height / 48) * 132;
 
   return (
     <span className={`inline-flex items-center gap-2.5 ${className}`}>
       <svg
-        width={width}
+        width={height}
         height={height}
-        viewBox="0 0 132 48"
+        viewBox="0 0 48 48"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
         role="img"
@@ -36,41 +35,19 @@ const Logo = ({ height = 30, className = "", showName = false }: LogoProps) => {
           </linearGradient>
         </defs>
 
-        {/* Left angle bracket  < */}
+        {/* Hexagon frame */}
         <path
-          d="M22 13 L9 24 L22 35"
+          d="M24 3 L42 13.5 L42 34.5 L24 45 L6 34.5 L6 13.5 Z"
           stroke={`url(#${gradId})`}
-          strokeWidth="4.5"
-          strokeLinecap="round"
+          strokeWidth="2.5"
           strokeLinejoin="round"
         />
 
-        {/* YN */}
-        <text
-          x="66"
-          y="33"
-          textAnchor="middle"
-          fontFamily="'Nunito', 'Segoe UI', Arial, sans-serif"
-          fontSize="27"
-          fontWeight="800"
-          letterSpacing="0.5"
-          fill={`url(#${gradId})`}
-        >
-          YN
-        </text>
-
-        {/* Slash + right angle bracket  /> */}
+        {/* Y monogram */}
         <path
-          d="M95 36 L103 12"
+          d="M16 16 L24 25 L32 16 M24 25 L24 34"
           stroke={`url(#${gradId})`}
-          strokeWidth="4.5"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-        <path
-          d="M110 13 L123 24 L110 35"
-          stroke={`url(#${gradId})`}
-          strokeWidth="4.5"
+          strokeWidth="3"
           strokeLinecap="round"
           strokeLinejoin="round"
         />
