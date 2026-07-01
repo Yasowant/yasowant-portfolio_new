@@ -14,16 +14,17 @@ const experiences = [
   {
     type: "Work Experience",
     title: "Software Developer",
-    company: "DealDox Software Pvt Ltd",
+    company: "SPM Global Technologies",
     period: "Aug 2023 - Present",
     location: "Bangalore, India",
     description:
-      "Owning delivery end-to-end on a multi-tenant SaaS platform serving 8+ enterprise organizations, with a focus on scalability, high availability, and secure data isolation.",
+      "Lead full-stack development of a multi-tenant SaaS platform serving 8+ enterprise organizations — driving architecture decisions, performance, and secure data isolation from design to production.",
     highlights: [
-      "Cut feature dev time 35% with a reusable React component library",
-      "Reduced page loads 40% via code splitting, lazy loading & memoization",
-      "Accelerated releases 50% with GitHub Actions + Docker CI/CD on AWS",
-      "Designed 15+ REST, SOAP & GraphQL endpoints; JWT + RBAC for 5+ roles",
+      "Scaled the platform to 8+ enterprise tenants with strict, secure data isolation",
+      "Cut page load times 40% via code splitting, lazy loading & memoization",
+      "Shipped releases 50% faster with Dockerized CI/CD on GitHub Actions + AWS",
+      "Reduced feature build time 35% with a reusable, typed React component library",
+      "Architected 15+ REST, SOAP & GraphQL APIs secured with JWT and role-based access",
     ],
     icon: Briefcase,
     color: "from-primary to-accent",
