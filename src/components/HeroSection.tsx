@@ -1,5 +1,5 @@
 import { motion, useReducedMotion } from "framer-motion";
-import { Github, Linkedin, Mail, Download } from "lucide-react";
+import { Github, Linkedin, Mail, Download, Sparkles, ArrowUpRight } from "lucide-react";
 import profilePhoto from "@/assets/profile-photo.jpg";
 import { useTilt } from "@/hooks/useTilt";
 
@@ -151,6 +151,28 @@ const HeroSection = () => {
                 Download CV
               </a>
             </motion.div>
+
+            {/* Featured project highlight */}
+            <motion.a
+              href="https://prep.esscentra.in/"
+              target="_blank"
+              rel="noopener noreferrer"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.55 }}
+              className="group inline-flex flex-wrap items-center gap-x-2 gap-y-1 px-4 py-2 mb-8 rounded-full glass-card text-sm font-medium hover:border-primary/60 transition-colors"
+            >
+              <Sparkles className="w-4 h-4 text-primary shrink-0" />
+              <span className="text-muted-foreground">Latest build:</span>
+              <span className="font-semibold text-foreground">Esscentra Prep</span>
+              <span className="hidden sm:inline text-muted-foreground">
+                — AI study &amp; interview-prep planner
+              </span>
+              <span className="inline-flex items-center gap-1 text-primary font-semibold">
+                Live
+                <ArrowUpRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+              </span>
+            </motion.a>
 
             {/* Socials */}
             <motion.div

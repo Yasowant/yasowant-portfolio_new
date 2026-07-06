@@ -47,6 +47,24 @@ const useRepoStats = (githubUrl: string) => {
 
 const projects: Project[] = [
   {
+    title: "Esscentra Prep – AI Interview & Exam Prep Planner",
+    description:
+      "A full-stack, AI-powered study planner that turns a resume or exam goal into a personalized, day-by-day plan scheduled around your real routine — tasks, streaks, analytics, reminders, and subscriptions included. Designed, built, and deployed end-to-end. Live in production at prep.esscentra.in.",
+    features: [
+      "AI plan from a resume (PDF/image) or exam goal",
+      "Tasks auto-scheduled into your real day & time slots",
+      "Multiple roadmaps + auto catch-up for overdue tasks",
+      "Streaks, activity heatmap & progress analytics",
+      "In-app, desktop & nightly email reminders",
+      "JWT auth, 7-day trial & tiered subscriptions",
+    ],
+    tech: ["React", "Vite", "Node.js", "Express", "MongoDB", "JWT", "OpenAI"],
+    github: "https://github.com/Yasowant",
+    demo: "https://prep.esscentra.in/",
+    image: "/projects/esscentra-prep.png",
+    featured: true,
+  },
+  {
     title: "Survesy – Multi-Tenant Survey SaaS",
     description:
       "A production-ready, all-in-one survey platform: build beautiful forms in minutes, share with a link, and watch responses turn into live charts — no spreadsheets, no setup.",
@@ -81,24 +99,6 @@ const projects: Project[] = [
     demo: "https://www.smaartqr.com",
     image:
       "https://images.unsplash.com/photo-1595079676339-1534801ad6cf?w=600&h=400&fit=crop",
-    featured: true,
-  },
-  {
-    title: "Sanguine Infra Tech – Consultancy Website",
-    description:
-      "A corporate website for an infrastructure engineering consultancy, highlighting techno-commercial expertise across civil, mechanical, and electrical engineering domains.",
-    features: [
-      "Services & engineering sectors showcase",
-      "Project portfolio with client credentials",
-      "Tender-focused, conversion-driven layout",
-      "Smooth Framer Motion animations",
-      "Fully responsive across devices",
-    ],
-    tech: ["React", "Vite", "Tailwind CSS", "Framer Motion"],
-    github: "https://github.com/Yasowant/sanguine-infra-tech",
-    demo: "https://sanguine-one.vercel.app",
-    image:
-      "https://images.unsplash.com/photo-1503387762-592deb58ef4e?w=600&h=400&fit=crop",
     featured: true,
   },
   {
