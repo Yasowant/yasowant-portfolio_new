@@ -1,4 +1,12 @@
 User-agent: *
 Allow: /
 
+# AI / answer-engine crawlers (extra reach)
+User-agent: GPTBot
+Allow: /
+User-agent: PerplexityBot
+Allow: /
+User-agent: ClaudeBot
+Allow: /
+
 Sitemap: https://www.yasowantdev.info/sitemap.xml

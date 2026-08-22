@@ -1,4 +1,5 @@
 import { useParams, Link } from 'react-router-dom';
+import { useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { ArrowLeft, Calendar, Clock, User, Tag } from 'lucide-react';
 import { getBlogPostBySlug, blogPosts } from '@/data/blogData';
@@ -8,6 +9,55 @@ import Footer from '@/components/Footer';
 const BlogPostPage = () => {
   const { slug } = useParams<{ slug: string }>();
   const post = slug ? getBlogPostBySlug(slug) : null;
+
+  // Per-post SEO: title, description, canonical + Article structured data
+  useEffect(() => {
+    if (!post) return;
+    const prevTitle = document.title;
+    document.title = `${post.title} | Yasowant Nayak`;
+    const setMeta = (attr: 'name' | 'property', key: string, value: string) => {
+      let el = document.querySelector<HTMLMetaElement>(`meta[${attr}="${key}"]`);
+      if (!el) {
+        el = document.createElement('meta');
+        el.setAttribute(attr, key);
+        document.head.appendChild(el);
+      }
+      el.setAttribute('content', value);
+    };
+    const url = `https://www.yasowantdev.info/blog/${post.slug}`;
+    setMeta('name', 'description', post.excerpt);
+    setMeta('property', 'og:title', post.title);
+    setMeta('property', 'og:description', post.excerpt);
+    setMeta('property', 'og:url', url);
+    setMeta('property', 'og:type', 'article');
+    setMeta('property', 'og:image', post.image);
+    setMeta('name', 'twitter:title', post.title);
+    setMeta('name', 'twitter:description', post.excerpt);
+    setMeta('name', 'twitter:image', post.image);
+    const canonical = document.querySelector<HTMLLinkElement>('link[rel="canonical"]');
+    const prevCanonical = canonical?.href;
+    if (canonical) canonical.href = url;
+    const ld = document.createElement('script');
+    ld.type = 'application/ld+json';
+    ld.id = 'blog-post-ld';
+    ld.text = JSON.stringify({
+      '@context': 'https://schema.org',
+      '@type': 'BlogPosting',
+      headline: post.title,
+      description: post.excerpt,
+      image: post.image,
+      datePublished: post.date,
+      keywords: post.tags.join(', '),
+      author: { '@type': 'Person', name: 'Yasowant Nayak', url: 'https://www.yasowantdev.info/' },
+      mainEntityOfPage: url,
+    });
+    document.head.appendChild(ld);
+    return () => {
+      document.title = prevTitle;
+      if (canonical && prevCanonical) canonical.href = prevCanonical;
+      document.getElementById('blog-post-ld')?.remove();
+    };
+  }, [post]);
 
   if (!post) {
     return (

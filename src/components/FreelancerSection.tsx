@@ -8,7 +8,16 @@ import {
   Layout,
   Cloud,
   Check,
+  MapPin,
 } from "lucide-react";
+import { useRegion } from "@/hooks/useRegion";
+import {
+  REGIONS,
+  formatPrice,
+  getRegion,
+  type RegionCode,
+  type ServiceKey,
+} from "@/lib/pricing";
 
 const services = [
   {
@@ -24,7 +33,7 @@ const services = [
       "Auth, payments & third-party integrations",
     ],
     tags: ["React", "Node.js", "PostgreSQL", "TypeScript"],
-    price: "From ₹40,000",
+    key: "fullstack" as ServiceKey,
   },
   {
     icon: Zap,
@@ -39,7 +48,7 @@ const services = [
       "Stripe, payment & webhook integrations",
     ],
     tags: ["REST", "GraphQL", "Microservices", "JWT"],
-    price: "From ₹25,000",
+    key: "api" as ServiceKey,
   },
   {
     icon: Layout,
@@ -54,7 +63,7 @@ const services = [
       "40% faster loads via code splitting",
     ],
     tags: ["React", "Tailwind", "Framer Motion", "UI/UX"],
-    price: "From ₹30,000",
+    key: "frontend" as ServiceKey,
   },
   {
     icon: Cloud,
@@ -69,7 +78,7 @@ const services = [
       "50% faster, repeatable releases",
     ],
     tags: ["AWS", "Docker", "GitHub Actions", "CI/CD"],
-    price: "From ₹35,000",
+    key: "devops" as ServiceKey,
   },
   {
     icon: MessageSquare,
@@ -84,7 +93,7 @@ const services = [
       "Best-practice & tech-stack guidance",
     ],
     tags: ["Architecture", "Code Review", "Performance"],
-    price: "₹1,500/hour",
+    key: "consultation" as ServiceKey,
   },
   {
     icon: Award,
@@ -99,13 +108,15 @@ const services = [
       "Clean handoff & documentation",
     ],
     tags: ["MVP", "Startup", "Rapid Dev", "Scalable"],
-    price: "From ₹65,000",
+    key: "mvp" as ServiceKey,
   },
 ];
 
 const FreelancerSection = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const { region, setRegion, auto } = useRegion();
+  const current = getRegion(region);
 
   return (
     <section
@@ -129,10 +140,56 @@ const FreelancerSection = () => {
             <span className="gradient-text">Freelance Services</span>
           </h2>
           <p className="text-muted-foreground text-center max-w-2xl mx-auto mb-6">
-            Available for freelance projects and collaborations. Let's build
-            something amazing together!
+            Remote freelance developer for clients in India, the UK, the US,
+            Europe and worldwide. Transparent local pricing, overlap with your
+            time zone, and clean handoffs — let's build something amazing
+            together!
           </p>
-          <div className="w-20 h-1 bg-gradient-to-r from-primary to-accent mx-auto mb-10 rounded-full" />
+          <div className="w-20 h-1 bg-gradient-to-r from-primary to-accent mx-auto mb-6 rounded-full" />
+
+          {/* Region / currency switcher */}
+          <div className="flex flex-col items-center gap-3 mb-10">
+            <label
+              htmlFor="pricing-region"
+              className="flex items-center gap-2 text-xs text-muted-foreground"
+            >
+              <MapPin className="w-3.5 h-3.5 text-primary" />
+              {auto
+                ? `Showing prices for ${current.label} (detected from your location)`
+                : `Showing prices in ${current.currency}`}
+            </label>
+            <div className="flex flex-wrap justify-center gap-2">
+              {REGIONS.map((r) => (
+                <button
+                  key={r.code}
+                  type="button"
+                  onClick={() => setRegion(r.code as RegionCode)}
+                  aria-pressed={region === r.code}
+                  className={`px-3 py-1.5 text-xs font-mono rounded-full border transition-all duration-200 ${
+                    region === r.code
+                      ? "bg-primary text-primary-foreground border-primary shadow-md shadow-primary/30"
+                      : "bg-card text-muted-foreground border-border hover:border-primary/50 hover:text-foreground"
+                  }`}
+                >
+                  <span className="mr-1">{r.flag}</span>
+                  {r.currency}
+                </button>
+              ))}
+            </div>
+            <select
+              id="pricing-region"
+              value={region}
+              onChange={(e) => setRegion(e.target.value as RegionCode)}
+              className="sr-only"
+              aria-label="Select your region for pricing"
+            >
+              {REGIONS.map((r) => (
+                <option key={r.code} value={r.code}>
+                  {r.label} ({r.currency})
+                </option>
+              ))}
+            </select>
+          </div>
 
           {/* Services Grid */}
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-10">
@@ -162,9 +219,15 @@ const FreelancerSection = () => {
                     <service.icon className="w-6 h-6 text-primary-foreground" />
                   </motion.div>
                   {/* Price badge */}
-                  <span className="absolute top-3 right-3 px-3 py-1 text-xs font-mono font-semibold text-primary bg-background/80 backdrop-blur-sm border border-primary/30 rounded-full">
-                    {service.price}
-                  </span>
+                  <motion.span
+                    key={region}
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 0.25 }}
+                    className="absolute top-3 right-3 px-3 py-1 text-xs font-mono font-semibold text-primary bg-background/80 backdrop-blur-sm border border-primary/30 rounded-full"
+                  >
+                    {formatPrice(service.key, region)}
+                  </motion.span>
                 </div>
 
                 {/* Content */}
