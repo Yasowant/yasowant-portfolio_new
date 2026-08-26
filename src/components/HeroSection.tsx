@@ -1,11 +1,10 @@
-import { motion, useReducedMotion } from "framer-motion";
+import { motion } from "framer-motion";
 import { Github, Linkedin, Mail, Download, Sparkles, ArrowUpRight } from "lucide-react";
 import profilePhoto from "@/assets/profile-photo.jpg";
 import { useTilt } from "@/hooks/useTilt";
 
 const HeroSection = () => {
   const { ref, handleMouseMove, handleMouseLeave } = useTilt();
-  const reduceMotion = useReducedMotion();
 
   return (
     <section className="relative flex items-center justify-center overflow-hidden">
@@ -16,18 +15,10 @@ const HeroSection = () => {
         {/* Grid with radial fade */}
         <div className="grid-fade absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.045)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.045)_1px,transparent_1px)] bg-[size:44px_44px]" />
 
-        {/* Drifting glow orbs */}
-        <motion.div
-          animate={reduceMotion ? undefined : { x: [0, 200, -200, 0], y: [0, -100, 100, 0] }}
-          transition={{ duration: 15, repeat: Infinity }}
-          className="absolute w-[500px] h-[500px] bg-primary/20 blur-3xl rounded-full top-0 left-0"
-        />
-
-        <motion.div
-          animate={reduceMotion ? undefined : { x: [0, -200, 200, 0], y: [0, 100, -100, 0] }}
-          transition={{ duration: 18, repeat: Infinity }}
-          className="absolute w-[500px] h-[500px] bg-green-500/20 blur-3xl rounded-full bottom-0 right-0"
-        />
+        {/* Drifting glow orbs. CSS-driven (see .orb in index.css) so they can
+            be paused while scrolling — a JS animation cannot be. */}
+        <div className="orb orb-a" aria-hidden="true" />
+        <div className="orb orb-b" aria-hidden="true" />
       </div>
 
       <div className="container mx-auto px-4 md:px-6 relative z-10 pt-32 pb-16 lg:pt-36 lg:pb-20">

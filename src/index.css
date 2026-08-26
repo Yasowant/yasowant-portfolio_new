@@ -161,8 +161,10 @@
   .glass-card {
     position: relative;
     background: hsl(var(--card) / 0.55);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
+    /* 12px reads the same as 16px here and costs the compositor noticeably
+       less on a page with ~38 glass surfaces. */
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
     border: 1px solid hsl(var(--border) / 0.6);
     box-shadow: 0 10px 40px -12px hsl(var(--background) / 0.8),
       inset 0 1px 0 0 hsl(0 0% 100% / 0.05);
@@ -247,8 +249,11 @@
       radial-gradient(40% 40% at 80% 20%, hsl(var(--gradient-end) / 0.55) 0%, transparent 60%),
       radial-gradient(45% 45% at 65% 80%, hsl(215 92% 62% / 0.45) 0%, transparent 60%),
       radial-gradient(40% 40% at 25% 85%, hsl(137 60% 50% / 0.4) 0%, transparent 60%);
-    background-size: 200% 200%;
-    animation: aurora-pan 18s ease-in-out infinite;
+    background-size: 175% 175%;
+    background-position: 50% 50%;
+    /* transform-only so this stays on the compositor and never repaints */
+    will-change: transform;
+    animation: aurora-drift 22s ease-in-out infinite;
   }
 
   .grid-fade {
@@ -265,7 +270,6 @@
 
 @keyframes conic-spin {
   to {
-    --angle: 360deg;
     transform: rotate(360deg);
   }
 }
@@ -276,14 +280,12 @@
   }
 }
 
-@keyframes aurora-pan {
+@keyframes aurora-drift {
   0%, 100% {
-    background-position: 0% 50%;
-    transform: scale(1);
+    transform: translate3d(-4%, -2.5%, 0) scale(1.04);
   }
   50% {
-    background-position: 100% 50%;
-    transform: scale(1.15);
+    transform: translate3d(4%, 2.5%, 0) scale(1.18);
   }
 }
 
@@ -509,4 +511,84 @@
   font-weight: 600;
   background: hsl(var(--muted) / 0.5);
   white-space: nowrap;
+}
+
+/* ------------------------------------------------------------------ *
+ * Scroll performance
+ *
+ * The page carries ~38 backdrop-filter surfaces. Any animation behind
+ * them invalidates their cached backdrop, so every scroll frame has to
+ * re-blur all of them. Freezing the decorative motion while the user is
+ * actively scrolling makes that backdrop static and cacheable — and a
+ * 22-second drift pausing for 150ms is imperceptible.
+ * Toggled by src/hooks/useScrollPause.ts.
+ * ------------------------------------------------------------------ */
+html.is-scrolling .aurora,
+html.is-scrolling .conic-ring,
+html.is-scrolling .orb,
+html.is-scrolling .animate-float,
+html.is-scrolling .animate-float-delayed,
+html.is-scrolling .animate-glow-pulse,
+html.is-scrolling .animate-gradient {
+  animation-play-state: paused;
+}
+
+/* Ambient background orbs. Previously animated from JavaScript, which
+   could not be paused with the rule above. */
+.orb {
+  position: absolute;
+  width: 500px;
+  height: 500px;
+  border-radius: 9999px;
+  filter: blur(64px);
+  pointer-events: none;
+  will-change: transform;
+  transform: translateZ(0);
+}
+
+.orb-a {
+  top: 0;
+  left: 0;
+  background: hsl(var(--primary) / 0.2);
+  animation: orb-drift-a 15s ease-in-out infinite;
+}
+
+.orb-b {
+  bottom: 0;
+  right: 0;
+  background: hsl(137 60% 45% / 0.2);
+  animation: orb-drift-b 18s ease-in-out infinite;
+}
+
+@keyframes orb-drift-a {
+  0%, 100% { transform: translate3d(0, 0, 0); }
+  33%      { transform: translate3d(200px, -100px, 0); }
+  66%      { transform: translate3d(-200px, 100px, 0); }
+}
+
+@keyframes orb-drift-b {
+  0%, 100% { transform: translate3d(0, 0, 0); }
+  33%      { transform: translate3d(-200px, 100px, 0); }
+  66%      { transform: translate3d(200px, -100px, 0); }
+}
+
+/* Mobile: backdrop-filter is the single most expensive thing a phone GPU
+   does during scroll. A slightly more opaque card reads almost identically. */
+@media (max-width: 768px) {
+  .glass-card {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    background: hsl(var(--card) / 0.92);
+  }
+
+  .orb {
+    filter: blur(48px);
+    animation: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .orb {
+    animation: none !important;
+  }
 }

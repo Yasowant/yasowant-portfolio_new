@@ -4,6 +4,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Routes, Route } from "react-router-dom";
 import Preloader from "@/components/Preloader";
+import { useScrollPause } from "@/hooks/useScrollPause";
 import Index from "./pages/Index";
 import BlogPostPage from "./pages/BlogPost";
 import NotFound from "./pages/NotFound";
@@ -15,7 +16,10 @@ const queryClient = new QueryClient();
  * rendered by BrowserRouter in the browser and StaticRouter at build time
  * (see src/entry-server.tsx) for prerendering.
  */
-const AppShell = ({ prerender = false }: { prerender?: boolean }) => (
+const AppShell = ({ prerender = false }: { prerender?: boolean }) => {
+  useScrollPause();
+
+  return (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
       {!prerender && (
@@ -33,6 +37,7 @@ const AppShell = ({ prerender = false }: { prerender?: boolean }) => (
       </Routes>
     </TooltipProvider>
   </QueryClientProvider>
-);
+  );
+};
 
 export default AppShell;
