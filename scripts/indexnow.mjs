@@ -4,10 +4,10 @@
  * Tells Bing (and therefore Copilot) and Yandex that URLs changed, usually
  * within minutes instead of waiting for a crawl. Google does not participate
  *
- * Setup, once:
- *   1. Invent a key: 32 hex characters, e.g. `openssl rand -hex 16`.
- *   2. Save it as public/<key>.txt containing exactly that key as its content.
- *   3. Export it before running:  export INDEXNOW_KEY=<key>
+ * The key already exists: public/<key>.txt, where the filename (minus .txt) is
+ * the key and the file's only content is that same key. The script finds it
+ * automatically, so no environment variable is needed. Set INDEXNOW_KEY to
+ * override it.
  *
  * Usage:
  *   npm run indexnow            # every URL in dist/sitemap.xml
@@ -25,13 +25,39 @@ const SITE = "https://www.yasowantdev.info";
 const HOST = new URL(SITE).host;
 const ENDPOINT = "https://api.indexnow.org/IndexNow";
 
-const key = process.env.INDEXNOW_KEY;
+/**
+ * The key file in public/ is the source of truth: its name is the key, and it
+ * is what the IndexNow endpoint fetches to verify the submission. Reading it
+ * here means the two can never drift apart.
+ */
+function findKey() {
+  if (process.env.INDEXNOW_KEY) return process.env.INDEXNOW_KEY;
+  const pub = path.resolve(__dirname, "..", "public");
+  const match = fs
+    .readdirSync(pub)
+    .find((f) => /^[0-9a-f]{8,128}\.txt$/i.test(f));
+  if (!match) return null;
+  const fromName = match.replace(/\.txt$/i, "");
+  const fromBody = fs.readFileSync(path.join(pub, match), "utf8").trim();
+  if (fromName !== fromBody) {
+    console.error(
+      `public/${match} does not contain its own filename as its content.\n` +
+        `  filename says: ${fromName}\n` +
+        `  contents say:  ${fromBody}\n` +
+        "IndexNow verifies by fetching that file, so the two must match exactly."
+    );
+    process.exit(1);
+  }
+  return fromName;
+}
+
+const key = findKey();
 if (!key) {
   console.error(
-    "INDEXNOW_KEY is not set.\n" +
-      "  1. openssl rand -hex 16\n" +
+    "No IndexNow key found.\n" +
+      "  1. node -e \"console.log(require('crypto').randomBytes(16).toString('hex'))\"\n" +
       "  2. save it as public/<key>.txt with the key as the file's only content\n" +
-      "  3. export INDEXNOW_KEY=<key> && npm run indexnow"
+      "  3. npm run indexnow"
   );
   process.exit(1);
 }
