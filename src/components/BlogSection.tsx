@@ -22,17 +22,15 @@ const BlogSection = () => {
           </h2>
           <div className="w-20 h-1 bg-gradient-to-r from-primary to-accent mx-auto mb-6 rounded-full" />
           <p className="text-muted-foreground text-center max-w-2xl mx-auto mb-8">
-            I write about backend architecture, system design, and full-stack
-            development on Medium. Here are my latest published articles.
+            In-depth articles on backend architecture, system design and
+            full-stack engineering — written from production experience.
           </p>
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
             {blogPosts.map((post, index) => (
               <motion.a
                 key={post.id}
-                href={post.externalUrl ?? `/blog/${post.slug}`}
-                target={post.externalUrl ? '_blank' : undefined}
-                rel={post.externalUrl ? 'noopener noreferrer' : undefined}
+                href={`/blog/${post.slug}`}
                 initial={{ opacity: 0, y: 30 }}
                 animate={isInView ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.5, delay: 0.1 * index }}
@@ -93,7 +91,7 @@ const BlogSection = () => {
                   </p>
 
                   <span className="inline-flex items-center gap-2 text-primary font-medium text-sm group-hover:gap-3 transition-all">
-                    Read on Medium
+                    Read article
                     <ArrowRight className="w-4 h-4" />
                   </span>
                 </div>

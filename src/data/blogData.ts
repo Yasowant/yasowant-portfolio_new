@@ -1,3 +1,7 @@
+import { content as accessControlContent } from "./posts/access-control";
+import { content as kafkaContent } from "./posts/kafka";
+import { content as paginationContent } from "./posts/pagination";
+
 export interface BlogPost {
   id: number;
   slug: string;
@@ -23,17 +27,9 @@ export const blogPosts: BlogPost[] = [
       "Understanding Access Control Models Every Backend Developer Should Know",
     excerpt:
       "Building secure and scalable applications with RBAC, ABAC, PBAC, FGAC, and ReBAC — with real-world examples and backend use cases for authentication and authorization.",
-    content: `
-## Building Secure and Scalable Applications with RBAC, ABAC, PBAC, FGAC, and ReBAC
-
-In modern software systems, security is not just about login functionality. A secure application must also ensure that users can only access the resources and actions they are permitted to use. This is where authentication, authorization, and access control models become critical.
-
-The article walks through Authentication, Authorization, RBAC, Fine-Grained Access Control (FGAC), ABAC, PBAC, and ReBAC — each with backend code examples and the use cases they fit best, from simple role checks to enterprise policy engines and relationship-based sharing.
-
-> Read the full article on Medium for all code samples and the recommended hybrid architecture.
-    `,
+    content: accessControlContent,
     date: "2026-05-07",
-    readTime: "4 min read",
+    readTime: "9 min read",
     category: "System Design",
     image:
       "https://cdn-images-1.medium.com/max/1024/1*Mw_mNuRMlleXqMvBdH73pA.png",
@@ -49,17 +45,9 @@ The article walks through Authentication, Authorization, RBAC, Fine-Grained Acce
       "Apache Kafka Explained Clearly: Why, Where, and How It Is Used",
     excerpt:
       "A clear, real-world walkthrough of Apache Kafka — producers, topics, partitions, consumer groups, and how event streaming powers scalable, fault-tolerant backend systems.",
-    content: `
-## Why Kafka, and Where It Fits
-
-Modern applications generate massive amounts of data every second — clicks, payments, orders, notifications, and logs. Handling this reliably, at scale, and in real time is one of the biggest challenges in backend engineering.
-
-This article breaks down Kafka as a distributed event-streaming platform: producers, topics, partitions, offsets, and consumer groups, how it stores data as an append-only log, how it stays fault tolerant through replication, and when you should — and shouldn't — reach for it.
-
-> Read the full article on Medium for diagrams, code, and interview questions.
-    `,
+    content: kafkaContent,
     date: "2026-02-11",
-    readTime: "7 min read",
+    readTime: "10 min read",
     category: "Backend",
     image:
       "https://cdn-images-1.medium.com/max/1024/0*UA7QrRRXSyvx7Y7Z.png",
@@ -75,17 +63,9 @@ This article breaks down Kafka as a distributed event-streaming platform: produc
       "Understanding Pagination: A Complete Guide for Developers",
     excerpt:
       "Pagination looks simple but is key to performance, usability, and scalability. A step-by-step guide covering frontend vs backend pagination, slice(), Math.ceil(), and dynamic page buttons in React.",
-    content: `
-## Pagination, Step by Step
-
-Pagination divides a large dataset into smaller, manageable pages instead of loading everything at once. It improves user experience, performance, SEO, and mobile usability.
-
-This guide covers frontend vs backend pagination, managing page state in React, the slice() method, the page calculation formula, computing total pages with Math.ceil(), rendering dynamic page buttons, and the common mistakes developers make.
-
-> Read the full article on Medium for the complete React implementation.
-    `,
+    content: paginationContent,
     date: "2026-02-10",
-    readTime: "6 min read",
+    readTime: "9 min read",
     category: "Frontend",
     image:
       "https://cdn-images-1.medium.com/max/1024/1*adDz_MxCpvO8rCoLq7Ab5Q.png",

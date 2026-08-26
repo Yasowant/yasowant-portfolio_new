@@ -6,13 +6,34 @@ import { motion, AnimatePresence } from "framer-motion";
  * Draws the hexagon "Y" logo mark, then fades the whole overlay away to
  * reveal the portfolio underneath.
  */
+const SEEN_KEY = "preloader-seen";
+
 const Preloader = () => {
-  const [done, setDone] = useState(false);
+  // Skip the intro entirely for anyone who has already seen it this session,
+  // and for anyone who has asked for reduced motion. A returning visitor or a
+  // recruiter with the tab open for four seconds should not wait on it.
+  const [done, setDone] = useState(() => {
+    if (typeof window === "undefined") return true;
+    try {
+      if (sessionStorage.getItem(SEEN_KEY)) return true;
+    } catch {
+      /* storage unavailable */
+    }
+    return window.matchMedia?.("(prefers-reduced-motion: reduce)").matches ?? false;
+  });
 
   useEffect(() => {
-    const timer = setTimeout(() => setDone(true), 2200);
+    if (done) return;
+    const timer = setTimeout(() => {
+      setDone(true);
+      try {
+        sessionStorage.setItem(SEEN_KEY, "1");
+      } catch {
+        /* ignore */
+      }
+    }, 1400);
     return () => clearTimeout(timer);
-  }, []);
+  }, [done]);
 
   return (
     <AnimatePresence>

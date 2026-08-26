@@ -170,6 +170,24 @@ const BlogPostPage = () => {
               transition={{ duration: 0.6, delay: 0.6 }}
               className="space-y-8"
             >
+              {/* Original publication */}
+              {post.externalUrl && (
+                <div className="bg-card rounded-xl p-6 border border-border">
+                  <h3 className="text-lg font-bold mb-2">Also Published On</h3>
+                  <p className="text-sm text-muted-foreground mb-3">
+                    A shorter version of this article appears on Medium.
+                  </p>
+                  <a
+                    href={post.externalUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-sm text-primary font-medium hover:underline"
+                  >
+                    Read it on Medium →
+                  </a>
+                </div>
+              )}
+
               {/* On this page */}
               {rendered && rendered.headings.length > 2 && (
                 <nav
