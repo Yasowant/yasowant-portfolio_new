@@ -9,7 +9,9 @@ import {
   Cloud,
   Check,
   MapPin,
+  ArrowUpRight,
 } from "lucide-react";
+import { Link } from "react-router-dom";
 import { useRegion } from "@/hooks/useRegion";
 import {
   REGIONS,
@@ -49,6 +51,7 @@ const services = [
     ],
     tags: ["REST", "GraphQL", "Microservices", "JWT"],
     key: "api" as ServiceKey,
+    hireSlug: "nodejs-developer",
   },
   {
     icon: Layout,
@@ -64,6 +67,7 @@ const services = [
     ],
     tags: ["React", "Tailwind", "Framer Motion", "UI/UX"],
     key: "frontend" as ServiceKey,
+    hireSlug: "react-developer",
   },
   {
     icon: Cloud,
@@ -109,6 +113,7 @@ const services = [
     ],
     tags: ["MVP", "Startup", "Rapid Dev", "Scalable"],
     key: "mvp" as ServiceKey,
+    hireSlug: "mvp-development",
   },
 ];
 
@@ -251,6 +256,16 @@ const FreelancerSection = () => {
                       </li>
                     ))}
                   </ul>
+
+                  {/* Dedicated landing page, where one exists */}
+                  {"hireSlug" in service && service.hireSlug && (
+                    <Link
+                      to={`/hire/${service.hireSlug}`}
+                      className="inline-flex items-center gap-1.5 mb-3 text-sm font-semibold text-primary hover:gap-2.5 transition-all"
+                    >
+                      Details &amp; pricing <ArrowUpRight className="w-4 h-4" />
+                    </Link>
+                  )}
 
                   {/* Tags */}
                   <div className="flex flex-wrap gap-2 mt-auto pt-2">

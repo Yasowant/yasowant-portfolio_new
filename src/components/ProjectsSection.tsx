@@ -1,17 +1,8 @@
 import { motion, useInView } from "framer-motion";
+import { Link } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
 import { ExternalLink, Github, Folder, Star, Check, ArrowUpRight, GitFork } from "lucide-react";
-
-interface Project {
-  title: string;
-  description: string;
-  features: string[];
-  tech: string[];
-  github: string;
-  demo: string;
-  image: string;
-  featured: boolean;
-}
+import { projects } from "@/data/projectsData";
 
 // Parse "owner/repo" from a GitHub URL. Returns null for profile-only links.
 const parseRepo = (url: string): string | null => {
@@ -45,81 +36,6 @@ const useRepoStats = (githubUrl: string) => {
   return stats;
 };
 
-const projects: Project[] = [
-  {
-    title: "Esscentra Prep – AI Interview & Exam Prep Planner",
-    description:
-      "A full-stack, AI-powered study planner that turns a resume or exam goal into a personalized, day-by-day plan scheduled around your real routine — tasks, streaks, analytics, reminders, and subscriptions included. Designed, built, and deployed end-to-end. Live in production at prep.esscentra.in.",
-    features: [
-      "AI plan from a resume (PDF/image) or exam goal",
-      "Tasks auto-scheduled into your real day & time slots",
-      "Multiple roadmaps + auto catch-up for overdue tasks",
-      "Streaks, activity heatmap & progress analytics",
-      "In-app, desktop & nightly email reminders",
-      "JWT auth, 7-day trial & tiered subscriptions",
-    ],
-    tech: ["React", "Vite", "Node.js", "Express", "MongoDB", "JWT", "OpenAI"],
-    github: "https://github.com/Yasowant",
-    demo: "https://prep.esscentra.in/",
-    image: "/projects/esscentra-prep.png",
-    featured: true,
-  },
-  {
-    title: "Survesy – Multi-Tenant Survey SaaS",
-    description:
-      "A production-ready, all-in-one survey platform: build beautiful forms in minutes, share with a link, and watch responses turn into live charts — no spreadsheets, no setup.",
-    features: [
-      "Drag-and-drop builder with multi-section surveys",
-      "Conditional logic via a visual rules engine",
-      "Real-time analytics: trends & completion rates",
-      "10+ question types with CSV / JSON export",
-      "Role-based access & full audit logs",
-      "Tiered subscriptions (Free → Premium)",
-    ],
-    tech: ["React", "TypeScript", "TanStack Router", "React Query", "Node.js", "MongoDB", "Recharts"],
-    github: "https://github.com/Yasowant",
-    demo: "https://frontend-survey-saas-platform.vercel.app/",
-    image: "/projects/survesy-dashboard.png",
-    featured: true,
-  },
-  {
-    title: "SmaartQR – Emergency Response Platform",
-    description:
-      "India's unified emergency-response platform — one scan connects citizens to verified, life-saving services 24/7, wherever they are. Live in production at smaartqr.com.",
-    features: [
-      "One scan → 11+ verified emergency services",
-      "Police, Fire, Ambulance & Women's helpline",
-      "OTP-based secure registration, no long forms",
-      "24/7 round-the-clock emergency response",
-      "Civic services for subscribed users",
-      "Trusted by 50K+ registered users",
-    ],
-    tech: ["React.js", "TypeScript", "Tailwind CSS", "REST APIs"],
-    github: "https://github.com/Yasowant",
-    demo: "https://www.smaartqr.com",
-    image:
-      "https://images.unsplash.com/photo-1595079676339-1534801ad6cf?w=600&h=400&fit=crop",
-    featured: true,
-  },
-  {
-    title: "GrandReserve – Hotel Booking Platform",
-    description:
-      "A modern hotel booking web application designed for performance, scalability, and a seamless guest experience from search to checkout.",
-    features: [
-      "Real-time room availability & search",
-      "Secure authentication and user accounts",
-      "Stripe-powered payments & checkout",
-      "Room management with Cloudinary media",
-      "Smooth, mobile-first booking flow",
-    ],
-    tech: ["React", "Redux", "Node.js", "PostgreSQL", "Stripe", "Cloudinary"],
-    github: "https://github.com/Yasowant/hotelbooking_FE",
-    demo: "https://grandreserve-stays.vercel.app",
-    image:
-      "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=600&h=400&fit=crop",
-    featured: true,
-  },
-];
 
 const ProjectCard = ({
   project,
@@ -269,6 +185,15 @@ const ProjectCard = ({
           </div>
         )}
 
+        {/* Case study link — gives each project an indexable URL */}
+        <Link
+          to={`/projects/${project.slug}`}
+          onClick={(e) => e.stopPropagation()}
+          className="inline-flex items-center gap-1.5 mb-4 text-sm font-semibold text-primary hover:gap-2.5 transition-all"
+        >
+          Read the case study <ArrowUpRight className="w-4 h-4" />
+        </Link>
+
         {/* Hover hint */}
         <motion.p
           className="flex items-center gap-1.5 mb-4 text-xs text-primary/80 font-medium"
@@ -318,9 +243,11 @@ const ProjectCard = ({
           <div className="p-2 rounded-lg bg-primary/15 border border-primary/30">
             <Folder className="w-5 h-5 text-primary" />
           </div>
-          <h3 className="text-lg font-bold text-foreground leading-tight">
+          {/* Not a heading: the card above already emits the project's
+              <h3>. Repeating it here gave every project two H3s. */}
+          <p className="text-lg font-bold text-foreground leading-tight">
             {project.title}
-          </h3>
+          </p>
         </div>
 
         <p className="text-xs uppercase tracking-wider text-primary font-semibold mb-3">
@@ -427,8 +354,16 @@ const ProjectsSection = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.5, delay: 0.8 }}
-            className="text-center mt-12"
+            className="flex flex-wrap items-center justify-center gap-4 mt-12"
           >
+            <Link
+              to="/projects"
+              className="inline-flex items-center gap-2 px-8 py-4 rounded-full border border-border bg-background/60 font-semibold hover:border-primary/60 transition-colors"
+            >
+              All projects &amp; case studies
+              <ArrowUpRight className="w-4 h-4" />
+            </Link>
+
             <motion.a
               href="https://github.com/Yasowant"
               target="_blank"

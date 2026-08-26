@@ -3,8 +3,11 @@
  *
  * Renders every route to real HTML so Googlebot's first pass and AI crawlers
  * (GPTBot, ClaudeBot, PerplexityBot, Google-Extended — none of which run
- * JavaScript) see complete content, then writes sitemap.xml, robots.txt,
- * llms.txt and llms-full.txt.
+ * JavaScript) see complete content, then writes sitemap.xml, llms.txt and
+ * llms-full.txt.
+ *
+ * Every route in src/AppShell.tsx must appear in the route table below. A
+ * route that is only client-rendered is invisible to all of the above.
  *
  * Run automatically by `npm run build`.
  */
@@ -20,13 +23,39 @@ const ssrEntry = pathToFileURL(path.join(root, "dist-ssr", "entry-server.js")).h
 const SITE = "https://www.yasowantdev.info";
 const NAME = "Yasowant Nayak";
 const OG = `${SITE}/og-image.png`;
+const PERSON = `${SITE}/#person`;
+const TODAY = new Date().toISOString().slice(0, 10);
 
-const { render, blogPosts, faqs } = await import(ssrEntry);
+const { render, blogPosts, faqs, projects, hireServices } = await import(ssrEntry);
 
 const esc = (s) =>
   String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 
 const template = fs.readFileSync(path.join(dist, "index.html"), "utf8");
+
+const crumbs = (...pairs) => ({
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: pairs.map(([name, item], i) => ({
+    "@type": "ListItem",
+    position: i + 1,
+    name,
+    item,
+  })),
+});
+
+const faqPage = (id, list) => ({
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "@id": id,
+  mainEntity: list.map((f) => ({
+    "@type": "Question",
+    name: f.question,
+    acceptedAnswer: { "@type": "Answer", text: f.answer },
+  })),
+});
+
+const absolute = (src) => (src.startsWith("http") ? src : `${SITE}${src}`);
 
 /* ------------------------------------------------------------------ *
  * Route table
@@ -34,11 +63,47 @@ const template = fs.readFileSync(path.join(dist, "index.html"), "utf8");
 const homeRoute = {
   url: "/",
   file: "index.html",
-  lastmod: new Date().toISOString().slice(0, 10),
+  lastmod: TODAY,
   priority: "1.0",
   changefreq: "weekly",
   // Home keeps the title/meta already in index.html — nothing to override.
   head: null,
+};
+
+const blogIndexRoute = {
+  url: "/blog",
+  file: path.join("blog", "index.html"),
+  lastmod: blogPosts.map((p) => p.date).sort().reverse()[0] ?? TODAY,
+  priority: "0.9",
+  changefreq: "weekly",
+  head: {
+    title: `Engineering Articles | ${NAME}`,
+    description:
+      "Technical writing by Yasowant Nayak on backend architecture, access control, event streaming with Apache Kafka, and frontend patterns — written from production experience building SaaS on React, Node.js and TypeScript.",
+    canonical: `${SITE}/blog`,
+    ogType: "website",
+    keywords: "backend architecture, system design, React, Node.js, TypeScript, Apache Kafka",
+    jsonLd: [
+      {
+        "@context": "https://schema.org",
+        "@type": "Blog",
+        "@id": `${SITE}/blog#blog`,
+        name: `Engineering articles by ${NAME}`,
+        url: `${SITE}/blog`,
+        inLanguage: "en",
+        author: { "@id": PERSON },
+        publisher: { "@id": PERSON },
+        blogPost: blogPosts.map((post) => ({
+          "@type": "BlogPosting",
+          headline: post.title,
+          url: `${SITE}/blog/${post.slug}`,
+          datePublished: post.date,
+          keywords: post.tags.join(", "),
+        })),
+      },
+      crumbs(["Home", `${SITE}/`], ["Articles", `${SITE}/blog`]),
+    ],
+  },
 };
 
 const blogRoutes = blogPosts.map((post) => {
@@ -70,36 +135,209 @@ const blogRoutes = blogPosts.map((post) => {
           keywords: post.tags.join(", "),
           wordCount: post.content.split(/\s+/).filter(Boolean).length,
           inLanguage: "en",
-          author: {
-            "@type": "Person",
-            name: NAME,
-            url: `${SITE}/`,
-            jobTitle: "Full Stack Software Engineer",
-            sameAs: [
-              "https://github.com/Yasowant",
-              "https://www.linkedin.com/in/yasowant-nayak",
-              "https://medium.com/@yasowant1998",
-            ],
-          },
-          publisher: { "@type": "Person", name: NAME, url: `${SITE}/` },
+          author: { "@id": PERSON },
+          publisher: { "@id": PERSON },
           mainEntityOfPage: { "@type": "WebPage", "@id": url },
           ...(post.externalUrl ? { isBasedOn: post.externalUrl } : {}),
         },
-        {
-          "@context": "https://schema.org",
-          "@type": "BreadcrumbList",
-          itemListElement: [
-            { "@type": "ListItem", position: 1, name: "Home", item: `${SITE}/` },
-            { "@type": "ListItem", position: 2, name: "Blog", item: `${SITE}/#blog` },
-            { "@type": "ListItem", position: 3, name: post.title, item: url },
-          ],
-        },
+        crumbs(["Home", `${SITE}/`], ["Articles", `${SITE}/blog`], [post.title, url]),
       ],
     },
   };
 });
 
-const routes = [homeRoute, ...blogRoutes];
+const projectsIndexRoute = {
+  url: "/projects",
+  file: path.join("projects", "index.html"),
+  lastmod: TODAY,
+  priority: "0.9",
+  changefreq: "monthly",
+  head: {
+    title: `Projects & Case Studies | ${NAME}`,
+    description:
+      "Production software built by Yasowant Nayak: an AI study planner, a multi-tenant survey SaaS, an emergency-response platform and a hotel booking system — built with React, TypeScript, Node.js, MongoDB and PostgreSQL.",
+    canonical: `${SITE}/projects`,
+    ogType: "website",
+    keywords: projects.flatMap((p) => p.tech).join(", "),
+    jsonLd: [
+      {
+        "@context": "https://schema.org",
+        "@type": "CollectionPage",
+        "@id": `${SITE}/projects#collection`,
+        name: `Projects & Case Studies | ${NAME}`,
+        url: `${SITE}/projects`,
+        inLanguage: "en",
+        about: { "@id": PERSON },
+        mainEntity: {
+          "@type": "ItemList",
+          itemListElement: projects.map((p, i) => ({
+            "@type": "ListItem",
+            position: i + 1,
+            name: p.shortName,
+            url: `${SITE}/projects/${p.slug}`,
+          })),
+        },
+      },
+      crumbs(["Home", `${SITE}/`], ["Projects", `${SITE}/projects`]),
+    ],
+  },
+};
+
+const projectRoutes = projects.map((project) => {
+  const url = `${SITE}/projects/${project.slug}`;
+  return {
+    url: `/projects/${project.slug}`,
+    file: path.join("projects", project.slug, "index.html"),
+    lastmod: TODAY,
+    priority: "0.8",
+    changefreq: "monthly",
+    head: {
+      title: `${project.shortName} — ${project.tagline} | ${NAME}`,
+      description: project.answer,
+      canonical: url,
+      image: absolute(project.image),
+      ogType: "website",
+      keywords: project.tech.join(", "),
+      jsonLd: [
+        {
+          "@context": "https://schema.org",
+          "@type": "SoftwareApplication",
+          "@id": `${url}#app`,
+          name: project.shortName,
+          alternateName: project.title,
+          description: project.answer,
+          applicationCategory: "WebApplication",
+          operatingSystem: "Web browser",
+          url,
+          sameAs: project.demo,
+          screenshot: absolute(project.image),
+          creator: { "@id": PERSON },
+          author: { "@id": PERSON },
+          runtimePlatform: project.tech,
+          featureList: project.features,
+          inLanguage: "en",
+        },
+        faqPage(`${url}#faq`, project.faqs),
+        crumbs(
+          ["Home", `${SITE}/`],
+          ["Projects", `${SITE}/projects`],
+          [project.shortName, url]
+        ),
+      ],
+    },
+  };
+});
+
+const hireRoutes = hireServices.map((service) => {
+  const url = `${SITE}/hire/${service.slug}`;
+  return {
+    url: `/hire/${service.slug}`,
+    file: path.join("hire", service.slug, "index.html"),
+    lastmod: TODAY,
+    priority: "0.9",
+    changefreq: "monthly",
+    head: {
+      title: service.title,
+      description: service.metaDescription,
+      canonical: url,
+      ogType: "profile",
+      keywords: service.stack.join(", "),
+      jsonLd: [
+        {
+          "@context": "https://schema.org",
+          "@type": "Service",
+          "@id": `${url}#service`,
+          name: service.heading,
+          description: service.answer,
+          url,
+          serviceType: service.heading,
+          provider: { "@id": PERSON },
+          areaServed: [
+            "India",
+            "United Kingdom",
+            "United States",
+            "Europe",
+            "Canada",
+            "Australia",
+            "United Arab Emirates",
+            "Singapore",
+          ].map((name) => ({ "@type": "Country", name })),
+          availableLanguage: ["English", "Hindi"],
+          hasOfferCatalog: {
+            "@type": "OfferCatalog",
+            name: `${service.heading} — what is included`,
+            itemListElement: service.whatYouGet.map((item) => ({
+              "@type": "Offer",
+              itemOffered: { "@type": "Service", name: item },
+            })),
+          },
+        },
+        faqPage(`${url}#faq`, service.faqs),
+        crumbs(["Home", `${SITE}/`], ["Hire", `${SITE}/#freelance`], [service.heading, url]),
+      ],
+    },
+  };
+});
+
+const nowRoute = {
+  url: "/now",
+  file: path.join("now", "index.html"),
+  lastmod: TODAY,
+  priority: "0.6",
+  changefreq: "monthly",
+  head: {
+    title: `What ${NAME} Is Working On Now`,
+    description:
+      "A dated status page: what Yasowant Nayak is building this month, what he is learning, and whether he has capacity for new freelance or contract work.",
+    canonical: `${SITE}/now`,
+    ogType: "profile",
+    jsonLd: [
+      {
+        "@context": "https://schema.org",
+        "@type": "WebPage",
+        "@id": `${SITE}/now#page`,
+        name: `What ${NAME} Is Working On Now`,
+        url: `${SITE}/now`,
+        dateModified: TODAY,
+        inLanguage: "en",
+        about: { "@id": PERSON },
+        mainEntity: { "@id": PERSON },
+      },
+      crumbs(["Home", `${SITE}/`], ["Now", `${SITE}/now`]),
+    ],
+  },
+};
+
+/**
+ * 404.html is served by Vercel for any path that does not resolve to a
+ * prerendered file, with a real 404 status. Excluded from the sitemap and
+ * marked noindex so it never competes with a live URL.
+ */
+const notFoundRoute = {
+  url: "/404",
+  file: "404.html",
+  sitemap: false,
+  head: {
+    title: `Page not found | ${NAME}`,
+    description:
+      "That page does not exist. Browse the projects, articles and freelance services of Yasowant Nayak, Full Stack Software Engineer.",
+    canonical: `${SITE}/404`,
+    ogType: "website",
+    noindex: true,
+    jsonLd: [],
+  },
+};
+
+const routes = [
+  homeRoute,
+  blogIndexRoute,
+  ...blogRoutes,
+  projectsIndexRoute,
+  ...projectRoutes,
+  ...hireRoutes,
+  nowRoute,
+  notFoundRoute,
+];
 
 /* ------------------------------------------------------------------ *
  * Head rewriting
@@ -147,9 +385,10 @@ function applyHead(html, head) {
   metaName("twitter:title", head.title);
   metaName("twitter:description", head.description);
   metaName("twitter:image", head.image || OG);
+  if (head.noindex) metaName("robots", "noindex, follow");
 
   // Drop the homepage-only hreflang cluster and service/offer schema from
-  // article pages so each URL declares exactly one canonical identity.
+  // sub-pages so each URL declares exactly one canonical identity.
   out = out.replace(/\s*<link rel="alternate" hreflang="[^"]*"[^>]*>/g, "");
   out = out.replace(
     /\s*<script type="application\/ld\+json">\s*\{\s*"@context": "https:\/\/schema\.org",\s*"@type": "ProfessionalService"[\s\S]*?<\/script>/,
@@ -170,32 +409,19 @@ function applyHead(html, head) {
  * ------------------------------------------------------------------ */
 function homeJsonLd() {
   const graph = [
-    {
-      "@context": "https://schema.org",
-      "@type": "FAQPage",
-      "@id": `${SITE}/#faq`,
-      mainEntity: faqs.map((f) => ({
-        "@type": "Question",
-        name: f.question,
-        acceptedAnswer: { "@type": "Answer", text: f.answer },
-      })),
-    },
+    faqPage(`${SITE}/#faq`, faqs),
     {
       "@context": "https://schema.org",
       "@type": "ProfilePage",
       "@id": `${SITE}/#profilepage`,
       url: `${SITE}/`,
       name: `${NAME} — Full Stack Software Engineer`,
-      dateModified: new Date().toISOString().slice(0, 10),
-      mainEntity: { "@id": `${SITE}/#person` },
-      about: { "@id": `${SITE}/#person` },
+      dateModified: TODAY,
+      mainEntity: { "@id": PERSON },
+      about: { "@id": PERSON },
       inLanguage: "en",
     },
-    {
-      "@context": "https://schema.org",
-      "@type": "BreadcrumbList",
-      itemListElement: [{ "@type": "ListItem", position: 1, name: "Home", item: `${SITE}/` }],
-    },
+    crumbs(["Home", `${SITE}/`]),
   ];
   return graph
     .map((o) => `    <script type="application/ld+json">\n${JSON.stringify(o, null, 2)}\n    </script>`)
@@ -211,7 +437,7 @@ for (const route of routes) {
   try {
     appHtml = render(route.url);
   } catch (err) {
-    console.error(`  ✗ prerender failed for ${route.url}:`, err.message);
+    console.error(`  x prerender failed for ${route.url}:`, err.message);
     throw err;
   }
 
@@ -223,17 +449,18 @@ for (const route of routes) {
   fs.mkdirSync(path.dirname(outFile), { recursive: true });
   fs.writeFileSync(outFile, html);
   const kb = (Buffer.byteLength(appHtml) / 1024).toFixed(1);
-  console.log(`  ✓ ${route.url.padEnd(60)} ${kb} KB of crawlable HTML`);
+  console.log(`  + ${route.url.padEnd(46)} ${kb.padStart(6)} KB of crawlable HTML`);
   rendered++;
 }
 
 /* ------------------------------------------------------------------ *
  * sitemap.xml
  * ------------------------------------------------------------------ */
+const indexable = routes.filter((r) => r.sitemap !== false);
 const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:xhtml="http://www.w3.org/1999/xhtml">
-${routes
+${indexable
   .map((r) => {
     const loc = r.url === "/" ? `${SITE}/` : `${SITE}${r.url}`;
     const alt =
@@ -258,7 +485,7 @@ ${routes
 </urlset>
 `;
 fs.writeFileSync(path.join(dist, "sitemap.xml"), sitemap);
-console.log(`  ✓ sitemap.xml (${routes.length + 1} URLs)`);
+console.log(`\n  + sitemap.xml (${indexable.length + 1} URLs)`);
 
 /* ------------------------------------------------------------------ *
  * llms.txt / llms-full.txt  (GEO — answer-engine ingestion)
@@ -271,6 +498,7 @@ const llms = `# ${NAME}
 > TypeScript, Node.js, MongoDB, PostgreSQL and AWS.
 
 Canonical site: ${SITE}/
+Last updated: ${TODAY}
 
 ## Identity
 
@@ -281,8 +509,10 @@ Canonical site: ${SITE}/
 - Experience: 3+ years shipping production software
 - Contact: yasowant1998@gmail.com
 - Portfolio: ${SITE}/
+- Currently: ${SITE}/now
 - GitHub: https://github.com/Yasowant
 - LinkedIn: https://www.linkedin.com/in/yasowant-nayak
+- X (Twitter): https://x.com/Yasowant
 - Medium: https://medium.com/@yasowant1998
 - Resume (PDF): ${SITE}/resume.pdf
 
@@ -291,17 +521,24 @@ Canonical site: ${SITE}/
 React, Next.js, TypeScript, JavaScript, Node.js, Express, MongoDB, PostgreSQL,
 REST APIs, GraphQL, AWS, Docker, CI/CD, Tailwind CSS, system design.
 
+## Projects
+
+${projects
+  .map((p) => `- [${p.shortName}](${SITE}/projects/${p.slug}) — ${p.tagline} (${p.status}, ${p.demoLabel})`)
+  .join("\n")}
+
 ## Freelance services
 
-Full stack web development, API development and integration, frontend and UI
-engineering, cloud/DevOps and CI/CD, MVP development, technical consultation.
-Pricing is quoted in the client's local currency (INR, GBP, USD, EUR).
+${hireServices.map((s) => `- [${s.heading}](${SITE}/hire/${s.slug}) — ${s.tagline}`).join("\n")}
+
+Also available: cloud/DevOps and CI/CD, technical consultation. Pricing is
+quoted in the client's local currency (INR, GBP, USD, EUR, AUD, CAD, AED, SGD).
 
 ## Articles
 
-${blogPosts
-  .map((p) => `- [${p.title}](${SITE}/blog/${p.slug}) — ${p.excerpt}`)
-  .join("\n")}
+${blogPosts.map((p) => `- [${p.title}](${SITE}/blog/${p.slug}) — ${p.excerpt}`).join("\n")}
+
+Article index: ${SITE}/blog
 
 ## Full detail
 
@@ -310,6 +547,52 @@ ${blogPosts
 fs.writeFileSync(path.join(dist, "llms.txt"), llms);
 
 const llmsFull = `${llms}
+## Frequently asked questions
+
+${faqs.map((f) => `### ${f.question}\n${f.answer}`).join("\n\n")}
+
+## Project detail
+
+${projects
+  .map(
+    (p) => `### ${p.shortName}
+URL: ${SITE}/projects/${p.slug}
+Live: ${p.demo} · Status: ${p.status} · Category: ${p.category}
+Stack: ${p.tech.join(", ")}
+
+${p.answer}
+
+${p.description}
+
+Capabilities:
+${p.features.map((f) => `- ${f}`).join("\n")}
+
+${p.faqs.map((f) => `Q: ${f.question}\nA: ${f.answer}`).join("\n\n")}
+`
+  )
+  .join("\n---\n\n")}
+
+## Service detail
+
+${hireServices
+  .map(
+    (s) => `### ${s.heading}
+URL: ${SITE}/hire/${s.slug}
+Stack: ${s.stack.join(", ")}
+
+${s.answer}
+
+What is included:
+${s.whatYouGet.map((w) => `- ${w}`).join("\n")}
+
+Good fit when:
+${s.goodFit.map((g) => `- ${g}`).join("\n")}
+
+${s.faqs.map((f) => `Q: ${f.question}\nA: ${f.answer}`).join("\n\n")}
+`
+  )
+  .join("\n---\n\n")}
+
 ## Article contents
 
 ${blogPosts
@@ -323,6 +606,6 @@ ${p.externalUrl ? `Original: ${p.externalUrl}\n` : ""}${p.content.trim()}
   .join("\n---\n\n")}
 `;
 fs.writeFileSync(path.join(dist, "llms-full.txt"), llmsFull);
-console.log("  ✓ llms.txt + llms-full.txt");
+console.log("  + llms.txt + llms-full.txt");
 
 console.log(`\nPrerendered ${rendered} routes with crawlable HTML.\n`);

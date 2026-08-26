@@ -2,7 +2,11 @@ import { motion } from 'framer-motion';
 import { useInView } from 'framer-motion';
 import { useRef } from 'react';
 import { Calendar, Clock, ArrowRight, ExternalLink } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import { blogPosts, mediumProfileUrl } from '@/data/blogData';
+
+/** Router-aware card wrapper: motion.a has no `to`, Link has no animation. */
+const MotionLink = motion.create(Link);
 
 const BlogSection = () => {
   const ref = useRef(null);
@@ -28,9 +32,9 @@ const BlogSection = () => {
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
             {blogPosts.map((post, index) => (
-              <motion.a
+              <MotionLink
                 key={post.id}
-                href={`/blog/${post.slug}`}
+                to={`/blog/${post.slug}`}
                 initial={{ opacity: 0, y: 30 }}
                 animate={isInView ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.5, delay: 0.1 * index }}
@@ -95,7 +99,7 @@ const BlogSection = () => {
                     <ArrowRight className="w-4 h-4" />
                   </span>
                 </div>
-              </motion.a>
+              </MotionLink>
             ))}
           </div>
 
@@ -103,8 +107,16 @@ const BlogSection = () => {
             initial={{ opacity: 0 }}
             animate={isInView ? { opacity: 1 } : {}}
             transition={{ duration: 0.5, delay: 0.6 }}
-            className="text-center mt-12"
+            className="flex flex-wrap items-center justify-center gap-4 mt-12"
           >
+            <Link
+              to="/blog"
+              className="inline-flex items-center gap-2 px-8 py-3 rounded-full bg-gradient-to-r from-primary to-accent text-primary-foreground font-semibold hover:opacity-90 transition-opacity"
+            >
+              All Articles
+              <ArrowRight className="w-4 h-4" />
+            </Link>
+
             <a
               href={mediumProfileUrl}
               target="_blank"

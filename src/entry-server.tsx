@@ -3,6 +3,8 @@ import { StaticRouter } from "react-router-dom/server";
 import AppShell from "./AppShell";
 import { blogPosts } from "./data/blogData";
 import { faqs } from "./data/faqData";
+import { projects } from "./data/projectsData";
+import { hireServices } from "./data/servicesData";
 
 /**
  * Build-time render. Produces the real HTML for a route so that search
@@ -17,4 +19,6 @@ export function render(url: string): string {
   );
 }
 
-export { blogPosts, faqs };
+// Re-exported so scripts/prerender.mjs can build the route table, structured
+// data, sitemap and llms.txt from exactly the same source the app renders.
+export { blogPosts, faqs, projects, hireServices };

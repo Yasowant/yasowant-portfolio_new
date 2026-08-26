@@ -82,6 +82,18 @@
     </script>
 
     <!-- Structured Data -->
+    <!--
+      sameAs is the edge list that tells an answer engine these accounts are
+      one person. Add each URL here as soon as the profile exists and carries
+      the same bio and job title:
+        - https://stackoverflow.com/users/<id>/yasowant-nayak
+        - https://dev.to/<handle>
+        - https://hashnode.com/@<handle>
+        - https://peerlist.io/<handle>
+        - https://wellfound.com/u/<handle>
+      Do not add a URL before the profile is live — a dead edge is worse than
+      a missing one.
+    -->
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
@@ -146,7 +158,9 @@
           "https://github.com/Yasowant",
           "https://www.linkedin.com/in/yasowant-nayak",
           "https://medium.com/@yasowant1998",
-          "https://javascript.plainenglish.io/@yasowant1998"
+          "https://javascript.plainenglish.io/@yasowant1998",
+          "https://twitter.com/Yasowant",
+          "https://x.com/Yasowant"
         ],
         "knowsAbout": [
           "Full Stack Web Development",
