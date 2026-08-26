@@ -68,3 +68,5 @@ cypress/screenshots/
 # ===============================
 .vercel/
 .netlify/
+
+dist-ssr

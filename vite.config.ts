@@ -15,4 +15,19 @@ export default defineConfig(({ mode }) => ({
       "@": path.resolve(__dirname, "./src"),
     },
   },
+  ssr: {
+    // Bundle app deps into the SSR build so the prerender step does not depend
+    // on ESM/CJS interop quirks of individual packages.
+    noExternal: true,
+  },
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          "react-vendor": ["react", "react-dom", "react-router-dom"],
+          motion: ["framer-motion"],
+        },
+      },
+    },
+  },
 }));

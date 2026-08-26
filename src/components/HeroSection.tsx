@@ -58,7 +58,7 @@ const HeroSection = () => {
               <img
                 src={profilePhoto}
                 alt="Yasowant Nayak — Full Stack Software Engineer"
-                fetchPriority="high"
+                {...{ fetchpriority: "high" }}
                 className="absolute inset-3 w-[calc(100%-24px)] h-[calc(100%-24px)] rounded-full object-cover shadow-2xl shadow-primary/20 transition-all duration-300"
               />
 

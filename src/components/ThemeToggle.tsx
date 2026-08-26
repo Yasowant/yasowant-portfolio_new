@@ -20,6 +20,7 @@ const applyTheme = (theme: Theme) => {
 };
 
 const getInitialTheme = (): Theme => {
+  if (typeof document === 'undefined') return 'dark';
   try {
     const stored = localStorage.getItem('theme') as Theme | null;
     if (stored && ORDER.includes(stored)) return stored;

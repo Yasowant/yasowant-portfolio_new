@@ -60,9 +60,24 @@ const ContactSection = () => {
 
       setFormData({ name: "", email: "", message: "" });
     } catch (error) {
+      console.error("EmailJS error:", error);
+      // Fallback: open the visitor's mail client with the message pre-filled
+      const subject = encodeURIComponent(`Portfolio enquiry from ${formData.name}`);
+      const body = encodeURIComponent(
+        `${formData.message}\n\n— ${formData.name} (${formData.email})`
+      );
+      const mailto = `mailto:yasowant1998@gmail.com?subject=${subject}&body=${body}`;
       toast({
-        title: "Failed to send message",
-        description: "Please try again later.",
+        title: "Couldn't send via the form",
+        description: (
+          <span>
+            Please email me directly at{" "}
+            <a href={mailto} className="underline font-semibold">
+              yasowant1998@gmail.com
+            </a>
+            .
+          </span>
+        ),
         variant: "destructive",
       });
     } finally {

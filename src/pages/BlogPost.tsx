@@ -3,12 +3,17 @@ import { useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { ArrowLeft, Calendar, Clock, User, Tag } from 'lucide-react';
 import { getBlogPostBySlug, blogPosts } from '@/data/blogData';
+import { renderMarkdown } from '@/lib/markdown';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 
 const BlogPostPage = () => {
   const { slug } = useParams<{ slug: string }>();
   const post = slug ? getBlogPostBySlug(slug) : null;
+  const shareUrl = post
+    ? `https://www.yasowantdev.info/blog/${post.slug}`
+    : 'https://www.yasowantdev.info/';
+  const rendered = post ? renderMarkdown(post.content) : null;
 
   // Per-post SEO: title, description, canonical + Article structured data
   useEffect(() => {
@@ -150,20 +155,11 @@ const BlogPostPage = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.4 }}
-              className="prose prose-lg dark:prose-invert max-w-none"
+              className="max-w-none"
             >
-              <div 
+              <div
                 className="blog-content"
-                dangerouslySetInnerHTML={{ 
-                  __html: post.content
-                    .replace(/```(\w+)?\n([\s\S]*?)```/g, '<pre><code class="language-$1">$2</code></pre>')
-                    .replace(/`([^`]+)`/g, '<code>$1</code>')
-                    .replace(/## (.*)/g, '<h2 class="text-2xl font-bold mt-8 mb-4 text-foreground">$1</h2>')
-                    .replace(/### (.*)/g, '<h3 class="text-xl font-semibold mt-6 mb-3 text-foreground">$1</h3>')
-                    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-                    .replace(/- (.*)/g, '<li class="ml-4">$1</li>')
-                    .replace(/\n\n/g, '</p><p class="text-muted-foreground leading-relaxed mb-4">')
-                }}
+                dangerouslySetInnerHTML={{ __html: rendered?.html ?? '' }}
               />
             </motion.div>
 
@@ -174,6 +170,30 @@ const BlogPostPage = () => {
               transition={{ duration: 0.6, delay: 0.6 }}
               className="space-y-8"
             >
+              {/* On this page */}
+              {rendered && rendered.headings.length > 2 && (
+                <nav
+                  aria-label="On this page"
+                  className="bg-card rounded-xl p-6 border border-border"
+                >
+                  <h3 className="text-lg font-bold mb-4">On This Page</h3>
+                  <ul className="space-y-2 text-sm">
+                    {rendered.headings
+                      .filter((h) => h.level === 2)
+                      .map((h) => (
+                        <li key={h.id}>
+                          <a
+                            href={`#${h.id}`}
+                            className="text-muted-foreground hover:text-primary transition-colors"
+                          >
+                            {h.text}
+                          </a>
+                        </li>
+                      ))}
+                  </ul>
+                </nav>
+              )}
+
               {/* Tags */}
               <div className="bg-card rounded-xl p-6 border border-border">
                 <h3 className="text-lg font-bold mb-4 flex items-center gap-2">
@@ -229,7 +249,7 @@ const BlogPostPage = () => {
                 <h3 className="text-lg font-bold mb-4">Share This Post</h3>
                 <div className="flex gap-3">
                   <a
-                    href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(post.title)}&url=${encodeURIComponent(window.location.href)}`}
+                    href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(post.title)}&url=${encodeURIComponent(shareUrl)}`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="flex-1 py-2 px-4 bg-[#1DA1F2]/10 text-[#1DA1F2] rounded-lg text-center hover:bg-[#1DA1F2]/20 transition-colors"
@@ -237,7 +257,7 @@ const BlogPostPage = () => {
                     Twitter
                   </a>
                   <a
-                    href={`https://www.linkedin.com/shareArticle?mini=true&url=${encodeURIComponent(window.location.href)}&title=${encodeURIComponent(post.title)}`}
+                    href={`https://www.linkedin.com/shareArticle?mini=true&url=${encodeURIComponent(shareUrl)}&title=${encodeURIComponent(post.title)}`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="flex-1 py-2 px-4 bg-[#0A66C2]/10 text-[#0A66C2] rounded-lg text-center hover:bg-[#0A66C2]/20 transition-colors"
