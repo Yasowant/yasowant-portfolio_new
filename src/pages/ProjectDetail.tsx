@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { Check, ExternalLink, Github, ArrowUpRight } from "lucide-react";
 import { getProjectBySlug, projects } from "@/data/projectsData";
 import PageShell from "@/components/PageShell";
+import ProjectThumb from "@/components/ProjectThumb";
 import { usePageMeta, SITE_URL, PERSON_ID } from "@/hooks/usePageMeta";
 
 const ProjectDetail = () => {
@@ -14,9 +15,9 @@ const ProjectDetail = () => {
 
   const canonical = `${SITE_URL}/projects/${project.slug}`;
   const title = `${project.shortName} — ${project.tagline} | Yasowant Nayak`;
-  const image = project.image.startsWith("http")
-    ? project.image
-    : `${SITE_URL}${project.image}`;
+  // Social preview: the project's own screenshot when there is one, else the
+  // site card. Never a stock photo standing in for the product.
+  const image = project.image ? `${SITE_URL}${project.image}` : `${SITE_URL}/og-image.png`;
   const related = projects.filter((p) => p.slug !== project.slug).slice(0, 3);
 
   usePageMeta({
@@ -119,16 +120,11 @@ const ProjectDetail = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="rounded-2xl overflow-hidden border border-border mb-14"
+          className={`rounded-2xl overflow-hidden border border-border mb-14 ${
+            project.image ? "h-[300px] md:h-[440px]" : "h-[200px] md:h-[260px]"
+          }`}
         >
-          <img
-            src={project.image}
-            alt={`${project.shortName} interface — ${project.tagline}`}
-            width={1200}
-            height={700}
-            decoding="async"
-            className="w-full object-cover max-h-[520px]"
-          />
+          <ProjectThumb project={project} priority className="max-h-[520px]" />
         </motion.div>
 
         <div className="grid lg:grid-cols-[1fr_320px] gap-12 items-start">

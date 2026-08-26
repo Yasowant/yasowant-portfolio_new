@@ -33,7 +33,11 @@ export interface Project {
   demo: string;
   /** Human-readable host shown instead of the raw URL. */
   demoLabel: string;
-  image: string;
+  /**
+   * Path to a real screenshot in public/projects/, or null.
+   * null renders the generated card in ProjectThumb — never a stock photo.
+   */
+  image: string | null;
   status: "Live in production" | "Live demo";
   category: string;
   featured: boolean;
@@ -113,10 +117,9 @@ export const projects: Project[] = [
     github: "https://github.com/Yasowant",
     demo: "https://frontend-survey-saas-platform.vercel.app/",
     demoLabel: "frontend-survey-saas-platform.vercel.app",
-    // TODO(yasowant): public/projects/survesy-dashboard.png is missing from the
-    // repo, so this currently falls through to the error fallback. Drop a real
-    // screenshot at that path to fix it.
-    image: "/projects/survesy-dashboard.png",
+    // Screenshot needed: save the survey builder or the live analytics view as
+    // public/projects/survesy.png, then set image: "/projects/survesy.png".
+    image: null,
     status: "Live demo",
     category: "SaaS",
     featured: true,
@@ -159,9 +162,9 @@ export const projects: Project[] = [
     github: "https://github.com/Yasowant",
     demo: "https://www.smaartqr.com",
     demoLabel: "smaartqr.com",
-    // TODO(yasowant): replace with a real screenshot of the SmaartQR scan flow.
-    image:
-      "https://images.unsplash.com/photo-1595079676339-1534801ad6cf?w=600&h=400&fit=crop",
+    // Screenshot needed: save the scan-to-services flow as
+    // public/projects/smaartqr.png, then set image: "/projects/smaartqr.png".
+    image: null,
     status: "Live in production",
     category: "Civic Tech",
     featured: true,
@@ -203,9 +206,9 @@ export const projects: Project[] = [
     github: "https://github.com/Yasowant/hotelbooking_FE",
     demo: "https://grandreserve-stays.vercel.app",
     demoLabel: "grandreserve-stays.vercel.app",
-    // TODO(yasowant): replace with a real screenshot of the booking flow.
-    image:
-      "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=600&h=400&fit=crop",
+    // Screenshot needed: save the room search or checkout step as
+    // public/projects/grandreserve.png, then set image: "/projects/grandreserve.png".
+    image: null,
     status: "Live demo",
     category: "Web App",
     featured: true,

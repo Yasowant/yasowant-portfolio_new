@@ -47,14 +47,6 @@ const BlogSection = () => {
                     alt={post.title}
                     loading="lazy"
                     decoding="async"
-                    onError={(e) => {
-                      const img = e.currentTarget;
-                      if (!img.dataset.fallback) {
-                        img.dataset.fallback = "1";
-                        img.src =
-                          "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=800&h=400&fit=crop";
-                      }
-                    }}
                     className="w-full h-44 object-cover transition-transform duration-500 group-hover:scale-110"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-card via-transparent to-transparent" />

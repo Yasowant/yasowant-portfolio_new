@@ -27,8 +27,6 @@ const services = [
     title: "Full Stack Web Development",
     description:
       "End-to-end web applications built with React, Node.js, and modern databases — from schema to deployment.",
-    image:
-      "https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=800&q=80",
     features: [
       "React + Node.js architecture",
       "Database design & REST/GraphQL APIs",
@@ -42,8 +40,6 @@ const services = [
     title: "API Development & Integration",
     description:
       "Robust REST & GraphQL APIs, third-party integrations, and clean microservices that scale.",
-    image:
-      "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=800&q=80",
     features: [
       "REST, SOAP & GraphQL endpoints",
       "Secure JWT + role-based access",
@@ -58,8 +54,6 @@ const services = [
     title: "Frontend & UI Engineering",
     description:
       "Pixel-perfect, responsive, and accessible interfaces with smooth animations and fast load times.",
-    image:
-      "https://images.unsplash.com/photo-1547658719-da2b51169166?w=800&q=80",
     features: [
       "Responsive, mobile-first layouts",
       "Reusable, typed component libraries",
@@ -74,8 +68,6 @@ const services = [
     title: "Cloud, DevOps & CI/CD",
     description:
       "Dockerized deployments and automated pipelines on AWS that ship features faster and more reliably.",
-    image:
-      "https://images.unsplash.com/photo-1667372393119-3d4c48d07fc9?w=800&q=80",
     features: [
       "Docker + GitHub Actions pipelines",
       "AWS deployment & configuration",
@@ -89,8 +81,6 @@ const services = [
     title: "Technical Consultation",
     description:
       "Architecture reviews, code audits, and hands-on technical guidance to keep your project healthy.",
-    image:
-      "https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=800&q=80",
     features: [
       "Architecture & scalability review",
       "Code audit & performance profiling",
@@ -104,8 +94,6 @@ const services = [
     title: "MVP Development",
     description:
       "Rapid prototyping to launch your idea fast — a production-ready MVP without cutting corners on quality.",
-    image:
-      "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=800&q=80",
     features: [
       "Idea to launch in weeks",
       "Scalable, production-ready foundation",
@@ -209,12 +197,22 @@ const FreelancerSection = () => {
               >
                 {/* Image banner */}
                 <div className="relative h-40 overflow-hidden">
-                  <img
-                    src={service.image}
-                    alt={service.title}
-                    loading="lazy"
-                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                  />
+                  {/* Generated banner rather than a stock photo: on-brand,
+                      no external request, and nothing pretending to be a
+                      product shot. */}
+                  <div
+                    aria-hidden="true"
+                    className="w-full h-full bg-gradient-to-br from-primary/25 via-card to-accent/20 transition-transform duration-500 group-hover:scale-110"
+                  >
+                    <div
+                      className="w-full h-full opacity-[0.16]"
+                      style={{
+                        backgroundImage:
+                          "linear-gradient(hsl(var(--primary) / 0.6) 1px, transparent 1px), linear-gradient(90deg, hsl(var(--primary) / 0.6) 1px, transparent 1px)",
+                        backgroundSize: "24px 24px",
+                      }}
+                    />
+                  </div>
                   <div className="absolute inset-0 bg-gradient-to-t from-card via-card/40 to-transparent" />
                   {/* Icon badge */}
                   <motion.div

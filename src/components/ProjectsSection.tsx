@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
 import { ExternalLink, Github, Folder, Star, Check, ArrowUpRight, GitFork } from "lucide-react";
 import { projects } from "@/data/projectsData";
+import ProjectThumb from "@/components/ProjectThumb";
 
 // Parse "owner/repo" from a GitHub URL. Returns null for profile-only links.
 const parseRepo = (url: string): string | null => {
@@ -82,23 +83,13 @@ const ProjectCard = ({
 
       {/* Project image with overlay */}
       <div className="relative h-48 overflow-hidden">
-        <motion.img
-          src={project.image}
-          alt={`${project.title} preview`}
-          loading="lazy"
-          decoding="async"
-          onError={(e) => {
-            const img = e.currentTarget;
-            if (!img.dataset.fallback) {
-              img.dataset.fallback = "1";
-              img.src =
-                "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&h=400&fit=crop";
-            }
-          }}
-          className="w-full h-full object-cover"
+        <motion.div
+          className="w-full h-full"
           animate={isHovered ? { scale: 1.1 } : { scale: 1 }}
           transition={{ duration: 0.5 }}
-        />
+        >
+          <ProjectThumb project={project} />
+        </motion.div>
 
         {/* Gradient overlay */}
         <div className="absolute inset-0 bg-gradient-to-t from-card via-card/50 to-transparent" />

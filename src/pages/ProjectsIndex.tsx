@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { ArrowUpRight, ExternalLink } from "lucide-react";
 import { projects } from "@/data/projectsData";
 import PageShell from "@/components/PageShell";
+import ProjectThumb from "@/components/ProjectThumb";
 import { usePageMeta, SITE_URL, PERSON_ID } from "@/hooks/usePageMeta";
 
 const TITLE = "Projects & Case Studies | Yasowant Nayak";
@@ -71,14 +72,10 @@ const ProjectsIndex = () => {
             className="group glass-card rounded-2xl overflow-hidden flex flex-col"
           >
             <Link to={`/projects/${project.slug}`} className="block h-48 overflow-hidden">
-              <img
-                src={project.image}
-                alt={`${project.shortName} — ${project.tagline}`}
-                loading="lazy"
-                decoding="async"
-                width={600}
-                height={400}
-                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+              <ProjectThumb
+                project={project}
+                className="transition-transform duration-500 group-hover:scale-105"
+                sizes="(max-width: 768px) 100vw, 50vw"
               />
             </Link>
 

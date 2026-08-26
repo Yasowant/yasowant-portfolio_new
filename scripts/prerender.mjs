@@ -55,7 +55,8 @@ const faqPage = (id, list) => ({
   })),
 });
 
-const absolute = (src) => (src.startsWith("http") ? src : `${SITE}${src}`);
+/** Absolute URL for an asset path; falls back to the site card when absent. */
+const absolute = (src) => (!src ? OG : src.startsWith("http") ? src : `${SITE}${src}`);
 
 /* ------------------------------------------------------------------ *
  * Route table
@@ -210,7 +211,7 @@ const projectRoutes = projects.map((project) => {
           operatingSystem: "Web browser",
           url,
           sameAs: project.demo,
-          screenshot: absolute(project.image),
+          ...(project.image ? { screenshot: absolute(project.image) } : {}),
           creator: { "@id": PERSON },
           author: { "@id": PERSON },
           runtimePlatform: project.tech,
