@@ -2,7 +2,7 @@
  * IndexNow ping.
  *
  * Tells Bing (and therefore Copilot) and Yandex that URLs changed, usually
- * within minutes instead of waiting for a crawl. Google does not participate.
+ * within minutes instead of waiting for a crawl. Google does not participate
  *
  * Setup, once:
  *   1. Invent a key: 32 hex characters, e.g. `openssl rand -hex 16`.
