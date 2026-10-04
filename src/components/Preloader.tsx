@@ -31,7 +31,7 @@ const Preloader = () => {
       } catch {
         /* ignore */
       }
-    }, 1400);
+    }, 900);
     return () => clearTimeout(timer);
   }, [done]);
 

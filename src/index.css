@@ -1,5 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Nunito:wght@300;400;500;600;700;800&display=swap');
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -126,8 +124,14 @@
   }
 
   html {
+    /* Lenis handles smooth scrolling on desktop; native smooth anchors elsewhere. */
     scroll-behavior: smooth;
   }
+  html.lenis, html.lenis body { height: auto; }
+  html.lenis { scroll-behavior: auto; }
+  section[id] { scroll-margin-top: 72px; }
+  .lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
+  .lenis.lenis-stopped { overflow: hidden; }
 
   body {
     @apply bg-background text-foreground font-sans antialiased;
@@ -150,6 +154,8 @@
       hsl(var(--gradient-start))
     );
     background-size: 200% auto;
+  }
+  .gradient-text.text-glow {
     animation: gradient-pan 6s linear infinite;
   }
 
@@ -524,6 +530,7 @@
  * Toggled by src/hooks/useScrollPause.ts.
  * ------------------------------------------------------------------ */
 html.is-scrolling .aurora,
+html.is-scrolling .gradient-text,
 html.is-scrolling .conic-ring,
 html.is-scrolling .orb,
 html.is-scrolling .animate-float,
@@ -592,3 +599,16 @@ html.is-scrolling .animate-gradient {
     animation: none !important;
   }
 }
+
+/* RAG pipeline: a pulse travelling along the connector line */
+.rag-pulse {
+  animation: rag-pulse 3.2s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+}
+@keyframes rag-pulse {
+  0%   { left: 0%;   opacity: 0; }
+  10%  { opacity: 1; }
+  90%  { opacity: 1; }
+  100% { left: calc(100% - 4rem); opacity: 0; }
+}
+html.is-scrolling .rag-pulse { animation-play-state: paused; }
+@media (prefers-reduced-motion: reduce) { .rag-pulse { animation: none !important; } }

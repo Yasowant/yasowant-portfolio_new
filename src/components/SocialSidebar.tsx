@@ -1,4 +1,4 @@
-import { Github, Twitter, Linkedin } from 'lucide-react';
+import { Github, Twitter, Linkedin, Instagram } from 'lucide-react';
 
 const socials = [
   {
@@ -7,9 +7,14 @@ const socials = [
     label: 'GitHub',
   },
   {
+    icon: Instagram,
+    href: 'https://www.instagram.com/yasowant.dev/',
+    label: 'Instagram',
+  },
+  {
     icon: Twitter,
-    href: 'https://twitter.com/Yasowant',
-    label: 'Twitter',
+    href: 'https://x.com/yash2062',
+    label: 'X (Twitter)',
   },
   {
     icon: Linkedin,

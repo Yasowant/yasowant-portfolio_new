@@ -4,10 +4,12 @@ import { Menu, X } from 'lucide-react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import ThemeToggle from './ThemeToggle';
 import Logo from './Logo';
+import { scrollToTarget } from '@/lib/smoothScroll';
 
 const navLinks = [
   { name: 'About', href: '#about' },
   { name: 'Skills', href: '#skills' },
+  { name: 'AI', href: '#ai' },
   { name: 'Projects', href: '#projects' },
   { name: 'GitHub', href: '#github' },
   { name: 'Freelance', href: '#freelance' },
@@ -66,17 +68,11 @@ const Navbar = () => {
       navigate('/');
       // Wait for navigation to complete, then scroll
       setTimeout(() => {
-        const element = document.querySelector(href);
-        if (element) {
-          element.scrollIntoView({ behavior: 'smooth' });
-        }
+        scrollToTarget(href);
       }, 100);
     } else {
       // Already on home page, just scroll
-      const element = document.querySelector(href);
-      if (element) {
-        element.scrollIntoView({ behavior: 'smooth' });
-      }
+      scrollToTarget(href);
     }
   };
 
@@ -103,7 +99,7 @@ const Navbar = () => {
         </a>
 
         {/* Desktop Navigation */}
-        <div className="hidden md:flex items-center gap-8">
+        <div className="hidden lg:flex items-center gap-6">
           {navLinks.map((link) => {
             const isActive = activeSection === link.href.replace('#', '');
             return (
@@ -129,7 +125,7 @@ const Navbar = () => {
         </div>
 
         {/* Mobile Menu Button */}
-        <div className="md:hidden flex items-center gap-4">
+        <div className="lg:hidden flex items-center gap-4">
           <ThemeToggle />
           <button
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
@@ -152,7 +148,7 @@ const Navbar = () => {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
-            className="md:hidden glass border-t border-border"
+            className="lg:hidden glass border-t border-border"
           >
             <div className="container mx-auto px-4 py-4 flex flex-col gap-4">
               {navLinks.map((link) => (

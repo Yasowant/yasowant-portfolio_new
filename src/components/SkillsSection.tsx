@@ -3,6 +3,21 @@ import { useRef, useState } from 'react';
 
 const skillCategories = [
   {
+    title: 'AI & LLM',
+    icon: '🤖',
+    color: 'from-fuchsia-500 to-violet-400',
+    skills: [
+      { name: 'LLM Apps', icon: '🧠', level: 85 },
+      { name: 'RAG Pipelines', icon: '📚', level: 84 },
+      { name: 'LangChain.js', icon: '🦜', level: 80 },
+      { name: 'Vector DBs', icon: '🧭', level: 80 },
+      { name: 'Embeddings', icon: '🔎', level: 82 },
+      { name: 'Prompt Engineering', icon: '✍️', level: 88 },
+      { name: 'AI Agents', icon: '🛠️', level: 78 },
+      { name: 'Streaming AI UIs', icon: '⚡', level: 86 },
+    ],
+  },
+  {
     title: 'Frontend',
     icon: '🎨',
     color: 'from-blue-500 to-cyan-400',
@@ -55,105 +70,46 @@ const skillCategories = [
 ];
 
 const SkillCard = ({ skill, index, isInView }: { skill: { name: string; icon: string; level: number }; index: number; isInView: boolean }) => {
-  const [isHovered, setIsHovered] = useState(false);
-
+  // Hover effects are pure CSS (cheap, compositor-only). Framer Motion is only
+  // used for the one-off entrance, so nothing re-renders on hover.
   return (
     <motion.div
-      initial={{ opacity: 0, scale: 0.5, rotateY: -90 }}
-      animate={isInView ? { opacity: 1, scale: 1, rotateY: 0 } : {}}
-      transition={{ 
-        duration: 0.6, 
-        delay: index * 0.1,
-        type: 'spring',
-        stiffness: 100
-      }}
-      whileHover={{ 
-        scale: 1.1, 
-        rotateY: 10,
-        z: 50,
-      }}
-      onHoverStart={() => setIsHovered(true)}
-      onHoverEnd={() => setIsHovered(false)}
-      className="relative group cursor-pointer w-[150px] sm:w-[160px]"
+      initial={{ opacity: 0, y: 24, scale: 0.92 }}
+      animate={isInView ? { opacity: 1, y: 0, scale: 1 } : {}}
+      transition={{ duration: 0.45, delay: index * 0.05, ease: [0.22, 1, 0.36, 1] }}
+      className="relative group w-[150px] sm:w-[160px]"
     >
-      <div className="relative p-4 rounded-2xl bg-card border border-border hover:border-primary/50 transition-all duration-300 overflow-hidden">
-        {/* Animated background gradient */}
-        <motion.div
-          className="absolute inset-0 bg-gradient-to-br from-primary/20 to-accent/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-          animate={isHovered ? { scale: 1.5, rotate: 180 } : { scale: 1, rotate: 0 }}
-          transition={{ duration: 0.8 }}
-        />
-        
-        {/* Glowing ring on hover */}
-        <motion.div
-          className="absolute inset-0 rounded-2xl"
-          animate={isHovered ? { 
-            boxShadow: '0 0 30px hsl(var(--primary) / 0.5), inset 0 0 30px hsl(var(--primary) / 0.1)'
-          } : { 
-            boxShadow: '0 0 0px transparent'
-          }}
-          transition={{ duration: 0.3 }}
-        />
-        
+      <div className="relative h-full p-4 rounded-2xl bg-card border border-border overflow-hidden transition-[transform,border-color,box-shadow] duration-300 group-hover:-translate-y-1.5 group-hover:border-primary/50 group-hover:shadow-[0_12px_40px_-12px_hsl(var(--primary)/0.45)]">
+        <div className="absolute inset-0 bg-gradient-to-br from-primary/15 to-accent/15 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+
         <div className="relative z-10 flex flex-col items-center gap-3">
-          {/* Animated icon */}
-          <motion.span
-            className="text-4xl"
-            animate={isHovered ? { 
-              scale: 1.3, 
-              rotate: [0, -10, 10, -10, 0],
-            } : { scale: 1 }}
-            transition={{ duration: 0.5 }}
-          >
+          <span className="text-4xl transition-transform duration-300 group-hover:scale-110">
             {skill.icon}
-          </motion.span>
-          
-          {/* Skill name */}
-          <span className="font-semibold text-foreground text-sm text-center">
+          </span>
+
+          <span className="font-semibold text-foreground text-sm text-center leading-tight min-h-[2.5em] flex items-center">
             {skill.name}
           </span>
-          
-          {/* Circular progress */}
+
           <div className="relative w-16 h-16">
-            <svg className="w-full h-full transform -rotate-90">
-              <circle
-                cx="32"
-                cy="32"
-                r="28"
-                stroke="currentColor"
-                strokeWidth="4"
-                fill="none"
-                className="text-secondary"
-              />
+            <svg className="w-full h-full -rotate-90" viewBox="0 0 64 64">
+              <circle cx="32" cy="32" r="28" stroke="currentColor" strokeWidth="4" fill="none" className="text-secondary" />
               <motion.circle
                 cx="32"
                 cy="32"
                 r="28"
-                stroke="url(#gradient)"
+                stroke="url(#skill-gradient)"
                 strokeWidth="4"
                 fill="none"
                 strokeLinecap="round"
                 initial={{ strokeDasharray: '0 176' }}
-                animate={isInView ? { 
-                  strokeDasharray: `${skill.level * 1.76} 176` 
-                } : {}}
-                transition={{ duration: 1.5, delay: index * 0.1, ease: 'easeOut' }}
+                animate={isInView ? { strokeDasharray: `${skill.level * 1.76} 176` } : {}}
+                transition={{ duration: 1.1, delay: 0.2 + index * 0.05, ease: 'easeOut' }}
               />
-              <defs>
-                <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" stopColor="hsl(var(--primary))" />
-                  <stop offset="100%" stopColor="hsl(var(--accent))" />
-                </linearGradient>
-              </defs>
             </svg>
-            <motion.span
-              className="absolute inset-0 flex items-center justify-center text-sm font-bold text-primary"
-              initial={{ opacity: 0 }}
-              animate={isInView ? { opacity: 1 } : {}}
-              transition={{ delay: 1 + index * 0.1 }}
-            >
+            <span className="absolute inset-0 flex items-center justify-center text-sm font-bold text-primary">
               {skill.level}%
-            </motion.span>
+            </span>
           </div>
         </div>
       </div>
@@ -168,6 +124,14 @@ const SkillsSection = () => {
 
   return (
     <section id="skills" className="section-padding bg-secondary/30 overflow-hidden">
+      <svg width="0" height="0" className="absolute" aria-hidden="true">
+        <defs>
+          <linearGradient id="skill-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stopColor="hsl(var(--primary))" />
+            <stop offset="100%" stopColor="hsl(var(--accent))" />
+          </linearGradient>
+        </defs>
+      </svg>
       <div className="container mx-auto px-4 md:px-6">
         <motion.div
           ref={ref}
@@ -180,7 +144,7 @@ const SkillsSection = () => {
           </h2>
           <div className="w-20 h-1 bg-gradient-to-r from-primary to-accent mx-auto mb-6 rounded-full" />
           <p className="text-muted-foreground text-center max-w-2xl mx-auto mb-8">
-            Technologies I've mastered to build powerful, scalable applications
+            From React frontends to Node.js backends — and now LLM-powered features with RAG, embeddings and AI agents
           </p>
 
           {/* Category tabs with floating animation */}
@@ -207,6 +171,11 @@ const SkillsSection = () => {
                   {category.icon}
                 </motion.span>
                 {category.title}
+                {category.title === 'AI & LLM' && (
+                  <span className="ml-1 rounded-full bg-gradient-to-r from-fuchsia-500 to-violet-500 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-white">
+                    New
+                  </span>
+                )}
               </motion.button>
             ))}
           </div>

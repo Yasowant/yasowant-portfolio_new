@@ -1,6 +1,7 @@
 import { content as accessControlContent } from "./posts/access-control";
 import { content as kafkaContent } from "./posts/kafka";
 import { content as paginationContent } from "./posts/pagination";
+import { content as ragContent } from "./posts/rag-nodejs";
 
 export interface BlogPost {
   id: number;
@@ -20,6 +21,20 @@ export interface BlogPost {
 const MEDIUM_PROFILE = "https://medium.com/@yasowant1998";
 
 export const blogPosts: BlogPost[] = [
+  {
+    id: 4,
+    slug: "building-rag-with-nodejs-and-typescript",
+    title: "Building RAG with Node.js & TypeScript: A Production Guide",
+    excerpt:
+      "How Retrieval-Augmented Generation stops LLMs from hallucinating about your data — chunking, embeddings with pgvector, hybrid search, grounded prompts, streaming and a production checklist.",
+    content: ragContent,
+    date: "2026-10-04",
+    readTime: "8 min read",
+    category: "AI / LLM",
+    image: "/blog/rag-nodejs.svg",
+    author: "Yasowant Nayak",
+    tags: ["RAG", "LLM", "OpenAI", "pgvector", "Node.js", "TypeScript"],
+  },
   {
     id: 1,
     slug: "access-control-models-every-backend-developer-should-know",

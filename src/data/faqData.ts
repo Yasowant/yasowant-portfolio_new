@@ -42,6 +42,6 @@ export const faqs: Faq[] = [
   {
     question: "How do you contact or hire Yasowant Nayak?",
     answer:
-      "Email yasowant1998@gmail.com, use the contact form at yasowantdev.info, or reach him on LinkedIn at linkedin.com/in/yasowant-nayak or GitHub at github.com/Yasowant. His resume is available at yasowantdev.info/resume.pdf.",
+      "Email yasowant1998@gmail.com, use the contact form at yasowantdev.info, or reach him on LinkedIn at linkedin.com/in/yasowant-nayak GitHub at github.com/Yasowant, Instagram at instagram.com/yasowant.dev (@yasowant.dev), or X (Twitter) at x.com/yash2062 (@yash2062). His resume is available at yasowantdev.info/resume.pdf.",
   },
 ];

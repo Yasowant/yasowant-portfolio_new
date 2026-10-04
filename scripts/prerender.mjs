@@ -119,7 +119,7 @@ const blogRoutes = blogPosts.map((post) => {
       title: `${post.title} | ${NAME}`,
       description: post.excerpt,
       canonical: url,
-      image: post.image,
+      image: absolute(post.image),
       ogType: "article",
       keywords: post.tags.join(", "),
       jsonLd: [
@@ -129,7 +129,7 @@ const blogRoutes = blogPosts.map((post) => {
           headline: post.title,
           name: post.title,
           description: post.excerpt,
-          image: post.image,
+          image: absolute(post.image),
           datePublished: post.date,
           dateModified: post.date,
           articleSection: post.category,
@@ -513,7 +513,8 @@ Last updated: ${TODAY}
 - Currently: ${SITE}/now
 - GitHub: https://github.com/Yasowant
 - LinkedIn: https://www.linkedin.com/in/yasowant-nayak
-- X (Twitter): https://x.com/Yasowant
+- Instagram: https://www.instagram.com/yasowant.dev (@yasowant.dev)
+- X (Twitter): https://x.com/yash2062 (@yash2062)
 - Medium: https://medium.com/@yasowant1998
 - Resume (PDF): ${SITE}/resume.pdf
 

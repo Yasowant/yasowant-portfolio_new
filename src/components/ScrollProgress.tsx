@@ -1,6 +1,7 @@
 import { motion, useScroll, useSpring } from "framer-motion";
 import { useEffect, useState } from "react";
 import { ArrowUp } from "lucide-react";
+import { scrollToTarget } from "@/lib/smoothScroll";
 
 const ScrollProgress = () => {
   const { scrollYProgress } = useScroll();
@@ -36,12 +37,12 @@ const ScrollProgress = () => {
 
       {/* Back to top */}
       <motion.button
-        onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+        onClick={() => scrollToTarget(0)}
         initial={false}
         animate={{ opacity: show ? 1 : 0, scale: show ? 1 : 0.6 }}
         transition={{ duration: 0.25 }}
         style={{ pointerEvents: show ? "auto" : "none" }}
-        className="fixed bottom-6 right-6 z-50 p-3 rounded-full bg-primary text-primary-foreground shadow-lg shadow-primary/30 glow-sm hover:glow"
+        className="fixed bottom-24 right-5 md:right-[4.6rem] z-50 p-3 rounded-full bg-primary text-primary-foreground shadow-lg shadow-primary/30 glow-sm hover:glow"
         aria-label="Back to top"
       >
         <ArrowUp className="w-5 h-5" />

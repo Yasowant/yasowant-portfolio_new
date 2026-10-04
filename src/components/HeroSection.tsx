@@ -1,7 +1,9 @@
 import { motion } from "framer-motion";
-import { Github, Linkedin, Mail, Download, Sparkles, ArrowUpRight } from "lucide-react";
+import { Github, Linkedin, Mail, Instagram, Twitter, Download, Sparkles, ArrowUpRight } from "lucide-react";
 import profilePhoto from "@/assets/profile-photo.jpg";
 import { useTilt } from "@/hooks/useTilt";
+import { openAIChat } from "@/lib/aiChatBus";
+import { Bot } from "lucide-react";
 
 const HeroSection = () => {
   const { ref, handleMouseMove, handleMouseLeave } = useTilt();
@@ -50,6 +52,9 @@ const HeroSection = () => {
                 src={profilePhoto}
                 alt="Yasowant Nayak — Full Stack Software Engineer"
                 {...{ fetchpriority: "high" }}
+                width={320}
+                height={320}
+                decoding="async"
                 className="absolute inset-3 w-[calc(100%-24px)] h-[calc(100%-24px)] rounded-full object-cover shadow-2xl shadow-primary/20 transition-all duration-300"
               />
 
@@ -58,7 +63,8 @@ const HeroSection = () => {
                 { label: "React", icon: "⚛️", pos: "-top-3 -left-4", delay: "" },
                 { label: "TypeScript", icon: "📘", pos: "-top-2 -right-5", delay: "animate-float-delayed" },
                 { label: "Node.js", icon: "🟢", pos: "-bottom-3 -left-5", delay: "animate-float-delayed" },
-                { label: "MongoDB", icon: "🍃", pos: "-bottom-2 -right-4", delay: "" },
+                { label: "AI / RAG", icon: "🤖", pos: "-bottom-2 -right-4", delay: "" },
+                { label: "LLMs", icon: "🧠", pos: "top-1/2 -right-12 hidden md:flex", delay: "animate-float-delayed" },
               ].map((b) => (
                 <div
                   key={b.label}
@@ -104,7 +110,13 @@ const HeroSection = () => {
               transition={{ delay: 0.3 }}
               className="text-lg md:text-xl text-muted-foreground font-medium mb-5"
             >
-              Full Stack Software Engineer
+              Full Stack Software Engineer{" "}
+              <span className="whitespace-nowrap">
+                ·{" "}
+                <span className="bg-gradient-to-r from-violet-400 to-fuchsia-500 bg-clip-text text-transparent font-semibold">
+                  AI &amp; LLM Apps
+                </span>
+              </span>
             </motion.h2>
 
             {/* One-line tagline */}
@@ -114,9 +126,10 @@ const HeroSection = () => {
               transition={{ delay: 0.4 }}
               className="text-muted-foreground text-base md:text-lg mb-8 leading-relaxed"
             >
-              I build fast, scalable SaaS with React &amp; Node.js — scaled a
-              multi-tenant platform to 8+ organizations, cutting page loads 40%
-              and release time 50%.
+              I build fast, scalable SaaS with React &amp; Node.js — and ship
+              AI features with LLMs, RAG and vector search. Scaled a multi-tenant
+              platform to 8+ organizations, cutting page loads 40% and release
+              time 50%.
             </motion.p>
 
             {/* Buttons */}
@@ -141,6 +154,15 @@ const HeroSection = () => {
                 <Download className="w-4 h-4" />
                 Download CV
               </a>
+
+              <button
+                type="button"
+                onClick={() => openAIChat()}
+                className="px-6 py-3 rounded-full glass-card font-semibold flex items-center gap-2 hover:border-fuchsia-400/60 transition-colors"
+              >
+                <Bot className="w-4 h-4 text-fuchsia-400" />
+                Ask my AI
+              </button>
             </motion.div>
 
             {/* Featured project highlight */}
@@ -173,15 +195,19 @@ const HeroSection = () => {
               className="flex justify-center lg:justify-start gap-4"
             >
               {[
-                { icon: Github, href: "https://github.com/Yasowant" },
-                { icon: Linkedin, href: "https://linkedin.com/in/yasowant-nayak" },
-                { icon: Mail, href: "mailto:yasowant1998@gmail.com" },
-              ].map(({ icon: Icon, href }, i) => (
+                { icon: Github, href: "https://github.com/Yasowant", label: "GitHub" },
+                { icon: Linkedin, href: "https://linkedin.com/in/yasowant-nayak", label: "LinkedIn" },
+                { icon: Instagram, href: "https://www.instagram.com/yasowant.dev/", label: "Instagram @yasowant.dev" },
+                { icon: Twitter, href: "https://x.com/yash2062", label: "X (Twitter) @yash2062" },
+                { icon: Mail, href: "mailto:yasowant1998@gmail.com", label: "Email" },
+              ].map(({ icon: Icon, href, label }, i) => (
                 <a
                   key={i}
                   href={href}
                   target="_blank"
                   rel="noopener noreferrer"
+                  aria-label={label}
+                  title={label}
                   className="p-3 rounded-full bg-secondary hover:bg-primary hover:text-primary-foreground transition-all"
                 >
                   <Icon className="w-5 h-5" />

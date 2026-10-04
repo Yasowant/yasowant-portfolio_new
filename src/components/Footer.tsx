@@ -1,4 +1,4 @@
-import { Github, Linkedin, Mail, Heart } from 'lucide-react';
+import { Github, Linkedin, Mail, Heart, Instagram, Twitter } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import Logo from './Logo';
 import { projects } from '@/data/projectsData';
@@ -40,6 +40,24 @@ const Footer = () => {
                 aria-label="LinkedIn"
               >
                 <Linkedin className="w-5 h-5" />
+              </a>
+              <a
+                href="https://www.instagram.com/yasowant.dev/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-muted-foreground hover:text-primary transition-colors"
+                aria-label="Instagram"
+              >
+                <Instagram className="w-5 h-5" />
+              </a>
+              <a
+                href="https://x.com/yash2062"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-muted-foreground hover:text-primary transition-colors"
+                aria-label="X (Twitter)"
+              >
+                <Twitter className="w-5 h-5" />
               </a>
               <a
                 href="mailto:yasowant1998@gmail.com"

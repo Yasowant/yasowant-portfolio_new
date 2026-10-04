@@ -1,6 +1,6 @@
 import { motion, useInView } from "framer-motion";
 import { useRef, useState } from "react";
-import { Mail, Github, Linkedin, MapPin, Send } from "lucide-react";
+import { Mail, Github, Linkedin, Instagram, Twitter, MapPin, Send } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import emailjs from "@emailjs/browser";
 
@@ -22,6 +22,18 @@ const contactInfo = [
     label: "LinkedIn",
     value: "linkedin.com/in/yasowant-nayak",
     href: "https://linkedin.com/in/yasowant-nayak",
+  },
+  {
+    icon: Instagram,
+    label: "Instagram",
+    value: "@yasowant.dev",
+    href: "https://www.instagram.com/yasowant.dev/",
+  },
+  {
+    icon: Twitter,
+    label: "X (Twitter)",
+    value: "@yash2062",
+    href: "https://x.com/yash2062",
   },
   { icon: MapPin, label: "Location", value: "Bangalore, India", href: null },
 ];

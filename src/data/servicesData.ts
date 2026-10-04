@@ -10,7 +10,7 @@
  * full, no pronouns, readable as a standalone extract.
  */
 
-import type { ServiceKey } from "@/lib/pricing";
+import type { ServiceKey } from "../lib/pricing";
 
 export interface ServiceFaq {
   question: string;

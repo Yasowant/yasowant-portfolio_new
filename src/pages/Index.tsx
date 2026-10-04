@@ -5,12 +5,14 @@ import EmailSidebar from '@/components/EmailSidebar';
 import HeroSection from '@/components/HeroSection';
 import AboutSection from '@/components/AboutSection';
 import SkillsSection from '@/components/SkillsSection';
+import AISection from '@/components/AISection';
 import ProjectsSection from '@/components/ProjectsSection';
 import GitHubSection from '@/components/GitHubSection';
 import FreelancerSection from '@/components/FreelancerSection';
 import BlogSection from '@/components/BlogSection';
 import ExperienceSection from '@/components/ExperienceSection';
 import FaqSection from '@/components/FaqSection';
+import InstagramSection from '@/components/InstagramSection';
 import ContactSection from '@/components/ContactSection';
 import Footer from '@/components/Footer';
 
@@ -25,12 +27,14 @@ const Index = () => {
         <HeroSection />
         <AboutSection />
         <SkillsSection />
+        <AISection />
         <ProjectsSection />
         <GitHubSection />
         <FreelancerSection />
         <ExperienceSection />
         <BlogSection />
         <FaqSection />
+        <InstagramSection />
         <ContactSection />
       </main>
       <Footer />
