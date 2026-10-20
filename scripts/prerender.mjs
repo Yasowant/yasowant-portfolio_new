@@ -28,6 +28,10 @@ const TODAY = new Date().toISOString().slice(0, 10);
 
 const { render, blogPosts, faqs, projects, hireServices } = await import(ssrEntry);
 
+/** Generated share image (scripts/og-images.mjs) if it exists, else the fallback. */
+const ogFile = (rel, fallback) =>
+  fs.existsSync(path.join(root, "public", rel)) ? `/${rel.replace(/\\/g, "/")}` : fallback;
+
 const esc = (s) =>
   String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 
@@ -119,7 +123,7 @@ const blogRoutes = blogPosts.map((post) => {
       title: `${post.title} | ${NAME}`,
       description: post.excerpt,
       canonical: url,
-      image: absolute(post.image),
+      image: absolute(ogFile(`og/blog/${post.slug}.png`, post.image)),
       ogType: "article",
       keywords: post.tags.join(", "),
       jsonLd: [
@@ -196,7 +200,7 @@ const projectRoutes = projects.map((project) => {
       title: `${project.shortName} — ${project.tagline} | ${NAME}`,
       description: project.answer,
       canonical: url,
-      image: absolute(project.image),
+      image: absolute(project.image || ogFile(`og/projects/${project.slug}.png`, null)),
       ogType: "website",
       keywords: project.tech.join(", "),
       jsonLd: [

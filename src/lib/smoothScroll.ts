@@ -27,3 +27,9 @@ export function scrollToTarget(target: string | HTMLElement | number) {
   const top = el.getBoundingClientRect().top + window.scrollY + NAV_OFFSET;
   window.scrollTo({ top, behavior: "smooth" });
 }
+
+/** Jump to the very top instantly (used on route changes). */
+export function scrollToTopInstant() {
+  if (instance) instance.scrollTo(0, { immediate: true, force: true });
+  window.scrollTo(0, 0);
+}

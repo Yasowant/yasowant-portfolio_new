@@ -16,6 +16,7 @@ export default {
       fontFamily: {
         sans: ['Nunito', 'sans-serif'],
         mono: ['JetBrains Mono', 'monospace'],
+        display: ['Space Grotesk', 'Nunito', 'sans-serif'],
       },
       colors: {
         border: "hsl(var(--border))",

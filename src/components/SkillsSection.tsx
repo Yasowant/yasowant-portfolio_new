@@ -1,201 +1,237 @@
-import { motion, useInView } from 'framer-motion';
-import { useRef, useState } from 'react';
+import { motion } from "framer-motion";
+import type { ReactNode } from "react";
+import { Server, Monitor, Bot, Database, Cloud, CalendarClock, ArrowUpRight, Github } from "lucide-react";
+import TechIcon from "@/components/TechIcon";
+import type { TechIconName } from "@/lib/techIcons";
+import { BOOKING_URL } from "@/lib/booking";
+import { scrollToTarget } from "@/lib/smoothScroll";
 
-const skillCategories = [
-  {
-    title: 'AI & LLM',
-    icon: '🤖',
-    color: 'from-fuchsia-500 to-violet-400',
-    skills: [
-      { name: 'LLM Apps', icon: '🧠', level: 85 },
-      { name: 'RAG Pipelines', icon: '📚', level: 84 },
-      { name: 'LangChain.js', icon: '🦜', level: 80 },
-      { name: 'Vector DBs', icon: '🧭', level: 80 },
-      { name: 'Embeddings', icon: '🔎', level: 82 },
-      { name: 'Prompt Engineering', icon: '✍️', level: 88 },
-      { name: 'AI Agents', icon: '🛠️', level: 78 },
-      { name: 'Streaming AI UIs', icon: '⚡', level: 86 },
-    ],
-  },
-  {
-    title: 'Frontend',
-    icon: '🎨',
-    color: 'from-blue-500 to-cyan-400',
-    skills: [
-      { name: 'React.js', icon: '⚛️', level: 92 },
-      { name: 'Next.js', icon: '▲', level: 85 },
-      { name: 'TypeScript', icon: '📘', level: 88 },
-      { name: 'JavaScript', icon: '⚡', level: 92 },
-      { name: 'Redux', icon: '🔄', level: 85 },
-      { name: 'Tailwind CSS', icon: '🎨', level: 90 },
-    ],
-  },
-  {
-    title: 'Backend',
-    icon: '⚙️',
-    color: 'from-green-500 to-emerald-400',
-    skills: [
-      { name: 'Node.js', icon: '🟢', level: 90 },
-      { name: 'Express.js', icon: '🚀', level: 88 },
-      { name: 'REST / SOAP', icon: '🔗', level: 92 },
-      { name: 'GraphQL', icon: '◈', level: 82 },
-      { name: 'Socket.IO', icon: '🔌', level: 80 },
-      { name: 'JWT + RBAC', icon: '🔐', level: 88 },
-    ],
-  },
-  {
-    title: 'Database',
-    icon: '🗃️',
-    color: 'from-purple-500 to-pink-400',
-    skills: [
-      { name: 'PostgreSQL', icon: '🐘', level: 85 },
-      { name: 'MongoDB', icon: '🍃', level: 88 },
-      { name: 'MySQL', icon: '🐬', level: 84 },
-      { name: 'Redis', icon: '🔴', level: 78 },
-    ],
-  },
-  {
-    title: 'DevOps & System Design',
-    icon: '🛠️',
-    color: 'from-orange-500 to-yellow-400',
-    skills: [
-      { name: 'AWS', icon: '☁️', level: 82 },
-      { name: 'Docker', icon: '🐳', level: 82 },
-      { name: 'GitHub Actions', icon: '⚙️', level: 85 },
-      { name: 'CI/CD', icon: '🔁', level: 86 },
-      { name: 'System Design', icon: '🏗️', level: 85 },
-      { name: 'Microservices', icon: '🧩', level: 80 },
-    ],
-  },
+type Skill = { name: string; icon?: TechIconName };
+
+const backend: Skill[] = [
+  { name: "Node.js", icon: "NodeJs" },
+  { name: "Express.js", icon: "Express" },
+  { name: "REST / SOAP" },
+  { name: "GraphQL", icon: "GraphQL" },
+  { name: "Socket.IO" },
+  { name: "JWT + RBAC" },
+  { name: "Microservices" },
+  { name: "System Design" },
+];
+const frontend: Skill[] = [
+  { name: "React.js", icon: "React" },
+  { name: "Next.js", icon: "NextJs" },
+  { name: "TypeScript", icon: "TypeScript" },
+  { name: "JavaScript", icon: "JavaScript" },
+  { name: "Redux", icon: "Redux" },
+  { name: "Tailwind CSS", icon: "Tailwind" },
+];
+const ai: Skill[] = [
+  { name: "LLM apps", icon: "OpenAI" },
+  { name: "RAG pipelines" },
+  { name: "LangChain.js", icon: "LangChain" },
+  { name: "Embeddings" },
+  { name: "Vector DBs" },
+  { name: "AI agents" },
+  { name: "Streaming UIs" },
+];
+const data: Skill[] = [
+  { name: "MongoDB", icon: "MongoDB" },
+  { name: "PostgreSQL", icon: "PostgreSQL" },
+  { name: "MySQL", icon: "MySQL" },
+  { name: "Redis", icon: "Redis" },
+];
+const devops: Skill[] = [
+  { name: "AWS", icon: "AWS" },
+  { name: "Docker", icon: "Docker" },
+  { name: "GitHub Actions", icon: "GitHubActions" },
+  { name: "CI/CD" },
 ];
 
-const SkillCard = ({ skill, index, isInView }: { skill: { name: string; icon: string; level: number }; index: number; isInView: boolean }) => {
-  // Hover effects are pure CSS (cheap, compositor-only). Framer Motion is only
-  // used for the one-off entrance, so nothing re-renders on hover.
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 24, scale: 0.92 }}
-      animate={isInView ? { opacity: 1, y: 0, scale: 1 } : {}}
-      transition={{ duration: 0.45, delay: index * 0.05, ease: [0.22, 1, 0.36, 1] }}
-      className="relative group w-[150px] sm:w-[160px]"
-    >
-      <div className="relative h-full p-4 rounded-2xl bg-card border border-border overflow-hidden transition-[transform,border-color,box-shadow] duration-300 group-hover:-translate-y-1.5 group-hover:border-primary/50 group-hover:shadow-[0_12px_40px_-12px_hsl(var(--primary)/0.45)]">
-        <div className="absolute inset-0 bg-gradient-to-br from-primary/15 to-accent/15 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+const Chip = ({ skill }: { skill: Skill }) => (
+  <span className="inline-flex items-center gap-1.5 rounded-full border border-border/70 bg-background/50 px-3 py-1.5 text-[13px] font-medium text-foreground/90 transition-colors hover:border-primary/50">
+    {skill.icon ? (
+      <TechIcon name={skill.icon} className="h-3.5 w-3.5" />
+    ) : (
+      <span className="h-1.5 w-1.5 rounded-full bg-gradient-to-r from-primary to-accent" />
+    )}
+    {skill.name}
+  </span>
+);
 
-        <div className="relative z-10 flex flex-col items-center gap-3">
-          <span className="text-4xl transition-transform duration-300 group-hover:scale-110">
-            {skill.icon}
-          </span>
+const Tile = ({
+  className = "",
+  delay = 0,
+  children,
+}: {
+  className?: string;
+  delay?: number;
+  children: ReactNode;
+}) => (
+  <motion.div
+    initial={{ opacity: 0, y: 24 }}
+    whileInView={{ opacity: 1, y: 0 }}
+    viewport={{ once: true, margin: "-60px" }}
+    transition={{ duration: 0.5, delay, ease: [0.22, 1, 0.36, 1] }}
+    className={`glass-card card-glow rounded-3xl p-6 overflow-hidden ${className}`}
+  >
+    {children}
+  </motion.div>
+);
 
-          <span className="font-semibold text-foreground text-sm text-center leading-tight min-h-[2.5em] flex items-center">
-            {skill.name}
-          </span>
-
-          <div className="relative w-16 h-16">
-            <svg className="w-full h-full -rotate-90" viewBox="0 0 64 64">
-              <circle cx="32" cy="32" r="28" stroke="currentColor" strokeWidth="4" fill="none" className="text-secondary" />
-              <motion.circle
-                cx="32"
-                cy="32"
-                r="28"
-                stroke="url(#skill-gradient)"
-                strokeWidth="4"
-                fill="none"
-                strokeLinecap="round"
-                initial={{ strokeDasharray: '0 176' }}
-                animate={isInView ? { strokeDasharray: `${skill.level * 1.76} 176` } : {}}
-                transition={{ duration: 1.1, delay: 0.2 + index * 0.05, ease: 'easeOut' }}
-              />
-            </svg>
-            <span className="absolute inset-0 flex items-center justify-center text-sm font-bold text-primary">
-              {skill.level}%
-            </span>
-          </div>
-        </div>
-      </div>
-    </motion.div>
-  );
-};
+const TileHead = ({ icon: Icon, title, badge }: { icon: typeof Server; title: string; badge?: string }) => (
+  <div className="mb-4 flex items-center gap-3">
+    <span className="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-primary to-accent shadow-lg shadow-primary/25">
+      <Icon className="h-5 w-5 text-white" />
+    </span>
+    <h3 className="text-lg font-bold">{title}</h3>
+    {badge && (
+      <span className="ml-auto rounded-full bg-gradient-to-r from-fuchsia-500 to-violet-500 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-white">
+        {badge}
+      </span>
+    )}
+  </div>
+);
 
 const SkillsSection = () => {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: '-50px' });
-  const [activeCategory, setActiveCategory] = useState(0);
-
   return (
-    <section id="skills" className="section-padding bg-secondary/30 overflow-hidden">
-      <svg width="0" height="0" className="absolute" aria-hidden="true">
-        <defs>
-          <linearGradient id="skill-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="hsl(var(--primary))" />
-            <stop offset="100%" stopColor="hsl(var(--accent))" />
-          </linearGradient>
-        </defs>
-      </svg>
-      <div className="container mx-auto px-4 md:px-6">
+    <section id="skills" className="section-padding relative overflow-hidden">
+      <div className="container mx-auto px-4 md:px-6 max-w-6xl">
         <motion.div
-          ref={ref}
-          initial={{ opacity: 0, y: 50 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
           transition={{ duration: 0.6 }}
+          className="text-center mb-10"
         >
-          <h2 className="text-3xl md:text-4xl font-bold text-center mb-4">
-            <span className="gradient-text">Skills & Technologies</span>
+          <span className="eyebrow mb-4">› ls ~/skills</span>
+          <h2 className="text-3xl md:text-4xl font-bold mb-4">
+            Skills &amp; <span className="gradient-text">Technologies</span>
           </h2>
-          <div className="w-20 h-1 bg-gradient-to-r from-primary to-accent mx-auto mb-6 rounded-full" />
-          <p className="text-muted-foreground text-center max-w-2xl mx-auto mb-8">
-            From React frontends to Node.js backends — and now LLM-powered features with RAG, embeddings and AI agents
+          <p className="text-muted-foreground max-w-2xl mx-auto">
+            Backend-first full stack — Node.js services and APIs, React frontends, and now
+            LLM-powered features with RAG, embeddings and agents.
           </p>
-
-          {/* Category tabs with floating animation */}
-          <div className="flex flex-wrap justify-center gap-4 mb-8">
-            {skillCategories.map((category, index) => (
-              <motion.button
-                key={category.title}
-                initial={{ opacity: 0, y: 20 }}
-                animate={isInView ? { opacity: 1, y: 0 } : {}}
-                transition={{ delay: index * 0.1 }}
-                whileHover={{ scale: 1.05, y: -5 }}
-                whileTap={{ scale: 0.95 }}
-                onClick={() => setActiveCategory(index)}
-                className={`px-6 py-3 rounded-full font-semibold transition-all duration-300 flex items-center gap-2 ${
-                  activeCategory === index
-                    ? 'bg-primary text-primary-foreground shadow-lg shadow-primary/30'
-                    : 'bg-card border border-border hover:border-primary/50'
-                }`}
-              >
-                <motion.span
-                  animate={activeCategory === index ? { rotate: 360 } : { rotate: 0 }}
-                  transition={{ duration: 0.5 }}
-                >
-                  {category.icon}
-                </motion.span>
-                {category.title}
-                {category.title === 'AI & LLM' && (
-                  <span className="ml-1 rounded-full bg-gradient-to-r from-fuchsia-500 to-violet-500 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-white">
-                    New
-                  </span>
-                )}
-              </motion.button>
-            ))}
-          </div>
-
-          {/* Skills grid with 3D perspective */}
-          <motion.div
-            key={activeCategory}
-            initial={{ opacity: 0, rotateX: -15 }}
-            animate={{ opacity: 1, rotateX: 0 }}
-            exit={{ opacity: 0, rotateX: 15 }}
-            transition={{ duration: 0.5 }}
-            className="perspective-1000"
-          >
-            <div className="flex flex-wrap justify-center gap-4 md:gap-6">
-              {skillCategories[activeCategory].skills.map((skill, index) => (
-                <SkillCard key={skill.name} skill={skill} index={index} isInView={isInView} />
-              ))}
-            </div>
-          </motion.div>
         </motion.div>
+
+        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4 lg:auto-rows-[minmax(150px,auto)]">
+          {/* Backend — the hero tile */}
+          <Tile className="lg:col-span-2 lg:row-span-2 flex flex-col">
+            <TileHead icon={Server} title="Backend & APIs" />
+            <p className="text-sm text-muted-foreground leading-relaxed mb-5 max-w-md">
+              Where I spend most of my time: designing APIs, multi-tenant data isolation,
+              auth and the services behind them.
+            </p>
+            <div className="flex flex-wrap gap-2 mb-6">
+              {backend.map((s) => <Chip key={s.name} skill={s} />)}
+            </div>
+            <pre className="mt-auto rounded-2xl border border-border/60 bg-background/70 p-4 font-mono text-[12px] leading-relaxed text-muted-foreground overflow-x-auto">
+<span className="text-accent">router</span>.<span className="text-primary">get</span>(<span className="text-amber-400">"/api/:tenant/surveys"</span>,{"\n"}
+{"  "}auth(<span className="text-amber-400">"jwt"</span>), can(<span className="text-amber-400">"survey:read"</span>),{"\n"}
+{"  "}<span className="text-accent">async</span> (req, res) =&gt; res.json(<span className="text-accent">await</span> svc.list(req.tenant))){"\n"}
+<span className="text-muted-foreground/70">// 15+ REST, SOAP &amp; GraphQL APIs shipped to production</span>
+            </pre>
+          </Tile>
+
+          <Tile className="lg:col-span-2" delay={0.05}>
+            <TileHead icon={Monitor} title="Frontend" />
+            <div className="flex flex-wrap gap-2">
+              {frontend.map((s) => <Chip key={s.name} skill={s} />)}
+            </div>
+          </Tile>
+
+          <Tile className="lg:col-span-2" delay={0.1}>
+            <TileHead icon={Bot} title="AI & LLM" badge="New" />
+            <div className="flex flex-wrap gap-2">
+              {ai.map((s) => <Chip key={s.name} skill={s} />)}
+            </div>
+          </Tile>
+
+          <Tile delay={0.05}>
+            <TileHead icon={Database} title="Databases" />
+            <div className="flex flex-wrap gap-2">
+              {data.map((s) => <Chip key={s.name} skill={s} />)}
+            </div>
+          </Tile>
+
+          <Tile delay={0.1}>
+            <TileHead icon={Cloud} title="DevOps & Cloud" />
+            <div className="flex flex-wrap gap-2">
+              {devops.map((s) => <Chip key={s.name} skill={s} />)}
+            </div>
+          </Tile>
+
+          <Tile delay={0.15} className="flex flex-col justify-between">
+            <span className="font-mono text-xs text-muted-foreground">› uptime</span>
+            <div>
+              <div className="text-5xl font-bold gradient-text leading-none font-display">3+</div>
+              <p className="mt-2 text-sm text-muted-foreground">
+                years shipping production SaaS for 8+ enterprise organisations
+              </p>
+            </div>
+          </Tile>
+
+          <Tile delay={0.2} className="flex flex-col justify-between bg-gradient-to-br from-primary/10 to-accent/10">
+            <span className="inline-flex items-center gap-2 text-sm font-semibold">
+              <span className="relative flex h-2.5 w-2.5">
+                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent opacity-75" />
+                <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-accent" />
+              </span>
+              Open to work
+            </span>
+            <p className="text-sm text-muted-foreground my-3">
+              Full-time roles and remote freelance projects.
+            </p>
+            <a
+              href={BOOKING_URL || "#contact"}
+              target={BOOKING_URL ? "_blank" : undefined}
+              rel={BOOKING_URL ? "noopener noreferrer" : undefined}
+              onClick={(e) => {
+                if (!BOOKING_URL) {
+                  e.preventDefault();
+                  scrollToTarget("#contact");
+                }
+              }}
+              data-magnetic
+              className="btn-shine inline-flex items-center justify-center gap-1.5 rounded-full px-4 py-2 text-sm font-semibold"
+            >
+              <CalendarClock className="h-4 w-4" /> Book a call
+            </a>
+          </Tile>
+
+          {/* GitHub contributions */}
+          <Tile className="md:col-span-2 lg:col-span-4" delay={0.1}>
+            <div className="mb-4 flex flex-wrap items-center gap-3">
+              <span className="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-foreground/90">
+                <Github className="h-5 w-5 text-background" />
+              </span>
+              <h3 className="text-lg font-bold">Contribution activity</h3>
+              <a
+                href="https://github.com/Yasowant"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="ml-auto inline-flex items-center gap-1 text-sm font-semibold text-primary hover:gap-2 transition-all"
+              >
+                github.com/Yasowant <ArrowUpRight className="h-4 w-4" />
+              </a>
+            </div>
+            <div className="overflow-x-auto" data-lenis-prevent>
+              <img
+                src="https://ghchart.rshah.org/3fb950/Yasowant"
+                alt="Yasowant Nayak's GitHub contribution graph for the last year"
+                loading="lazy"
+                decoding="async"
+                width={720}
+                height={112}
+                className="min-w-[640px] w-full h-auto opacity-90 dark:[filter:brightness(1.05)]"
+                onError={(e) => {
+                  const tile = e.currentTarget.closest(".glass-card") as HTMLElement | null;
+                  if (tile) tile.style.display = "none";
+                }}
+              />
+            </div>
+          </Tile>
+        </div>
       </div>
     </section>
   );

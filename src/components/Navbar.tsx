@@ -1,20 +1,31 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X } from 'lucide-react';
+import { Menu, X, Search, ArrowUpRight } from 'lucide-react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import ThemeToggle from './ThemeToggle';
 import Logo from './Logo';
 import { scrollToTarget } from '@/lib/smoothScroll';
+import { openCommandPalette, isMac } from '@/lib/commandBus';
 
+/** Kept short on purpose — everything else lives in the ⌘K palette. */
 const navLinks = [
+  { name: 'About', href: '#about' },
+  { name: 'Projects', href: '#projects' },
+  { name: 'Experience', href: '#experience' },
+  { name: 'Blog', href: '#blog' },
+  { name: 'Contact', href: '#contact' },
+];
+
+/** Full list for the mobile sheet, where vertical space is free. */
+const mobileLinks = [
   { name: 'About', href: '#about' },
   { name: 'Skills', href: '#skills' },
   { name: 'AI', href: '#ai' },
   { name: 'Projects', href: '#projects' },
   { name: 'GitHub', href: '#github' },
   { name: 'Freelance', href: '#freelance' },
-  { name: 'Blog', href: '#blog' },
   { name: 'Experience', href: '#experience' },
+  { name: 'Blog', href: '#blog' },
   { name: 'FAQ', href: '#faq' },
   { name: 'Contact', href: '#contact' },
 ];
@@ -23,6 +34,8 @@ const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('');
+  const [mac, setMac] = useState(false);
+  useEffect(() => setMac(isMac()), []);
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -43,7 +56,7 @@ const Navbar = () => {
 
   useEffect(() => {
     if (location.pathname !== '/') return;
-    const ids = navLinks.map((l) => l.href.replace('#', ''));
+    const ids = mobileLinks.map((l) => l.href.replace('#', ''));
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -99,7 +112,7 @@ const Navbar = () => {
         </a>
 
         {/* Desktop Navigation */}
-        <div className="hidden lg:flex items-center gap-6">
+        <div className="hidden lg:flex items-center gap-7">
           {navLinks.map((link) => {
             const isActive = activeSection === link.href.replace('#', '');
             return (
@@ -121,11 +134,41 @@ const Navbar = () => {
               </a>
             );
           })}
-          <ThemeToggle />
+          <div className="flex items-center gap-3 pl-2">
+            <button
+              type="button"
+              onClick={openCommandPalette}
+              className="group inline-flex items-center gap-2 h-9 pl-3 pr-2 rounded-full border border-border bg-secondary/50 text-sm text-muted-foreground hover:text-foreground hover:border-primary/50 transition-colors"
+              aria-label="Open command menu"
+            >
+              <Search className="w-3.5 h-3.5" />
+              <span>Search</span>
+              <kbd className="font-mono text-[11px] px-1.5 py-0.5 rounded-md bg-background border border-border">
+                {mac ? '⌘K' : 'Ctrl K'}
+              </kbd>
+            </button>
+            <ThemeToggle />
+            <a
+              href="#contact"
+              onClick={(e) => handleNavClick(e, '#contact')}
+              data-magnetic
+              className="btn-shine inline-flex items-center gap-1.5 h-9 px-4 rounded-full text-sm font-semibold"
+            >
+              Hire me <ArrowUpRight className="w-4 h-4" />
+            </a>
+          </div>
         </div>
 
         {/* Mobile Menu Button */}
-        <div className="lg:hidden flex items-center gap-4">
+        <div className="lg:hidden flex items-center gap-3">
+          <button
+            type="button"
+            onClick={openCommandPalette}
+            className="p-2 rounded-full bg-secondary"
+            aria-label="Open command menu"
+          >
+            <Search className="w-5 h-5 text-foreground" />
+          </button>
           <ThemeToggle />
           <button
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
@@ -150,8 +193,8 @@ const Navbar = () => {
             exit={{ opacity: 0, height: 0 }}
             className="lg:hidden glass border-t border-border"
           >
-            <div className="container mx-auto px-4 py-4 flex flex-col gap-4">
-              {navLinks.map((link) => (
+            <div className="container mx-auto px-4 py-4 grid grid-cols-2 gap-x-4 gap-y-1">
+              {mobileLinks.map((link) => (
                 <a
                   key={link.name}
                   href={link.href}

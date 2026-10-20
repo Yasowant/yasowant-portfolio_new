@@ -5,6 +5,9 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Routes, Route } from "react-router-dom";
 import Preloader from "@/components/Preloader";
 import AIChatWidget from "@/components/AIChatWidget";
+import CommandPalette from "@/components/CommandPalette";
+import ScrollToTop from "@/components/ScrollToTop";
+import { usePointerFx } from "@/hooks/usePointerFx";
 import { useScrollPause } from "@/hooks/useScrollPause";
 import { useSmoothScroll } from "@/hooks/useSmoothScroll";
 import Index from "./pages/Index";
@@ -30,6 +33,7 @@ const queryClient = new QueryClient();
 const AppShell = ({ prerender = false }: { prerender?: boolean }) => {
   useScrollPause();
   useSmoothScroll();
+  usePointerFx();
 
   return (
   <QueryClientProvider client={queryClient}>
@@ -40,6 +44,8 @@ const AppShell = ({ prerender = false }: { prerender?: boolean }) => {
           <Sonner />
           <Preloader />
           <AIChatWidget />
+          <CommandPalette />
+          <ScrollToTop />
         </>
       )}
       <Routes>

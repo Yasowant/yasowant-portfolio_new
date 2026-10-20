@@ -139,8 +139,8 @@
   }
 
   h1, h2, h3, h4, h5, h6 {
-    font-family: 'Nunito', sans-serif;
-    letter-spacing: -0.01em;
+    font-family: 'Space Grotesk', 'Nunito', sans-serif;
+    letter-spacing: -0.025em;
   }
 }
 
@@ -691,4 +691,48 @@ html.is-scrolling .rag-pulse { animation-play-state: paused; }
 @media (prefers-reduced-motion: reduce) {
   .logo-cursor { animation: none !important; }
   .btn-shine::after { display: none; }
+}
+
+/* Theme switch: the new theme is revealed as a growing circle (see lib/theme.ts) */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+::view-transition-old(root) { z-index: 1; }
+::view-transition-new(root) { z-index: 2; }
+
+/* Cursor spotlight on glass cards (coords set by hooks/usePointerFx.ts) */
+.glass-card::after,
+[data-spotlight]::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.35s ease;
+  background: radial-gradient(
+    380px circle at var(--mx, 50%) var(--my, 50%),
+    hsl(var(--primary) / 0.12),
+    transparent 45%
+  );
+}
+.glass-card:hover::after,
+[data-spotlight]:hover::after {
+  opacity: 1;
+}
+[data-spotlight] { position: relative; }
+
+[cmdk-input]:focus-visible { outline: none; }
+
+[data-magnetic] {
+  transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.25s ease;
+  will-change: transform;
+}
+
+/* Project thumbnail morph between list and case-study page */
+::view-transition-group(*) {
+  animation-duration: 0.45s;
+  animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
 }

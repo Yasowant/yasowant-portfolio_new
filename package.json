@@ -11,7 +11,8 @@
     "preview": "vite preview",
     "build:client": "vite build",
     "prerender": "vite build --ssr src/entry-server.tsx --outDir dist-ssr && node scripts/prerender.mjs",
-    "indexnow": "node scripts/indexnow.mjs"
+    "indexnow": "node scripts/indexnow.mjs",
+    "og": "vite build --ssr src/entry-server.tsx --outDir dist-ssr && node scripts/og-images.mjs"
   },
   "dependencies": {
     "@emailjs/browser": "^4.4.1",

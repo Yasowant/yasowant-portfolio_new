@@ -1,5 +1,6 @@
 import { motion, useInView } from "framer-motion";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { navigateWithTransition, projectVT } from "@/lib/viewTransition";
 import { useEffect, useRef, useState } from "react";
 import { ExternalLink, Github, Folder, Star, Check, ArrowUpRight, GitFork } from "lucide-react";
 import { projects } from "@/data/projectsData";
@@ -48,6 +49,7 @@ const ProjectCard = ({
   isInView: boolean;
 }) => {
   const [isHovered, setIsHovered] = useState(false);
+  const navigate = useNavigate();
   const [revealed, setRevealed] = useState(false);
   const show = isHovered || revealed;
   const repoStats = useRepoStats(project.github);
@@ -70,7 +72,7 @@ const ProjectCard = ({
     >
       {/* Animated border glow */}
       <motion.div
-        className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+        className="pointer-events-none absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"
         animate={
           isHovered
             ? {
@@ -85,6 +87,7 @@ const ProjectCard = ({
       <div className="relative h-48 overflow-hidden">
         <motion.div
           className="w-full h-full"
+          style={projectVT(project.slug)}
           animate={isHovered ? { scale: 1.1 } : { scale: 1 }}
           transition={{ duration: 0.5 }}
         >
@@ -179,7 +182,12 @@ const ProjectCard = ({
         {/* Case study link — gives each project an indexable URL */}
         <Link
           to={`/projects/${project.slug}`}
-          onClick={(e) => e.stopPropagation()}
+          onClick={(e) => {
+            e.stopPropagation();
+            if (e.metaKey || e.ctrlKey || e.shiftKey) return;
+            e.preventDefault();
+            navigateWithTransition(navigate, `/projects/${project.slug}`);
+          }}
           className="inline-flex items-center gap-1.5 mb-4 text-sm font-semibold text-primary hover:gap-2.5 transition-all"
         >
           Read the case study <ArrowUpRight className="w-4 h-4" />

@@ -14,6 +14,7 @@ import ExperienceSection from '@/components/ExperienceSection';
 import FaqSection from '@/components/FaqSection';
 import InstagramSection from '@/components/InstagramSection';
 import ContactSection from '@/components/ContactSection';
+import TestimonialsSection from '@/components/TestimonialsSection';
 import Footer from '@/components/Footer';
 
 const Index = () => {
@@ -32,6 +33,7 @@ const Index = () => {
         <GitHubSection />
         <FreelancerSection />
         <ExperienceSection />
+        <TestimonialsSection />
         <BlogSection />
         <FaqSection />
         <InstagramSection />

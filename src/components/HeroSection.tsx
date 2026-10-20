@@ -4,6 +4,8 @@ import profilePhoto from "@/assets/profile-photo.jpg";
 import { useTilt } from "@/hooks/useTilt";
 import { openAIChat } from "@/lib/aiChatBus";
 import { Bot } from "lucide-react";
+import TechIcon from "@/components/TechIcon";
+import HeroTerminal from "@/components/HeroTerminal";
 
 const HeroSection = () => {
   const { ref, handleMouseMove, handleMouseLeave } = useTilt();
@@ -59,18 +61,22 @@ const HeroSection = () => {
               />
 
               {/* Orbiting tech badges */}
-              {[
-                { label: "React", icon: "⚛️", pos: "-top-3 -left-4", delay: "" },
-                { label: "TypeScript", icon: "📘", pos: "-top-2 -right-5", delay: "animate-float-delayed" },
-                { label: "Node.js", icon: "🟢", pos: "-bottom-3 -left-5", delay: "animate-float-delayed" },
-                { label: "AI / RAG", icon: "🤖", pos: "-bottom-2 -right-4", delay: "" },
-                { label: "LLMs", icon: "🧠", pos: "top-1/2 -right-12 hidden md:flex", delay: "animate-float-delayed" },
-              ].map((b) => (
+              {([
+                { label: "React", icon: "React", pos: "-top-3 -left-4", delay: "" },
+                { label: "TypeScript", icon: "TypeScript", pos: "-top-2 -right-5", delay: "animate-float-delayed" },
+                { label: "Node.js", icon: "NodeJs", pos: "-bottom-3 -left-5", delay: "animate-float-delayed" },
+                { label: "MongoDB", icon: "MongoDB", pos: "-bottom-2 -right-4", delay: "" },
+                { label: "AI / RAG", icon: null, pos: "top-1/2 -right-12 hidden md:flex", delay: "animate-float-delayed" },
+              ] as const).map((b) => (
                 <div
                   key={b.label}
-                  className={`absolute ${b.pos} ${b.delay || "animate-float"} glass-card rounded-full px-3 py-1.5 flex items-center gap-1.5 text-sm font-semibold shadow-lg`}
+                  className={`absolute ${b.pos} ${b.delay || "animate-float"} glass-card rounded-full px-3 py-1.5 flex items-center gap-2 text-sm font-semibold shadow-lg`}
                 >
-                  <span>{b.icon}</span>
+                  {b.icon ? (
+                    <TechIcon name={b.icon} className="w-4 h-4" />
+                  ) : (
+                    <Sparkles className="w-4 h-4 text-fuchsia-400" />
+                  )}
                   <span>{b.label}</span>
                 </div>
               ))}
@@ -123,8 +129,8 @@ const HeroSection = () => {
               className="text-lg md:text-xl text-muted-foreground font-medium mb-5"
             >
               Full Stack Software Engineer{" "}
-              <span className="whitespace-nowrap">
-                ·{" "}
+              <span className="block sm:inline whitespace-nowrap">
+                <span className="hidden sm:inline">· </span>
                 <span className="bg-gradient-to-r from-violet-400 to-fuchsia-500 bg-clip-text text-transparent font-semibold">
                   AI &amp; LLM Apps
                 </span>
@@ -153,6 +159,7 @@ const HeroSection = () => {
             >
               <a
                 href="#projects"
+                data-magnetic
                 className="btn-shine px-7 py-3 rounded-full font-semibold"
               >
                 View Projects
@@ -161,6 +168,7 @@ const HeroSection = () => {
               <a
                 href="/resume.pdf"
                 download="Yasowant_Nayak_Full_Stack_Engineer_Resume.pdf"
+                data-magnetic
                 className="px-7 py-3 rounded-full border-2 border-primary text-primary font-semibold hover:bg-primary hover:text-primary-foreground transition-all flex items-center gap-2"
               >
                 <Download className="w-4 h-4" />
@@ -228,6 +236,16 @@ const HeroSection = () => {
             </motion.div>
           </div>
         </div>
+
+        {/* Interactive terminal */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.75, duration: 0.6 }}
+          className="mt-14 max-w-3xl mx-auto"
+        >
+          <HeroTerminal />
+        </motion.div>
       </div>
     </section>
   );

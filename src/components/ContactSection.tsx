@@ -1,3 +1,4 @@
+import BookCallButton from "@/components/BookCallButton";
 import { motion, useInView } from "framer-motion";
 import { useRef, useState } from "react";
 import { Mail, Github, Linkedin, Instagram, Twitter, MapPin, Send } from "lucide-react";
@@ -98,7 +99,7 @@ const ContactSection = () => {
   };
 
   return (
-    <section id="contact" className="section-padding">
+    <section id="contact" className="section-padding overflow-x-clip">
       <div className="container mx-auto px-4 md:px-6">
         <motion.div
           ref={ref}
@@ -114,6 +115,9 @@ const ContactSection = () => {
             I'm always open to discussing new projects, opportunities, or just
             having a chat about technology.
           </p>
+          <div className="flex justify-center mb-10 -mt-2">
+            <BookCallButton />
+          </div>
 
           <div className="grid lg:grid-cols-2 gap-8 max-w-5xl mx-auto">
             {/* Contact Info */}

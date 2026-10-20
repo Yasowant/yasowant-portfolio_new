@@ -1,3 +1,4 @@
+import BookCallButton from "@/components/BookCallButton";
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 import {
@@ -286,10 +287,12 @@ const FreelancerSection = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.5, delay: 0.6 }}
-            className="text-center"
+            className="flex flex-wrap justify-center gap-4"
           >
+            <BookCallButton />
             <a
               href="#contact"
+              data-magnetic
               className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-primary to-accent text-primary-foreground font-semibold rounded-full hover:shadow-lg hover:shadow-primary/30 transition-all duration-300 hover:-translate-y-1"
             >
               <MessageSquare className="w-5 h-5" />

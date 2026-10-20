@@ -1,65 +1,23 @@
 import { Moon, Sun, Eye } from 'lucide-react';
-import { useEffect, useState } from 'react';
+import { useSyncExternalStore } from 'react';
 import { motion } from 'framer-motion';
-
-type Theme = 'light' | 'dark' | 'eye-protection';
-
-const ORDER: Theme[] = ['light', 'dark', 'eye-protection'];
-
-const LABELS: Record<Theme, string> = {
-  light: 'Light',
-  dark: 'Dark',
-  'eye-protection': 'Eye Protection',
-};
-
-const applyTheme = (theme: Theme) => {
-  const root = document.documentElement;
-  root.classList.remove('dark', 'eye-protection');
-  if (theme === 'dark') root.classList.add('dark');
-  if (theme === 'eye-protection') root.classList.add('eye-protection');
-};
-
-const getInitialTheme = (): Theme => {
-  if (typeof document === 'undefined') return 'dark';
-  try {
-    const stored = localStorage.getItem('theme') as Theme | null;
-    if (stored && ORDER.includes(stored)) return stored;
-  } catch {
-    /* ignore */
-  }
-  const root = document.documentElement;
-  if (root.classList.contains('eye-protection')) return 'eye-protection';
-  if (root.classList.contains('dark')) return 'dark';
-  return 'light';
-};
+import { getTheme, subscribeTheme, cycleThemeFrom, THEME_LABELS } from '@/lib/theme';
 
 const ThemeToggle = () => {
-  const [theme, setTheme] = useState<Theme>(getInitialTheme);
-
-  useEffect(() => {
-    applyTheme(theme);
-    try {
-      localStorage.setItem('theme', theme);
-    } catch {
-      /* ignore */
-    }
-  }, [theme]);
-
-  const cycleTheme = () => {
-    const next = ORDER[(ORDER.indexOf(theme) + 1) % ORDER.length];
-    setTheme(next);
-  };
-
+  const theme = useSyncExternalStore(subscribeTheme, getTheme, () => 'dark' as const);
   const Icon = theme === 'light' ? Sun : theme === 'dark' ? Moon : Eye;
 
   return (
     <motion.button
       whileHover={{ scale: 1.1 }}
       whileTap={{ scale: 0.9 }}
-      onClick={cycleTheme}
+      onClick={(e) => {
+        const r = e.currentTarget.getBoundingClientRect();
+        cycleThemeFrom({ x: r.left + r.width / 2, y: r.top + r.height / 2 });
+      }}
       className="p-2 rounded-full bg-secondary hover:bg-secondary/80 transition-colors"
-      aria-label={`Theme: ${LABELS[theme]} (click to switch)`}
-      title={`Theme: ${LABELS[theme]}`}
+      aria-label={`Theme: ${THEME_LABELS[theme]} (click to switch)`}
+      title={`Theme: ${THEME_LABELS[theme]}`}
     >
       <motion.span
         key={theme}

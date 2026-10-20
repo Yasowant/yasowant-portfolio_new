@@ -18,6 +18,21 @@ export interface ProjectFaq {
   answer: string;
 }
 
+/**
+ * Optional long-form case study. Fill these in with real details — each block
+ * only renders on the project page once it has content.
+ */
+export interface CaseStudy {
+  /** Your role, e.g. "Solo — design, build and deployment". */
+  role?: string;
+  /** The problem in 1–3 sentences: who had it and why it mattered. */
+  challenge?: string;
+  /** Key technical decisions and trade-offs. */
+  decisions?: { title: string; detail: string }[];
+  /** Measured outcomes (users, speed-ups, uptime…). Only real numbers. */
+  results?: string[];
+}
+
 export interface Project {
   slug: string;
   title: string;
@@ -42,6 +57,7 @@ export interface Project {
   category: string;
   featured: boolean;
   faqs: ProjectFaq[];
+  caseStudy?: CaseStudy;
 }
 
 export const projects: Project[] = [
@@ -68,6 +84,10 @@ export const projects: Project[] = [
     demoLabel: "prep.esscentra.in",
     image: "/projects/esscentra-prep.png",
     status: "Live in production",
+    caseStudy: {
+      role: "Solo — designed, built and deployed end-to-end",
+      // TODO(Yasowant): add `challenge`, `decisions` and real `results` here.
+    },
     category: "AI / SaaS",
     featured: true,
     faqs: [
@@ -166,6 +186,13 @@ export const projects: Project[] = [
     // public/projects/smaartqr.png, then set image: "/projects/smaartqr.png".
     image: null,
     status: "Live in production",
+    caseStudy: {
+      results: [
+        "50,000+ registered users",
+        "One scan → 11+ verified emergency services",
+        "Running 24/7 in production at smaartqr.com",
+      ],
+    },
     category: "Civic Tech",
     featured: true,
     faqs: [

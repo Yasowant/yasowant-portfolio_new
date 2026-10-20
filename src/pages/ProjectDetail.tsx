@@ -1,9 +1,11 @@
 import { useParams, Link, Navigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import { Check, ExternalLink, Github, ArrowUpRight } from "lucide-react";
+import { Check, ExternalLink, Github, ArrowUpRight, TrendingUp } from "lucide-react";
 import { getProjectBySlug, projects } from "@/data/projectsData";
 import PageShell from "@/components/PageShell";
 import ProjectThumb from "@/components/ProjectThumb";
+import { projectVT } from "@/lib/viewTransition";
+import ArchitectureDiagram from "@/components/ArchitectureDiagram";
 import { usePageMeta, SITE_URL, PERSON_ID } from "@/hooks/usePageMeta";
 
 const ProjectDetail = () => {
@@ -120,6 +122,7 @@ const ProjectDetail = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
+          style={projectVT(project.slug)}
           className={`rounded-2xl overflow-hidden border border-border mb-14 ${
             project.image ? "h-[300px] md:h-[440px]" : "h-[200px] md:h-[260px]"
           }`}
@@ -129,14 +132,70 @@ const ProjectDetail = () => {
 
         <div className="grid lg:grid-cols-[1fr_320px] gap-12 items-start">
           <div className="space-y-12">
+            {project.caseStudy?.challenge && (
+              <section>
+                <p className="eyebrow mb-3">01 · the problem</p>
+                <h2 className="text-2xl font-bold mb-4">The challenge</h2>
+                <p className="text-muted-foreground leading-relaxed text-lg">
+                  {project.caseStudy.challenge}
+                </p>
+              </section>
+            )}
+
             <section>
+              <p className="eyebrow mb-3">overview</p>
               <h2 className="text-2xl font-bold mb-4">
                 What {project.shortName} does
               </h2>
               <p className="text-muted-foreground leading-relaxed text-lg">
                 {project.description}
               </p>
+              {project.caseStudy?.role && (
+                <p className="mt-4 inline-flex items-center gap-2 rounded-full border border-border bg-card px-4 py-1.5 text-sm">
+                  <span className="font-semibold">My role</span>
+                  <span className="text-muted-foreground">{project.caseStudy.role}</span>
+                </p>
+              )}
             </section>
+
+            <section>
+              <p className="eyebrow mb-3">architecture</p>
+              <h2 className="text-2xl font-bold mb-5">How it's put together</h2>
+              <ArchitectureDiagram tech={project.tech} />
+            </section>
+
+            {project.caseStudy?.decisions && project.caseStudy.decisions.length > 0 && (
+              <section>
+                <p className="eyebrow mb-3">decisions</p>
+                <h2 className="text-2xl font-bold mb-5">Key technical decisions</h2>
+                <ol className="space-y-4">
+                  {project.caseStudy.decisions.map((d, i) => (
+                    <li key={d.title} className="glass-card rounded-xl p-5 flex gap-4">
+                      <span className="font-mono text-sm text-primary">{String(i + 1).padStart(2, "0")}</span>
+                      <div>
+                        <h3 className="font-semibold mb-1">{d.title}</h3>
+                        <p className="text-sm text-muted-foreground leading-relaxed">{d.detail}</p>
+                      </div>
+                    </li>
+                  ))}
+                </ol>
+              </section>
+            )}
+
+            {project.caseStudy?.results && project.caseStudy.results.length > 0 && (
+              <section>
+                <p className="eyebrow mb-3">outcome</p>
+                <h2 className="text-2xl font-bold mb-5">Results</h2>
+                <ul className="grid sm:grid-cols-2 gap-3">
+                  {project.caseStudy.results.map((r) => (
+                    <li key={r} className="flex items-start gap-2.5 p-4 rounded-xl bg-gradient-to-br from-primary/10 to-accent/10 border border-primary/20">
+                      <TrendingUp className="w-4 h-4 mt-1 text-accent shrink-0" />
+                      <span className="text-sm font-medium">{r}</span>
+                    </li>
+                  ))}
+                </ul>
+              </section>
+            )}
 
             <section>
               <h2 className="text-2xl font-bold mb-5">Key capabilities</h2>

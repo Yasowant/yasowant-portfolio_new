@@ -1,4 +1,5 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { navigateWithTransition, projectVT } from "@/lib/viewTransition";
 import { motion } from "framer-motion";
 import { ArrowUpRight, ExternalLink } from "lucide-react";
 import { projects } from "@/data/projectsData";
@@ -12,6 +13,7 @@ const DESCRIPTION =
 const CANONICAL = `${SITE_URL}/projects`;
 
 const ProjectsIndex = () => {
+  const navigate = useNavigate();
   usePageMeta({
     title: TITLE,
     description: DESCRIPTION,
@@ -71,7 +73,16 @@ const ProjectsIndex = () => {
             transition={{ duration: 0.45, delay: index * 0.08 }}
             className="group glass-card rounded-2xl overflow-hidden flex flex-col"
           >
-            <Link to={`/projects/${project.slug}`} className="block h-48 overflow-hidden">
+            <Link
+              to={`/projects/${project.slug}`}
+              className="block h-48 overflow-hidden"
+              style={projectVT(project.slug)}
+              onClick={(e) => {
+                if (e.metaKey || e.ctrlKey || e.shiftKey) return;
+                e.preventDefault();
+                navigateWithTransition(navigate, `/projects/${project.slug}`);
+              }}
+            >
               <ProjectThumb
                 project={project}
                 className="transition-transform duration-500 group-hover:scale-105"
