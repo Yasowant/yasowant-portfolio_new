@@ -26,7 +26,7 @@ interface NowItem {
 
 const CURRENTLY: NowItem[] = [
   {
-    text: "Settling in as a Senior Software Engineer at Brillio after wrapping up three-plus years at SPM Global Technologies, where I led a multi-tenant SaaS platform serving 8+ enterprise organisations.",
+    text: "Wrapped up three-plus years at SPM Global Technologies (Aug 2023 – Oct 2026), where I led a multi-tenant SaaS platform serving 8+ enterprise organisations — now open to new full-stack roles and freelance work.",
   },
   {
     text: "Running Esscentra Prep in production at prep.esscentra.in — an AI interview and exam preparation planner built and deployed end-to-end.",
@@ -147,8 +147,8 @@ const Now = () => {
             </h1>
             <p className="text-lg text-muted-foreground leading-relaxed max-w-2xl">
               Yasowant Nayak is a Full Stack Software Engineer in Bangalore,
-              India, now a Senior Software Engineer at Brillio, while running
-              Esscentra Prep in production. Yasowant Nayak is available for remote freelance
+              India, who recently wrapped up three-plus years at SPM Global
+              Technologies and is running Esscentra Prep in production. Yasowant Nayak is available for remote freelance
               and contract work with clients in India, the UK, the US and
               Europe.
             </p>

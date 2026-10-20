@@ -6,27 +6,10 @@ import {
   Server,
   Calendar,
   MapPin,
-  Rocket,
   CheckCircle2,
 } from "lucide-react";
 
 const experiences = [
-  {
-    type: "Work Experience",
-    title: "Senior Software Engineer",
-    company: "Brillio",
-    period: "Oct 2026 - Present",
-    location: "Bangalore, India",
-    description:
-      "Joined Brillio as a Senior Software Engineer, building full-stack product features with the MERN stack, Node.js services and cloud-native tooling.",
-    highlights: [
-      "Full-stack feature delivery across React and Node.js",
-      "Backend APIs, data modelling and integrations",
-      "Code reviews, engineering quality and mentoring",
-    ],
-    icon: Rocket,
-    color: "from-violet-500 to-fuchsia-500",
-  },
   {
     type: "Work Experience",
     title: "Software Developer",
@@ -135,7 +118,7 @@ const ExperienceSection = () => {
           {experiences.map((exp, index) => {
             const Icon = exp.icon;
             const isLeft = index % 2 === 0;
-            const isCurrent = index === 0;
+            const isCurrent = exp.period.includes("Present");
 
             return (
               <motion.div

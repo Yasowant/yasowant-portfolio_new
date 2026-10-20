@@ -100,8 +100,8 @@ const HeroSection = () => {
               transition={{ delay: 0.15 }}
               className="font-mono text-sm text-muted-foreground mb-3"
             >
-              <span className="text-accent">›</span> senior software engineer{" "}
-              <span className="text-primary">@brillio</span>
+              <span className="text-accent">›</span> full stack engineer{" "}
+              <span className="text-primary">@yasowant.dev</span>
               <span className="logo-cursor inline-block w-2 h-4 ml-1 align-middle bg-accent rounded-[2px]" />
             </motion.p>
 

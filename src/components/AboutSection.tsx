@@ -43,8 +43,7 @@ const AboutSection = () => {
                 3+ years building production SaaS on React and Node.js. I love turning complex problems into
                 clean, scalable systems — and I've scaled a multi-tenant platform to{" "}
                 <span className="text-primary font-semibold">8+ enterprise organizations</span> while cutting
-                page loads 40% and release time 50%. Today I'm a{" "}
-                <span className="text-primary font-semibold">Senior Software Engineer at Brillio</span>.
+                page loads 40% and release time 50%.
               </p>
               <a
                 href="/resume.pdf"

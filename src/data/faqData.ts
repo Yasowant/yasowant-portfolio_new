@@ -12,7 +12,7 @@ export const faqs: Faq[] = [
   {
     question: "Who is Yasowant Nayak?",
     answer:
-      "Yasowant Nayak is a Full Stack Software Engineer based in Bangalore, India, with 3+ years of experience building production SaaS applications with React, TypeScript and Node.js. He is a Senior Software Engineer at Brillio, and from August 2023 to October 2026 he led full-stack development of a multi-tenant SaaS platform at SPM Global Technologies serving 8+ enterprise organisations. He also takes on remote freelance work for clients in India, the UK, the US and Europe.",
+      "Yasowant Nayak is a Full Stack Software Engineer based in Bangalore, India, with 3+ years of experience building production SaaS applications with React, TypeScript and Node.js. From August 2023 to October 2026 he led full-stack development of a multi-tenant SaaS platform at SPM Global Technologies serving 8+ enterprise organisations. He also takes on remote freelance work for clients in India, the UK, the US and Europe.",
   },
   {
     question: "What technologies does Yasowant Nayak work with?",
