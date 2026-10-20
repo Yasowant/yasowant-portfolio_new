@@ -93,6 +93,18 @@ const HeroSection = () => {
               Available for work
             </motion.div>
 
+            {/* Terminal-style current role */}
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.15 }}
+              className="font-mono text-sm text-muted-foreground mb-3"
+            >
+              <span className="text-accent">›</span> senior software engineer{" "}
+              <span className="text-primary">@brillio</span>
+              <span className="logo-cursor inline-block w-2 h-4 ml-1 align-middle bg-accent rounded-[2px]" />
+            </motion.p>
+
             {/* Name */}
             <motion.h1
               initial={{ opacity: 0, y: 20 }}
@@ -141,7 +153,7 @@ const HeroSection = () => {
             >
               <a
                 href="#projects"
-                className="px-7 py-3 rounded-full bg-primary text-primary-foreground font-semibold hover:opacity-90 transition-all"
+                className="btn-shine px-7 py-3 rounded-full font-semibold"
               >
                 View Projects
               </a>

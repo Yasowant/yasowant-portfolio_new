@@ -1,24 +1,24 @@
 import { useId } from "react";
 
 interface LogoProps {
-  /** Rendered height in pixels. Width scales with the aspect ratio. */
+  /** Rendered height of the mark in pixels. */
   height?: number;
   className?: string;
-  /** Show the "Yasowant Nayak" name next to the mark. */
+  /** Show the "Yasowant.dev" wordmark next to the mark (same lockup as the reels). */
   showName?: boolean;
 }
 
 /**
- * Hexagon monogram logo for Yasowant Nayak.
- * A thin geometric hexagon frames a stroked "Y" mark, all painted with
- * the site's blue→green brand gradient.
+ * Brand mark for Yasowant.dev — a terminal prompt "›y_" inside a dark rounded
+ * tile, painted with the blue→green brand gradient. The underscore cursor
+ * blinks, the same as the logo ending used in the @yasowant.dev reels.
  */
-const Logo = ({ height = 30, className = "", showName = false }: LogoProps) => {
-  const id = useId();
+const Logo = ({ height = 32, className = "", showName = true }: LogoProps) => {
+  const id = useId().replace(/:/g, "");
   const gradId = `logo-grad-${id}`;
 
   return (
-    <span className={`inline-flex items-center gap-2.5 ${className}`}>
+    <span className={`group/logo inline-flex items-center gap-2.5 ${className}`}>
       <svg
         width={height}
         height={height}
@@ -26,7 +26,8 @@ const Logo = ({ height = 30, className = "", showName = false }: LogoProps) => {
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
         role="img"
-        aria-label="Yasowant Nayak — home"
+        aria-label="Yasowant.dev"
+        className="shrink-0 drop-shadow-[0_4px_14px_hsl(var(--glow)/0.35)] transition-transform duration-300 group-hover/logo:-rotate-6"
       >
         <defs>
           <linearGradient id={gradId} x1="0" y1="0" x2="1" y2="1">
@@ -35,27 +36,34 @@ const Logo = ({ height = 30, className = "", showName = false }: LogoProps) => {
           </linearGradient>
         </defs>
 
-        {/* Hexagon frame */}
-        <path
-          d="M24 3 L42 13.5 L42 34.5 L24 45 L6 34.5 L6 13.5 Z"
-          stroke={`url(#${gradId})`}
-          strokeWidth="2.5"
-          strokeLinejoin="round"
-        />
+        {/* Tile */}
+        <rect x="1.5" y="1.5" width="45" height="45" rx="12" fill="#0d1117" />
+        <rect x="1.5" y="1.5" width="45" height="45" rx="12" stroke={`url(#${gradId})`} strokeWidth="2" />
 
-        {/* Y monogram */}
+        {/* › prompt */}
         <path
-          d="M16 16 L24 25 L32 16 M24 25 L24 34"
+          d="M11 16.5 L18 24 L11 31.5"
           stroke={`url(#${gradId})`}
-          strokeWidth="3"
+          strokeWidth="3.4"
           strokeLinecap="round"
           strokeLinejoin="round"
         />
+        {/* y */}
+        <path
+          d="M22 18 L27.5 27 M33 18 L25.5 34"
+          stroke={`url(#${gradId})`}
+          strokeWidth="3.4"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        {/* _ cursor */}
+        <rect x="34" y="31" width="6" height="3.4" rx="1.2" fill="#3fb950" className="logo-cursor" />
       </svg>
 
       {showName && (
-        <span className="font-semibold text-lg tracking-tight gradient-text">
-          Yasowant Nayak
+        <span className="font-mono font-bold text-[1.05rem] tracking-tight leading-none">
+          <span className="text-foreground">Yasowant</span>
+          <span className="gradient-text">.dev</span>
         </span>
       )}
     </span>

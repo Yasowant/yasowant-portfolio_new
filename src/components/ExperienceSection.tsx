@@ -6,19 +6,35 @@ import {
   Server,
   Calendar,
   MapPin,
-  Award,
+  Rocket,
   CheckCircle2,
 } from "lucide-react";
 
 const experiences = [
   {
     type: "Work Experience",
-    title: "Software Developer",
-    company: "SPM Global Technologies",
-    period: "Aug 2023 - Present",
+    title: "Senior Software Engineer",
+    company: "Brillio",
+    period: "Oct 2026 - Present",
     location: "Bangalore, India",
     description:
-      "Lead full-stack development of a multi-tenant SaaS platform serving 8+ enterprise organizations — driving architecture decisions, performance, and secure data isolation from design to production.",
+      "Joined Brillio as a Senior Software Engineer, building full-stack product features with the MERN stack, Node.js services and cloud-native tooling.",
+    highlights: [
+      "Full-stack feature delivery across React and Node.js",
+      "Backend APIs, data modelling and integrations",
+      "Code reviews, engineering quality and mentoring",
+    ],
+    icon: Rocket,
+    color: "from-violet-500 to-fuchsia-500",
+  },
+  {
+    type: "Work Experience",
+    title: "Software Developer",
+    company: "SPM Global Technologies",
+    period: "Aug 2023 - Oct 2026",
+    location: "Bangalore, India",
+    description:
+      "Led full-stack development of a multi-tenant SaaS platform serving 8+ enterprise organizations — driving architecture decisions, performance, and secure data isolation from design to production.",
     highlights: [
       "Scaled the platform to 8+ enterprise tenants with strict, secure data isolation",
       "Cut page load times 40% via code splitting, lazy loading & memoization",
@@ -63,23 +79,6 @@ const experiences = [
     icon: GraduationCap,
     color: "from-indigo-500 to-blue-500",
   },
-  {
-    type: "Education",
-    title: "Diploma, Electrical Engineering",
-    company: "Utkalmani Gopabandhu Institute of Engineering",
-    period: "2013 - 2016",
-    location: "Rourkela, India",
-    description:
-      "Built core technical fundamentals and a hands-on, practical approach to solving real-world engineering problems.",
-    highlights: [
-      "Electrical Systems & Circuits",
-      "Industrial Automation",
-      "Technical Problem Solving",
-      "Teamwork & Collaboration",
-    ],
-    icon: Award,
-    color: "from-cyan-500 to-teal-400",
-  },
 ];
 
 const ExperienceSection = () => {
@@ -113,6 +112,7 @@ const ExperienceSection = () => {
           transition={{ duration: 0.6 }}
           className="text-center mb-10"
         >
+          <span className="eyebrow mb-4">› git log --career</span>
           <h2 className="text-3xl md:text-4xl font-bold mb-4">
             My <span className="gradient-text">Journey</span>
           </h2>
@@ -163,12 +163,11 @@ const ExperienceSection = () => {
 
                 {/* Content card */}
                 <motion.div
-                  whileHover={{ y: -6 }}
                   className={`ml-24 md:ml-0 md:w-[calc(50%-3rem)] ${
                     isLeft ? "md:mr-auto md:pr-10" : "md:ml-auto md:pl-10"
                   }`}
                 >
-                  <div className="glass-card rounded-2xl p-6 relative overflow-hidden transition-all duration-300 hover:shadow-2xl hover:shadow-primary/15 hover:border-primary/40">
+                  <div className="glass-card card-glow rounded-2xl p-6 relative overflow-hidden">
                     {/* Gradient top accent */}
                     <div
                       className={`absolute top-0 left-0 right-0 h-1 bg-gradient-to-r ${exp.color}`}

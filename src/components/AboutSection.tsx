@@ -24,6 +24,9 @@ const AboutSection = () => {
           transition={{ duration: 0.6 }}
           className="max-w-4xl mx-auto"
         >
+          <div className="flex justify-center mb-4">
+            <span className="eyebrow">› cat about.md</span>
+          </div>
           <h2 className="text-3xl md:text-4xl font-bold text-center mb-4">
             <span className="gradient-text">About Me</span>
           </h2>
@@ -40,12 +43,13 @@ const AboutSection = () => {
                 3+ years building production SaaS on React and Node.js. I love turning complex problems into
                 clean, scalable systems — and I've scaled a multi-tenant platform to{" "}
                 <span className="text-primary font-semibold">8+ enterprise organizations</span> while cutting
-                page loads 40% and release time 50%.
+                page loads 40% and release time 50%. Today I'm a{" "}
+                <span className="text-primary font-semibold">Senior Software Engineer at Brillio</span>.
               </p>
               <a
                 href="/resume.pdf"
                 download="Yasowant_Nayak_Full_Stack_Engineer_Resume.pdf"
-                className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-primary text-primary-foreground font-semibold hover:opacity-90 transition-all"
+                className="btn-shine inline-flex items-center gap-2 px-6 py-3 rounded-full font-semibold"
               >
                 <Download className="w-4 h-4" />
                 Download Resume
@@ -64,9 +68,11 @@ const AboutSection = () => {
                   initial={{ opacity: 0, y: 20 }}
                   animate={isInView ? { opacity: 1, y: 0 } : {}}
                   transition={{ duration: 0.4, delay: 0.5 + index * 0.1 }}
-                  className="p-6 rounded-xl bg-card border border-border hover:border-primary/50 transition-all card-hover"
+                  className="glass-card card-glow p-6 rounded-2xl"
                 >
-                  <Icon className="w-8 h-8 text-primary mb-3" />
+                  <span className="mb-4 inline-flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br from-primary to-accent shadow-lg shadow-primary/25">
+                    <Icon className="w-5 h-5 text-white" />
+                  </span>
                   <p className="font-medium text-foreground">{text}</p>
                 </motion.div>
               ))}

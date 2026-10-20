@@ -20,9 +20,15 @@ const profile: KnowledgeChunk[] = [
     url: `${SITE}/#about`,
   },
   {
+    id: "exp-brillio",
+    title: "Work experience — Senior Software Engineer at Brillio (Oct 2026 – present)",
+    text: "Joined Brillio in Bangalore as a Senior Software Engineer in October 2026, working on full-stack product features with React, Node.js and cloud tooling. Previously spent over three years at SPM Global Technologies (Aug 2023 – 15 Oct 2026).",
+    url: `${SITE}/#experience`,
+  },
+  {
     id: "exp-spm",
-    title: "Work experience — Software Developer at SPM Global Technologies (Aug 2023 – present)",
-    text: "Leads full-stack development of a multi-tenant SaaS platform serving 8+ enterprise organisations. Scaled tenants with strict data isolation, cut page load times 40% via code splitting, lazy loading and memoization, shipped releases 50% faster with Dockerized CI/CD on GitHub Actions and AWS, reduced feature build time 35% with a typed React component library, and architected 15+ REST, SOAP and GraphQL APIs secured with JWT and RBAC.",
+    title: "Work experience — Software Developer at SPM Global Technologies (Aug 2023 – Oct 2026)",
+    text: "Led full-stack development of a multi-tenant SaaS platform serving 8+ enterprise organisations. Scaled tenants with strict data isolation, cut page load times 40% via code splitting, lazy loading and memoization, shipped releases 50% faster with Dockerized CI/CD on GitHub Actions and AWS, reduced feature build time 35% with a typed React component library, and architected 15+ REST, SOAP and GraphQL APIs secured with JWT and RBAC.",
     url: `${SITE}/#experience`,
   },
   {
@@ -34,7 +40,7 @@ const profile: KnowledgeChunk[] = [
   {
     id: "education",
     title: "Education",
-    text: "B.Tech in Electrical Engineering from Galgotias College of Engineering & Technology, Greater Noida (2016–2019). Diploma in Electrical Engineering from Utkalmani Gopabandhu Institute of Engineering, Rourkela (2013–2016).",
+    text: "B.Tech in Electrical Engineering from Galgotias College of Engineering & Technology, Greater Noida (2016–2019).",
     url: `${SITE}/#experience`,
   },
   {

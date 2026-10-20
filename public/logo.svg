@@ -1,12 +1,20 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 132 48" width="132" height="48" fill="none" role="img" aria-label="Yasowant Nayak">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 64" width="300" height="64" fill="none" role="img" aria-label="Yasowant.dev">
   <defs>
     <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
       <stop offset="0%" stop-color="#388bfd"/>
       <stop offset="100%" stop-color="#3fb950"/>
     </linearGradient>
+    <linearGradient id="t" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#388bfd"/>
+      <stop offset="100%" stop-color="#3fb950"/>
+    </linearGradient>
   </defs>
-  <path d="M22 13 L9 24 L22 35" stroke="url(#g)" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/>
-  <text x="66" y="33" text-anchor="middle" font-family="'Inter','Segoe UI',Arial,sans-serif" font-size="27" font-weight="800" letter-spacing="0.5" fill="url(#g)">YN</text>
-  <path d="M95 36 L103 12" stroke="url(#g)" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/>
-  <path d="M110 13 L123 24 L110 35" stroke="url(#g)" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <g transform="translate(4 4) scale(1.1667)">
+    <rect x="1.5" y="1.5" width="45" height="45" rx="12" fill="#0d1117"/>
+    <rect x="1.5" y="1.5" width="45" height="45" rx="12" stroke="url(#g)" stroke-width="2"/>
+    <path d="M11 16.5 L18 24 L11 31.5" stroke="url(#g)" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M22 18 L27.5 27 M33 18 L25.5 34" stroke="url(#g)" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/>
+    <rect x="34" y="31" width="6" height="3.4" rx="1.2" fill="#3fb950"/>
+  </g>
+  <text x="74" y="42" font-family="'JetBrains Mono','SFMono-Regular',Menlo,Consolas,monospace" font-size="26" font-weight="700" letter-spacing="-0.5"><tspan fill="#e6edf3">Yasowant</tspan><tspan fill="url(#t)">.dev</tspan></text>
 </svg>

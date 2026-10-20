@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 
 /**
  * Full-screen intro preloader.
- * Draws the hexagon "Y" logo mark, then fades the whole overlay away to
+ * Draws the "›y_" terminal logo mark with the Yasowant.dev wordmark, then fades the whole overlay away to
  * reveal the portfolio underneath.
  */
 const SEEN_KEY = "preloader-seen";
@@ -44,48 +44,70 @@ const Preloader = () => {
           exit={{ opacity: 0 }}
           transition={{ duration: 0.6, ease: "easeInOut" }}
         >
-          <motion.svg
-            width={110}
-            height={110}
-            viewBox="0 0 48 48"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-            role="img"
-            aria-label="Loading"
-            initial={{ scale: 0.9, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            transition={{ duration: 0.5 }}
-          >
-            <defs>
-              <linearGradient id="preloader-grad" x1="0" y1="0" x2="1" y2="1">
-                <stop offset="0%" stopColor="#388bfd" />
-                <stop offset="100%" stopColor="#3fb950" />
-              </linearGradient>
-            </defs>
+          <div className="flex flex-col items-center gap-5">
+            <motion.svg
+              width={96}
+              height={96}
+              viewBox="0 0 48 48"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+              role="img"
+              aria-label="Loading Yasowant.dev"
+              initial={{ scale: 0.85, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              transition={{ duration: 0.45, ease: "easeOut" }}
+              className="drop-shadow-[0_10px_30px_hsl(var(--glow)/0.45)]"
+            >
+              <defs>
+                <linearGradient id="preloader-grad" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0%" stopColor="#388bfd" />
+                  <stop offset="100%" stopColor="#3fb950" />
+                </linearGradient>
+              </defs>
 
-            {/* Hexagon frame — draws itself */}
-            <motion.path
-              d="M24 3 L42 13.5 L42 34.5 L24 45 L6 34.5 L6 13.5 Z"
-              stroke="url(#preloader-grad)"
-              strokeWidth="2"
-              strokeLinejoin="round"
-              initial={{ pathLength: 0 }}
-              animate={{ pathLength: 1 }}
-              transition={{ duration: 1.3, ease: "easeInOut" }}
-            />
+              <rect x="1.5" y="1.5" width="45" height="45" rx="12" fill="#0d1117" />
+              <motion.rect
+                x="1.5" y="1.5" width="45" height="45" rx="12"
+                stroke="url(#preloader-grad)"
+                strokeWidth="2"
+                initial={{ pathLength: 0 }}
+                animate={{ pathLength: 1 }}
+                transition={{ duration: 0.6, ease: "easeInOut" }}
+              />
+              {/* › prompt, then y, then the cursor */}
+              <motion.path
+                d="M11 16.5 L18 24 L11 31.5"
+                stroke="url(#preloader-grad)"
+                strokeWidth="3.4"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                initial={{ pathLength: 0 }}
+                animate={{ pathLength: 1 }}
+                transition={{ duration: 0.3, delay: 0.25 }}
+              />
+              <motion.path
+                d="M22 18 L27.5 27 M33 18 L25.5 34"
+                stroke="url(#preloader-grad)"
+                strokeWidth="3.4"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                initial={{ pathLength: 0 }}
+                animate={{ pathLength: 1 }}
+                transition={{ duration: 0.35, delay: 0.45 }}
+              />
+              <rect x="34" y="31" width="6" height="3.4" rx="1.2" fill="#3fb950" className="logo-cursor" />
+            </motion.svg>
 
-            {/* Y monogram — draws after the frame */}
-            <motion.path
-              d="M16 16 L24 25 L32 16 M24 25 L24 34"
-              stroke="url(#preloader-grad)"
-              strokeWidth="3"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              initial={{ pathLength: 0 }}
-              animate={{ pathLength: 1 }}
-              transition={{ duration: 0.9, delay: 0.9, ease: "easeInOut" }}
-            />
-          </motion.svg>
+            <motion.p
+              initial={{ opacity: 0, y: 6 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.35, duration: 0.4 }}
+              className="font-mono font-bold text-xl tracking-tight"
+            >
+              <span className="text-foreground">Yasowant</span>
+              <span className="gradient-text">.dev</span>
+            </motion.p>
+          </div>
         </motion.div>
       )}
     </AnimatePresence>

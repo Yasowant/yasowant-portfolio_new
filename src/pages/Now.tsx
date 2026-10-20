@@ -16,7 +16,7 @@ import profilePhoto from "@/assets/profile-photo.jpg";
  * >>> Update NOW_UPDATED and the three lists below roughly once a month. <<<
  * A stale /now page is worse than no /now page.
  */
-const NOW_UPDATED = "2026-08-26";
+const NOW_UPDATED = "2026-10-20";
 
 interface NowItem {
   text: string;
@@ -26,7 +26,7 @@ interface NowItem {
 
 const CURRENTLY: NowItem[] = [
   {
-    text: "Leading full-stack development of a multi-tenant SaaS platform at SPM Global Technologies, serving 8+ enterprise organisations with strict per-tenant data isolation.",
+    text: "Settling in as a Senior Software Engineer at Brillio after wrapping up three-plus years at SPM Global Technologies, where I led a multi-tenant SaaS platform serving 8+ enterprise organisations.",
   },
   {
     text: "Running Esscentra Prep in production at prep.esscentra.in — an AI interview and exam preparation planner built and deployed end-to-end.",
@@ -147,9 +147,8 @@ const Now = () => {
             </h1>
             <p className="text-lg text-muted-foreground leading-relaxed max-w-2xl">
               Yasowant Nayak is a Full Stack Software Engineer in Bangalore,
-              India, currently leading development of a multi-tenant SaaS
-              platform at SPM Global Technologies while running Esscentra Prep
-              in production. Yasowant Nayak is available for remote freelance
+              India, now a Senior Software Engineer at Brillio, while running
+              Esscentra Prep in production. Yasowant Nayak is available for remote freelance
               and contract work with clients in India, the UK, the US and
               Europe.
             </p>
